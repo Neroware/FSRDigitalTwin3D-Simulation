@@ -81,6 +81,17 @@ echo "Copying ROS-TCP-Connector into Plugin folder..."
 cp -r "$TMP_DIR/ros_tcp_connector/" "$DESTINATION"
 echo "DONE"
 
+# =============== SimSharp ============== #
+URL="https://github.com/Neroware/SimSharp.git"
+DESTINATION="$DESTINATION_BASE/Plugins/SimSharp/"
+
+echo "Cloning repo from $URL..."
+git clone -b rz/unity $URL "$TMP_DIR/simsharp/"
+
+echo "Copying SimSharp into Plugin folder..."
+cp -r "$TMP_DIR/simsharp/" "$DESTINATION"
+echo "DONE"
+
 # =============== Cleanup ============== #
 echo "Deleting temp directory..."
 rm -rf "$TMP_DIR"

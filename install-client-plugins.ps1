@@ -88,6 +88,19 @@ Write-Host "Copying ROS-TCP-Connector into Plugin folder..."
 Copy-Item -Path "$TmpDir/ros_tcp_connector/" -Destination $Destination -Recurse -Force
 Write-Host "DONE"
 
+# ================= SimSharp =================
+Write-Host "`n=== Installing SimSharp for Unity ==="
+
+$URL = "https://github.com/Neroware/SimSharp.git"
+$Destination = "$DestinationBase/Plugins/SimSharp/"
+
+Write-Host "Cloning repo from $URL..."
+git clone -b rz/unity $URL "$TmpDir/simsharp/" | Out-Null
+
+Write-Host "Copying SimSharp into Plugin folder..."
+Copy-Item -Path "$TmpDir/simsharp/" -Destination $Destination -Recurse -Force
+Write-Host "DONE"
+
 # ================= Cleanup =================
 Write-Host "`nDeleting temp directory..."
 Remove-Item -Recurse -Force -Path $TmpDir
