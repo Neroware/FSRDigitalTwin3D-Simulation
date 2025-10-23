@@ -3,7 +3,7 @@ FSRDigitalTwin3D is a process-oriented simulation environment with semantic reas
 
 The design philosophy is to provide a "playground" for virtual robotics simulations abiding to the standards of modern Industry 4.0 applications. Therefore, for external communication, the [AASv3.0/REST](https://industrialdigitaltwin.org/content-hub/standardisierter-digitaler-zwilling-reif-fuer-die-industrie-6208) standard is deployed. The server additionally features a AASv3.0/gRPC API.
 
-**Note:** This repository is the Unity simulation client. To run simulation scenarios, you also require the [knowledge server](https://github.com/Neroware/FSRDigitalTwin3D)* as an additional digitization layer. The server repo has a submodule link to this repository.
+**Note:** This repository is the Unity simulation client. To run simulation scenarios, you also require the [knowledge server](https://github.com/Neroware/FSRDigitalTwin3D) as an additional digitization layer. The server repo has a submodule link to this repository.
 
 *We believe, our digital twin wins the buzzword-bingo of 'Semantic Data Twin' and 'Process Data Twin'...*
 
