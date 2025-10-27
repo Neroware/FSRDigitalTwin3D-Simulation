@@ -17,6 +17,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller.SFM
         [Header("Robot Controller")]
         [SerializeField] private GameObject robot;
         [SerializeField] private Transform goal;
+        [SerializeField] private bool autoRun = false;
         
         [Header("Wheel Articulation Bodies")]
         [SerializeField] private ArticulationBody frontRightWheel;
@@ -65,6 +66,15 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller.SFM
         public ReadOnlyReactiveProperty<bool> IsValid => _isValid.ToReadOnlyReactiveProperty();
         public ReadOnlyReactiveProperty<bool> IsInterrupted => _isInterrupted.ToReadOnlyReactiveProperty();
         public ReadOnlyReactiveProperty<bool> IsRunning => _isRunning.ToReadOnlyReactiveProperty();
+
+        private void Start()
+        {
+            if (!autoRun)
+                return;
+            Plan();
+            if (ValidatePlan())
+                RunPlan();
+        }
 
         public void ForceInterrupt() => Interrupt();
 

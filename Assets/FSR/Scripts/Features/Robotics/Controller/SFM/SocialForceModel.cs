@@ -45,7 +45,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller.SFM
 
         private Vector3 ComputeGoalForce()
         {
-            Vector3 directionToGoal = (goal.position - transform.position).normalized;
+            Vector3 directionToGoal = (goal.position - agentArticulationBody.transform.position).normalized;
             Vector3 desiredVelocity = directionToGoal * maxSpeed;
             Vector3 currentVelocity = agentArticulationBody.velocity;
             Vector3 goalForce = mass * (desiredVelocity - currentVelocity) / reactionTime;
