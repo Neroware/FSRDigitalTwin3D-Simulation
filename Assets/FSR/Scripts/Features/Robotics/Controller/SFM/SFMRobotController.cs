@@ -148,7 +148,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller.SFM
             ApplyVelocity(frontRightWheel, rightVelocity);
             ApplyVelocity(backRightWheel, rightVelocity);
 
-            Debug.Log($"[SFM] F: {force}, Forward: {forward}, Turn: {turn}, L: {leftVelocity}, R: {rightVelocity}");
+            // Debug.Log($"[SFM] F: {force}, Forward: {forward}, Turn: {turn}, L: {leftVelocity}, R: {rightVelocity}");
         }
 
         void ApplyVelocity(ArticulationBody wheel, float velocity)

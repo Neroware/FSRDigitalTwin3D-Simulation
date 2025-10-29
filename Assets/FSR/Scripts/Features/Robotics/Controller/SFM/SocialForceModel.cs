@@ -57,11 +57,11 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller.SFM
             Vector3 totalRepulsiveForce = Vector3.zero;
             foreach (Transform obstacle in obstacles)
             {
-                Debug.Log($"Obstacle: {obstacle.name}, Position: {obstacle.position}");
-                Debug.Log($"Number of obstacles: {obstacles.Count}");
+                // Debug.Log($"Obstacle: {obstacle.name}, Position: {obstacle.position}");
+                // Debug.Log($"Number of obstacles: {obstacles.Count}");
 
-                Vector3 direction = (transform.position - obstacle.position).normalized;
-                float distance = Vector3.Distance(transform.position, obstacle.position);
+                Vector3 direction = (agentArticulationBody.transform.position - obstacle.position).normalized;
+                float distance = Vector3.Distance(agentArticulationBody.transform.position, obstacle.position);
 
                 float agentRadius = 0.5f;
 
@@ -95,8 +95,8 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller.SFM
                 float distanceToObstacle = Mathf.Max(distance, 0.01f); // Prevent divide by zero
                 Vector3 directionToObstacle = direction;
 
-                Vector3 toObstacle = obstacle.position - transform.position;
-                float angle = Vector3.Angle(transform.forward, toObstacle);
+                Vector3 toObstacle = obstacle.position - agentArticulationBody.transform.position;
+                float angle = Vector3.Angle(agentArticulationBody.transform.forward, toObstacle);
 
                 float k = ComputeGain(distance, angle);
                 Vector3 social = Vector3.zero;

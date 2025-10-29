@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c7c460f2f842dd4c95a36676429247f, type: 3}
+  m_Name: ProxemicData_Default
+  m_EditorClassIdentifier: 
+  distanceCategories:
+  - label: Intimate
+    boundaries: {x: 0, y: 0, z: 0.45}
+  - label: Personal
+    boundaries: {x: 0, y: 0.45, z: 1.2}
+  - label: Social
+    boundaries: {x: 0.45, y: 1.2, z: 3.6}
+  - label: Public
+    boundaries: {x: 1.2, y: 3.6, z: 3.6}
+  angleCategories:
+  - label: front
+    boundaries: {x: 0, y: 0, z: 60}
+  - label: side-front
+    boundaries: {x: 0, y: 60, z: 120}
+  - label: side-back
+    boundaries: {x: 60, y: 120, z: 180}
+  - label: back
+    boundaries: {x: 120, y: 180, z: 180}
+  gainOutputs:
+  - label: veryHigh
+    value: 50
+  - label: high
+    value: 25
+  - label: medium
+    value: 12.5
+  - label: low
+    value: 6.25
+  - label: veryLow
+    value: 3.125
+  fuzzyRules:
+  - distanceCategory: Intimate
+    angleCategory: front
+    gainLabel: veryHigh
+  - distanceCategory: Intimate
+    angleCategory: side-front
+    gainLabel: high
+  - distanceCategory: Intimate
+    angleCategory: side-back
+    gainLabel: medium
+  - distanceCategory: Intimate
+    angleCategory: back
+    gainLabel: low
+  - distanceCategory: Personal
+    angleCategory: front
+    gainLabel: high
+  - distanceCategory: Personal
+    angleCategory: side-front
+    gainLabel: high
+  - distanceCategory: Personal
+    angleCategory: side-back
+    gainLabel: medium
+  - distanceCategory: Personal
+    angleCategory: back
+    gainLabel: low
+  - distanceCategory: Social
+    angleCategory: front
+    gainLabel: high
+  - distanceCategory: Social
+    angleCategory: side-front
+    gainLabel: medium
+  - distanceCategory: Social
+    angleCategory: side-back
+    gainLabel: low
+  - distanceCategory: Social
+    angleCategory: back
+    gainLabel: low
+  - distanceCategory: Public
+    angleCategory: front
+    gainLabel: high
+  - distanceCategory: Public
+    angleCategory: side-front
+    gainLabel: low
+  - distanceCategory: Public
+    angleCategory: side-back
+    gainLabel: low
+  - distanceCategory: Public
+    angleCategory: back
+    gainLabel: veryLow
