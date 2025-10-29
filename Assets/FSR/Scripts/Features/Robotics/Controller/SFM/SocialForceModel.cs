@@ -65,17 +65,17 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller.SFM
 
                 float agentRadius = 0.5f;
 
-                BoxCollider agentCollider = GetComponent<BoxCollider>();
+                BoxCollider agentCollider = agentArticulationBody.GetComponent<BoxCollider>();
                 if (agentCollider != null)
                 {
-                    Vector2 agentSizeXZ = new(agentCollider.size.x * transform.localScale.x,
-                        agentCollider.size.z * transform.localScale.z);
+                    Vector2 agentSizeXZ = new(agentCollider.size.x * agentArticulationBody.transform.localScale.x,
+                        agentCollider.size.z * agentArticulationBody.transform.localScale.z);
                     agentRadius = agentSizeXZ.magnitude * 0.5f;
                 }
-                else
-                {
-                    Debug.LogWarning($"{name} does not have a BoxCollider - using default-radius {agentRadius}");
-                }
+                // else
+                // {
+                //     Debug.LogWarning($"{agentArticulationBody.name} does not have a BoxCollider - using default-radius {agentRadius}");
+                // }
 
                 float obstacleRadius = 0.5f; 
                 BoxCollider obstacleCollider = obstacle.GetComponent<BoxCollider>();
@@ -86,10 +86,10 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller.SFM
                         obstacleCollider.size.z * obstacle.localScale.z);
                     obstacleRadius = obstacleSizeXZ.magnitude * 0.5f;
                 }
-                else
-                {
-                    Debug.LogWarning($"{name} does not have a BoxCollider - using default-radius {agentRadius}");
-                }
+                // else
+                // {
+                //     Debug.LogWarning($"{obstacle.name} does not have a BoxCollider - using default-radius {obstacleRadius}");
+                // }
 
                 float combinedRadius = agentRadius + obstacleRadius;
                 float distanceToObstacle = Mathf.Max(distance, 0.01f); // Prevent divide by zero

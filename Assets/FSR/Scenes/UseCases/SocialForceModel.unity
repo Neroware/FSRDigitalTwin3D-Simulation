@@ -6944,7 +6944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5411043761435972413, guid: 10efa90e41155ade0859c37087a554fd, type: 3}
       propertyPath: m_XDrive.forceLimit
-      value: 1000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5411043761435972413, guid: 10efa90e41155ade0859c37087a554fd, type: 3}
       propertyPath: m_ParentAnchorPosition.x
@@ -7076,6 +7076,7 @@ MonoBehaviour:
   robot: {fileID: 524570038}
   goal: {fileID: 763173388}
   autoRun: 1
+  agentArticulationBody: {fileID: 1779491306}
   frontRightWheel: {fileID: 524570037}
   frontLeftWheel: {fileID: 524570036}
   backRightWheel: {fileID: 524570035}
@@ -8095,13 +8096,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 593556742}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.9654406, z: -0.26062334, w: 0.00000005960465}
-  m_LocalPosition: {x: 0, y: 1.4150001, z: 1.2}
+  m_LocalRotation: {x: -0.000000022351745, y: 0.99263746, z: -0.12112389, w: 0.00000011920932}
+  m_LocalPosition: {x: 0, y: 0.81, z: 1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1817965596}
-  m_LocalEulerAnglesHint: {x: 30.214, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 13.914, y: 180, z: 0}
 --- !u!81 &593556744
 AudioListener:
   m_ObjectHideFlags: 0
@@ -25153,7 +25154,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3754649064682582341, guid: 2e1e65078fb46104b990555c32488a27, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5786231827547346392, guid: 2e1e65078fb46104b990555c32488a27, type: 3}
       propertyPath: m_Name
@@ -25207,7 +25208,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3754649064682582341, guid: 2e1e65078fb46104b990555c32488a27, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

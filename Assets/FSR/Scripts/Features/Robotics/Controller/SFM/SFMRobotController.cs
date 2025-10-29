@@ -18,6 +18,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller.SFM
         [SerializeField] private GameObject robot;
         [SerializeField] private Transform goal;
         [SerializeField] private bool autoRun = false;
+        [SerializeField] private ArticulationBody agentArticulationBody;
         
         [Header("Wheel Articulation Bodies")]
         [SerializeField] private ArticulationBody frontRightWheel;
@@ -136,7 +137,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller.SFM
 
             float forceMagnitude = force.magnitude;
             Vector3 directionToGoal = force.normalized;
-            Vector3 localDirection = transform.InverseTransformDirection(directionToGoal);
+            Vector3 localDirection = agentArticulationBody.transform.InverseTransformDirection(directionToGoal);
             float forward = Mathf.Clamp(localDirection.z * forceMagnitude, forwardClampMin, forwardClampMax);
             float turn = _turnPID.NextValue(localDirection.x, Time.fixedDeltaTime);
             turn = Mathf.Clamp(turn, turnClampMin, turnClampMax);
