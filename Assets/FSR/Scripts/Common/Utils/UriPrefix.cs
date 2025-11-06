@@ -30,6 +30,8 @@ namespace FSR.DigitalTwin.Client.Common.Utils.Semantic
 
         public static Uri operator +(UriPrefix prefix, Uri postfix) => new("" + prefix.Prefix + postfix);
         public static Uri operator +(UriPrefix prefix, string postfix) => new(prefix.Prefix + postfix);
+        public static string operator |(UriPrefix prefix, Uri postfix) => new("" + prefix.Prefix + postfix);
+        public static string operator |(UriPrefix prefix, string postfix) => new(prefix.Prefix + postfix);
     }
 
 }

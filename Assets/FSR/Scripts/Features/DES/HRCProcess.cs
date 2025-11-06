@@ -97,5 +97,6 @@ namespace FSR.DigitalTwin.Client.Features.DES
         public string StartLocation { init; get; } = null;
         public string EndLocation { init; get; } = null;
         public string Location { init; get; } = null;
+        public string Goal { init; get; } = null;
     }
 }

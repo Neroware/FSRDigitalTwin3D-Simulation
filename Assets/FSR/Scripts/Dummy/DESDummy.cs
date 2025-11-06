@@ -1,3 +1,4 @@
+using FSR.DigitalTwin.Client.Common;
 using FSR.DigitalTwin.Client.Common.Utils.Semantic;
 using FSR.DigitalTwin.Client.Features.DES;
 using FSR.DigitalTwin.Client.Features.DES.Interfaces;
@@ -9,10 +10,9 @@ namespace FSR.DigitalTwin.Client.Dummy
 {
     public class DESDummy : MonoBehaviour
     {
-        [SerializeField] private SimulationManager simulationManager;
-
         public void RunDESSimulation()
         {
+            var simulationManager = VirtualWorkspace.Instance.SimulationManager;
             if (simulationManager == null)
             {
                 Debug.LogError("Missing reference to SimulationManager!");

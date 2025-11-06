@@ -4,6 +4,7 @@ using System.Linq;
 using FSR.DigitalTwin.App.GRPC;
 using FSR.DigitalTwin.App.GRPC.Process.HRC;
 using FSR.DigitalTwin.App.GRPC.Process.HRC.Services.HRCProcessSimulationService;
+using FSR.DigitalTwin.Client.Common;
 using FSR.DigitalTwin.Client.Features.DES;
 using FSR.DigitalTwin.Client.Features.DES.Interfaces;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming;
@@ -89,13 +90,17 @@ namespace FSR.DigitalTwin.Client.Features.UnityClient.GRPC
                                     Target = taskDTO.Target,
                                     StartLocation = taskDTO.StartLocation,
                                     EndLocation = taskDTO.EndLocation,
-                                    Location = taskDTO.Location
+                                    Location = taskDTO.Location,
+                                    Goal = taskDTO.Goal
                                 };
-                                t = new HRCFunction()
-                                {
-                                    TaskId = taskId,
-                                    TaskDescription = description
-                                };
+                                var functionFactory = VirtualWorkspace.Instance.FunctionFactory;
+                                t = functionFactory != null 
+                                    ? functionFactory.Create(taskId, description) 
+                                    : new HRCFunction()
+                                    {
+                                        TaskId = taskId,
+                                        TaskDescription = description
+                                    };
                             }
                             else
                             {

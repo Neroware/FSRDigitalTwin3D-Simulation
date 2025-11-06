@@ -25,61 +25,61 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChpQcm90b3MvRFRPL0hSQ01vZGVscy5wcm90bxIYRlNSLkRpZ2l0YWxUd2lu",
-            "LkFwcC5HUlBDIqABChdGdW5jdGlvblByb3BlcnR5RGF0YURUTxISCgpmdW5j",
+            "LkFwcC5HUlBDIq4BChdGdW5jdGlvblByb3BlcnR5RGF0YURUTxISCgpmdW5j",
             "dGlvbklkGAEgASgJEhUKDXByb2NlZHVyZU5hbWUYAiABKAkSFgoOcHJvY2Vk",
             "dXJlRGVzY3IYAyABKAkSEwoLcHJvY2VkdXJlSWQYBCABKAMSEAoIZHVyYXRp",
-            "b24YBSABKAESGwoTZHVyYXRpb25VbmNlcnRhaW50eRgGIAEoASJ5ChVGdW5j",
-            "dGlvbk9iamVjdERhdGFEVE8SEgoKZnVuY3Rpb25JZBgBIAEoCRIOCgZ0YXJn",
-            "ZXQYAiABKAkSFQoNc3RhcnRMb2NhdGlvbhgDIAEoCRITCgtlbmRMb2NhdGlv",
-            "bhgEIAEoCRIQCghsb2NhdGlvbhgFIAEoCSLeAgoKSFJDVGFza0RUTxIOCgZ0",
-            "YXNrSWQYASABKAkSDAoEdHlwZRgCIAEoCRIOCgZ0YXJnZXQYAyABKAkSDAoE",
-            "bmFtZRgEIAEoCRIKCgJpZBgFIAEoAxITCgtkZXNjcmlwdGlvbhgGIAEoCRIM",
-            "CgRnb2FsGAcgASgJEhUKDXN0YXJ0TG9jYXRpb24YCCABKAkSEwoLZW5kTG9j",
-            "YXRpb24YCSABKAkSEAoIbG9jYXRpb24YCiABKAkSMgoFYWdlbnQYCyABKA4y",
-            "Iy5GU1IuRGlnaXRhbFR3aW4uQXBwLkdSUEMuQWdlbnRUeXBlEhMKC21pbkR1",
-            "cmF0aW9uGAwgASgCEhMKC21heER1cmF0aW9uGA0gASgCEhcKD2F2ZXJhZ2VE",
-            "dXJhdGlvbhgOIAEoAhIbChNkdXJhdGlvblVuY2VydGFpbnR5GA8gASgCEhMK",
-            "C3N1Y2Nlc3NSYXRlGBAgASgBIscBCgtIUkNNb2RlbERUTxIPCgdob3Jpem9u",
-            "GAEgASgCEjMKBXRhc2tzGAIgAygLMiQuRlNSLkRpZ2l0YWxUd2luLkFwcC5H",
-            "UlBDLkhSQ1Rhc2tEVE8SOAoKcm9ib3RUYXNrcxgDIAMoCzIkLkZTUi5EaWdp",
-            "dGFsVHdpbi5BcHAuR1JQQy5IUkNUYXNrRFRPEjgKCmh1bWFuVGFza3MYBCAD",
-            "KAsyJC5GU1IuRGlnaXRhbFR3aW4uQXBwLkdSUEMuSFJDVGFza0RUTyJPCgdH",
-            "b2FsRFRPEg4KBmdvYWxJZBgBIAEoCRI0CgdtZXRob2RzGAIgAygLMiMuRlNS",
-            "LkRpZ2l0YWxUd2luLkFwcC5HUlBDLk1ldGhvZERUTyL1AQoWSW50ZXJhY3Rp",
-            "b25Nb2RhbGl0eURUTxIKCgJpZBgBIAEoCRI/CgR0eXBlGAIgASgOMjEuRlNS",
-            "LkRpZ2l0YWxUd2luLkFwcC5HUlBDLkludGVyYWN0aW9uTW9kYWxpdHlUeXBl",
-            "EhEKCWZ1bmN0aW9uMRgDIAEoCRIzCgZhZ2VudDEYBCABKA4yIy5GU1IuRGln",
-            "aXRhbFR3aW4uQXBwLkdSUEMuQWdlbnRUeXBlEhEKCWZ1bmN0aW9uMhgFIAEo",
-            "CRIzCgZhZ2VudDIYBiABKA4yIy5GU1IuRGlnaXRhbFR3aW4uQXBwLkdSUEMu",
-            "QWdlbnRUeXBlIoABCgdUYXNrRFRPEg4KBnRhc2tJZBgBIAEoCRIwCgR0eXBl",
-            "GAIgASgOMiIuRlNSLkRpZ2l0YWxUd2luLkFwcC5HUlBDLlRhc2tUeXBlEjMK",
-            "CHN1YlRhc2tzGAMgAygLMiEuRlNSLkRpZ2l0YWxUd2luLkFwcC5HUlBDLlRh",
-            "c2tEVE8iqwEKCU1ldGhvZERUTxIOCgZnb2FsSWQYASABKAkSPQoFZ3JhcGgY",
-            "AiADKAsyLi5GU1IuRGlnaXRhbFR3aW4uQXBwLkdSUEMuTWV0aG9kRFRPLkdy",
-            "YXBoRW50cnkaTwoKR3JhcGhFbnRyeRILCgNrZXkYASABKAkSMAoFdmFsdWUY",
-            "AiABKAsyIS5GU1IuRGlnaXRhbFR3aW4uQXBwLkdSUEMuVGFza0RUTzoCOAEi",
-            "WgoIQWdlbnREVE8SCgoCaWQYASABKAkSNAoEdHlwZRgCIAEoDjImLkZTUi5E",
-            "aWdpdGFsVHdpbi5BcHAuR1JQQy5IUkNBZ2VudFR5cGUSDAoEbmFtZRgDIAEo",
-            "CSpLCglBZ2VudFR5cGUSEgoOQUdFTlRfVFlQRV9BTlkQABIUChBBR0VOVF9U",
-            "WVBFX0hVTUFOEAESFAoQQUdFTlRfVFlQRV9ST0JPVBACKp4BCgxIUkNBZ2Vu",
-            "dFR5cGUSHAoYSFJDX0FHRU5UX1RZUEVfVU5ERUZJTkVEEAASGAoUSFJDX0FH",
-            "RU5UX1RZUEVfSFVNQU4QARIYChRIUkNfQUdFTlRfVFlQRV9ST0JPVBACEiIK",
-            "HkhSQ19BR0VOVF9UWVBFX1dPUktFUl9PUEVSQVRPUhADEhgKFEhSQ19BR0VO",
-            "VF9UWVBFX0NPQk9UEAQqqwEKCFRhc2tUeXBlEhIKDlRBU0tfVFlQRV9UQVNL",
-            "EAASEgoOVEFTS19UWVBFX0dPQUwQARIUChBUQVNLX1RZUEVfTUVUSE9EEAIS",
-            "FQoRVEFTS19UWVBFX0NPTVBMRVgQAxIYChRUQVNLX1RZUEVfQ09OSlVDVElP",
-            "ThAEEhgKFFRBU0tfVFlQRV9ESVNKVUNUSU9OEAUSFgoSVEFTS19UWVBFX0ZV",
-            "TkNUSU9OEAYq6AEKF0ludGVyYWN0aW9uTW9kYWxpdHlUeXBlEiIKHklOVEVS",
-            "QUNUSU9OX01PREFMSVRZX1RZUEVfTk9ORRAAEikKJUlOVEVSQUNUSU9OX01P",
-            "REFMSVRZX1RZUEVfSU5ERVBFTkRFTlQQARIoCiRJTlRFUkFDVElPTl9NT0RB",
-            "TElUWV9UWVBFX1NFUVVFTlRJQUwQAhIqCiZJTlRFUkFDVElPTl9NT0RBTElU",
-            "WV9UWVBFX1NJTVVMVEFORU9VUxADEigKJElOVEVSQUNUSU9OX01PREFMSVRZ",
-            "X1RZUEVfU1VQUE9SVElWRRAEQieqAiRGU1IuRGlnaXRhbFR3aW4uQXBwLkdS",
-            "UEMuUHJvY2Vzcy5IUkNiBnByb3RvMw=="));
+            "b24YBSABKAESGwoTZHVyYXRpb25VbmNlcnRhaW50eRgGIAEoARIMCgRnb2Fs",
+            "GAcgASgJInkKFUZ1bmN0aW9uT2JqZWN0RGF0YURUTxISCgpmdW5jdGlvbklk",
+            "GAEgASgJEg4KBnRhcmdldBgCIAEoCRIVCg1zdGFydExvY2F0aW9uGAMgASgJ",
+            "EhMKC2VuZExvY2F0aW9uGAQgASgJEhAKCGxvY2F0aW9uGAUgASgJIt4CCgpI",
+            "UkNUYXNrRFRPEg4KBnRhc2tJZBgBIAEoCRIMCgR0eXBlGAIgASgJEg4KBnRh",
+            "cmdldBgDIAEoCRIMCgRuYW1lGAQgASgJEgoKAmlkGAUgASgDEhMKC2Rlc2Ny",
+            "aXB0aW9uGAYgASgJEgwKBGdvYWwYByABKAkSFQoNc3RhcnRMb2NhdGlvbhgI",
+            "IAEoCRITCgtlbmRMb2NhdGlvbhgJIAEoCRIQCghsb2NhdGlvbhgKIAEoCRIy",
+            "CgVhZ2VudBgLIAEoDjIjLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQQy5BZ2Vu",
+            "dFR5cGUSEwoLbWluRHVyYXRpb24YDCABKAISEwoLbWF4RHVyYXRpb24YDSAB",
+            "KAISFwoPYXZlcmFnZUR1cmF0aW9uGA4gASgCEhsKE2R1cmF0aW9uVW5jZXJ0",
+            "YWludHkYDyABKAISEwoLc3VjY2Vzc1JhdGUYECABKAEixwEKC0hSQ01vZGVs",
+            "RFRPEg8KB2hvcml6b24YASABKAISMwoFdGFza3MYAiADKAsyJC5GU1IuRGln",
+            "aXRhbFR3aW4uQXBwLkdSUEMuSFJDVGFza0RUTxI4Cgpyb2JvdFRhc2tzGAMg",
+            "AygLMiQuRlNSLkRpZ2l0YWxUd2luLkFwcC5HUlBDLkhSQ1Rhc2tEVE8SOAoK",
+            "aHVtYW5UYXNrcxgEIAMoCzIkLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQQy5I",
+            "UkNUYXNrRFRPIk8KB0dvYWxEVE8SDgoGZ29hbElkGAEgASgJEjQKB21ldGhv",
+            "ZHMYAiADKAsyIy5GU1IuRGlnaXRhbFR3aW4uQXBwLkdSUEMuTWV0aG9kRFRP",
+            "IvUBChZJbnRlcmFjdGlvbk1vZGFsaXR5RFRPEgoKAmlkGAEgASgJEj8KBHR5",
+            "cGUYAiABKA4yMS5GU1IuRGlnaXRhbFR3aW4uQXBwLkdSUEMuSW50ZXJhY3Rp",
+            "b25Nb2RhbGl0eVR5cGUSEQoJZnVuY3Rpb24xGAMgASgJEjMKBmFnZW50MRgE",
+            "IAEoDjIjLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQQy5BZ2VudFR5cGUSEQoJ",
+            "ZnVuY3Rpb24yGAUgASgJEjMKBmFnZW50MhgGIAEoDjIjLkZTUi5EaWdpdGFs",
+            "VHdpbi5BcHAuR1JQQy5BZ2VudFR5cGUigAEKB1Rhc2tEVE8SDgoGdGFza0lk",
+            "GAEgASgJEjAKBHR5cGUYAiABKA4yIi5GU1IuRGlnaXRhbFR3aW4uQXBwLkdS",
+            "UEMuVGFza1R5cGUSMwoIc3ViVGFza3MYAyADKAsyIS5GU1IuRGlnaXRhbFR3",
+            "aW4uQXBwLkdSUEMuVGFza0RUTyKrAQoJTWV0aG9kRFRPEg4KBmdvYWxJZBgB",
+            "IAEoCRI9CgVncmFwaBgCIAMoCzIuLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQ",
+            "Qy5NZXRob2REVE8uR3JhcGhFbnRyeRpPCgpHcmFwaEVudHJ5EgsKA2tleRgB",
+            "IAEoCRIwCgV2YWx1ZRgCIAEoCzIhLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQ",
+            "Qy5UYXNrRFRPOgI4ASJaCghBZ2VudERUTxIKCgJpZBgBIAEoCRI0CgR0eXBl",
+            "GAIgASgOMiYuRlNSLkRpZ2l0YWxUd2luLkFwcC5HUlBDLkhSQ0FnZW50VHlw",
+            "ZRIMCgRuYW1lGAMgASgJKksKCUFnZW50VHlwZRISCg5BR0VOVF9UWVBFX0FO",
+            "WRAAEhQKEEFHRU5UX1RZUEVfSFVNQU4QARIUChBBR0VOVF9UWVBFX1JPQk9U",
+            "EAIqngEKDEhSQ0FnZW50VHlwZRIcChhIUkNfQUdFTlRfVFlQRV9VTkRFRklO",
+            "RUQQABIYChRIUkNfQUdFTlRfVFlQRV9IVU1BThABEhgKFEhSQ19BR0VOVF9U",
+            "WVBFX1JPQk9UEAISIgoeSFJDX0FHRU5UX1RZUEVfV09SS0VSX09QRVJBVE9S",
+            "EAMSGAoUSFJDX0FHRU5UX1RZUEVfQ09CT1QQBCqrAQoIVGFza1R5cGUSEgoO",
+            "VEFTS19UWVBFX1RBU0sQABISCg5UQVNLX1RZUEVfR09BTBABEhQKEFRBU0tf",
+            "VFlQRV9NRVRIT0QQAhIVChFUQVNLX1RZUEVfQ09NUExFWBADEhgKFFRBU0tf",
+            "VFlQRV9DT05KVUNUSU9OEAQSGAoUVEFTS19UWVBFX0RJU0pVQ1RJT04QBRIW",
+            "ChJUQVNLX1RZUEVfRlVOQ1RJT04QBiroAQoXSW50ZXJhY3Rpb25Nb2RhbGl0",
+            "eVR5cGUSIgoeSU5URVJBQ1RJT05fTU9EQUxJVFlfVFlQRV9OT05FEAASKQol",
+            "SU5URVJBQ1RJT05fTU9EQUxJVFlfVFlQRV9JTkRFUEVOREVOVBABEigKJElO",
+            "VEVSQUNUSU9OX01PREFMSVRZX1RZUEVfU0VRVUVOVElBTBACEioKJklOVEVS",
+            "QUNUSU9OX01PREFMSVRZX1RZUEVfU0lNVUxUQU5FT1VTEAMSKAokSU5URVJB",
+            "Q1RJT05fTU9EQUxJVFlfVFlQRV9TVVBQT1JUSVZFEARCJ6oCJEZTUi5EaWdp",
+            "dGFsVHdpbi5BcHAuR1JQQy5Qcm9jZXNzLkhSQ2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.AgentType), typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCAgentType), typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.TaskType), typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.InteractionModalityType), }, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.FunctionPropertyDataDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.FunctionPropertyDataDTO.Parser, new[]{ "FunctionId", "ProcedureName", "ProcedureDescr", "ProcedureId", "Duration", "DurationUncertainty" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.FunctionPropertyDataDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.FunctionPropertyDataDTO.Parser, new[]{ "FunctionId", "ProcedureName", "ProcedureDescr", "ProcedureId", "Duration", "DurationUncertainty", "Goal" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.FunctionObjectDataDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.FunctionObjectDataDTO.Parser, new[]{ "FunctionId", "Target", "StartLocation", "EndLocation", "Location" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCTaskDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCTaskDTO.Parser, new[]{ "TaskId", "Type", "Target", "Name", "Id", "Description", "Goal", "StartLocation", "EndLocation", "Location", "Agent", "MinDuration", "MaxDuration", "AverageDuration", "DurationUncertainty", "SuccessRate" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelDTO.Parser, new[]{ "Horizon", "Tasks", "RobotTasks", "HumanTasks" }, null, null, null),
@@ -160,6 +160,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       procedureId_ = other.procedureId_;
       duration_ = other.duration_;
       durationUncertainty_ = other.durationUncertainty_;
+      goal_ = other.goal_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -234,6 +235,17 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       }
     }
 
+    /// <summary>Field number for the "goal" field.</summary>
+    public const int GoalFieldNumber = 7;
+    private string goal_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Goal {
+      get { return goal_; }
+      set {
+        goal_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as FunctionPropertyDataDTO);
@@ -253,6 +265,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       if (ProcedureId != other.ProcedureId) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(Duration, other.Duration)) return false;
       if (!pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.Equals(DurationUncertainty, other.DurationUncertainty)) return false;
+      if (Goal != other.Goal) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -265,6 +278,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       if (ProcedureId != 0L) hash ^= ProcedureId.GetHashCode();
       if (Duration != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(Duration);
       if (DurationUncertainty != 0D) hash ^= pbc::ProtobufEqualityComparers.BitwiseDoubleEqualityComparer.GetHashCode(DurationUncertainty);
+      if (Goal.Length != 0) hash ^= Goal.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -302,6 +316,10 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
         output.WriteRawTag(49);
         output.WriteDouble(DurationUncertainty);
       }
+      if (Goal.Length != 0) {
+        output.WriteRawTag(58);
+        output.WriteString(Goal);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -327,6 +345,9 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       }
       if (DurationUncertainty != 0D) {
         size += 1 + 8;
+      }
+      if (Goal.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Goal);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -356,6 +377,9 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       }
       if (other.DurationUncertainty != 0D) {
         DurationUncertainty = other.DurationUncertainty;
+      }
+      if (other.Goal.Length != 0) {
+        Goal = other.Goal;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -390,6 +414,10 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
           }
           case 49: {
             DurationUncertainty = input.ReadDouble();
+            break;
+          }
+          case 58: {
+            Goal = input.ReadString();
             break;
           }
         }
