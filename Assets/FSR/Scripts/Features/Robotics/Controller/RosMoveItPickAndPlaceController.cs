@@ -132,13 +132,26 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 position = (targetPlacement.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
                 orientation = pickOrientation.To<FLU>()
             };
-            _ros.SendServiceMessage<MoverServiceResponse>(rosServiceName, request, OnTrajectoryResponse);
+            string filename = target.name + "to" +  targetPlacement.name;
+            var response = TrajectoryLoader.isAvaliable(filename);
+            if (response != null)
+            {
+                Debug.Log("response successfully loaded");
+                _plannedTrajectory = response;
+                _hasPlanned.Value = true;
+            } else {
+                Debug.Log("Request sent to server");
+                _ros.SendServiceMessage<MoverServiceResponse>(rosServiceName, request, OnTrajectoryResponse);
+            }
         }
 
         private void OnTrajectoryResponse(MoverServiceResponse response)
         {
             _plannedTrajectory = response;
             _hasPlanned.Value = true;
+            
+            string filename = target.name + "to" + targetPlacement.name;
+            TrajectorySaver.Save(filename, response);
         }
 
         public override void RunPlan()
