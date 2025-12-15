@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FSR.DigitalTwin.Client.Features.DES.Interfaces;
+using FSR.DigitalTwin.Client.Features.DES.Scheduler;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming;
 using SimSharp;
 using UniRx;

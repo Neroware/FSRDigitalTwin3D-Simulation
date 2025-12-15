@@ -3,7 +3,7 @@ using System.Linq;
 using FSR.DigitalTwin.Client.Features.DES.Interfaces;
 using UniRx;
 
-namespace FSR.DigitalTwin.Client.Features.DES.SimSharpBridge
+namespace FSR.DigitalTwin.Client.Features.DES.Scheduler
 {
     /// <summary>
     /// A class for a naive scheduling strategy. Scheduling is a non-trivial problem, 
@@ -14,30 +14,20 @@ namespace FSR.DigitalTwin.Client.Features.DES.SimSharpBridge
     /// </summary>
     public class NaiveTaskScheduler : ITaskScheduler
     {
-        public IDisposable Schedule(ProcessSimulationBase sim, IProcessSimulationContext ctxt)
+        public IDisposable Schedule(ProcessSimulationBase sim, IProcessSimulationContext ctxt, IObservable<Unit> previous = null)
         {
+            var prev = previous ?? Observable.Return(Unit.Default);
             CompositeDisposable disposable = new();
-            var prev = Observable.Return(Unit.Default);
             foreach (HRCGoal goal in ctxt.Goals.Keys)
             {
-                disposable.Add(ScheduleGoal(goal, prev, sim, ctxt));
+                disposable.Add(Schedule(goal, sim, ctxt, prev));
                 prev = sim.ObserveOnGoalFinished(goal.GoalId).First().AsUnitObservable();
             }
             return disposable;
         }
-        public IDisposable ScheduleGoal(HRCGoal goal, ProcessSimulationBase sim, IProcessSimulationContext ctxt)
+        public IDisposable Schedule(HRCGoal goal, ProcessSimulationBase sim, IProcessSimulationContext ctxt, IObservable<Unit> previous = null)
         {
-            var prev = Observable.Return(Unit.Default);
-            return ScheduleGoal(goal, prev, sim, ctxt);
-        }
-        public IDisposable ScheduleMethod(HRCMethod method, ProcessSimulationBase sim, IProcessSimulationContext ctxt)
-        {
-            var prev = Observable.Return(Unit.Default);
-            return ScheduleMethod(method, prev, sim, ctxt);
-        }
-
-        private IDisposable ScheduleGoal(HRCGoal goal, IObservable<Unit> previous, ProcessSimulationBase sim, IProcessSimulationContext ctxt)
-        {
+            var prev = previous ?? Observable.Return(Unit.Default);
             // The naive scheduler always selects the first method given!
             var myMethod = ctxt.Goals[goal].First();
             var goalSuccess = sim.ProcessFinished.Where(x => x.Process.ProcessType == EHRCProcessType.Method
@@ -46,11 +36,12 @@ namespace FSR.DigitalTwin.Client.Features.DES.SimSharpBridge
             return new CompositeDisposable()
             {
                 previous.Subscribe(_ => sim.Process(goal, goalSuccess)),
-                ScheduleMethod(myMethod, previous, sim, ctxt)
+                Schedule(myMethod, sim, ctxt, previous)
             };
         }
-        private IDisposable ScheduleMethod(HRCMethod method, IObservable<Unit> previous, ProcessSimulationBase sim, IProcessSimulationContext ctxt)
+        public IDisposable Schedule(HRCMethod method, ProcessSimulationBase sim, IProcessSimulationContext ctxt, IObservable<Unit> previous = null)
         {
+            var prev = previous ?? Observable.Return(Unit.Default);
             CompositeDisposable disposable = new();
             var methodTasks = ctxt.Methods[method].Keys
                 .Where(task => !ctxt.Methods[method].Values
@@ -64,19 +55,20 @@ namespace FSR.DigitalTwin.Client.Features.DES.SimSharpBridge
                 TimeStamp = sim.Now()
             });
             disposable.Add(previous.Subscribe(_ => sim.Process(method, methodSuccess)));
-            var prev = previous;
+            prev = previous;
             foreach(HRCTask task in methodTasks)
             {
-                disposable.Add(ScheduleTask(task, method, prev, sim, ctxt));
+                disposable.Add(Schedule(task, method, sim, ctxt, prev));
                 prev = sim.ObserveOnTaskFinished<HRCTask>(task.TaskId).First().AsUnitObservable();
             }
             return disposable;
         }
-        private IDisposable ScheduleTask(HRCTask task, HRCMethod method, IObservable<Unit> previous, ProcessSimulationBase sim, IProcessSimulationContext ctxt)
+        public IDisposable Schedule(HRCTask task, HRCMethod method, ProcessSimulationBase sim, IProcessSimulationContext ctxt, IObservable<Unit> previous = null)
         {
+            var prev = previous ?? Observable.Return(Unit.Default);
             if (task.ProcessType == EHRCProcessType.Function)
             {
-                return ScheduleFunction(task as HRCFunction, previous, sim);
+                return Schedule(task as HRCFunction, sim, ctxt, prev);
             }
             // The naive scheduler just selects the first alternative of a process disjunction
             var subTasks = ctxt.Methods[method][task].First();
@@ -90,14 +82,13 @@ namespace FSR.DigitalTwin.Client.Features.DES.SimSharpBridge
             });
             CompositeDisposable disposable = new()
             {
-                previous.Subscribe(_ => sim.Process(task, taskSuccess))
+                prev.Subscribe(_ => sim.Process(task, taskSuccess))
             };
             if (task.TaskDescription == null || task.TaskDescription.TaskType == EHRCTaskType.Basic)
             {
-                var prev = previous;
                 foreach (var subTask in subTasks)
                 {
-                    disposable.Add(ScheduleTask(subTask, method, prev, sim, ctxt));
+                    disposable.Add(Schedule(subTask, method, sim, ctxt, prev));
                     prev = sim.ObserveOnTaskFinished<HRCTask>(subTask.TaskId).First().AsUnitObservable();
                 }
             }
@@ -106,31 +97,29 @@ namespace FSR.DigitalTwin.Client.Features.DES.SimSharpBridge
                 var constraint = task.TaskDescription.Constraints.First(x => x is HRCPrecidenceConstraint) as HRCPrecidenceConstraint;
                 var function1 = ctxt.Methods[method][task].First().Where(t => t.TaskId == constraint.First).First();
                 var function2 = ctxt.Methods[method][task].First().Where(t => t.TaskId == constraint.Second).First();
-                disposable.Add(ScheduleTask(function1, method, previous, sim, ctxt));
-                disposable.Add(ScheduleTask(function2, method, sim.ObserveOnTaskFinished<HRCFunction>(function1.TaskId)
-                    .First().AsUnitObservable(), sim, ctxt));
+                disposable.Add(Schedule(function1, method, sim, ctxt, prev));
+                disposable.Add(Schedule(function2, method, sim, ctxt, sim.ObserveOnTaskFinished<HRCFunction>(function1.TaskId)
+                    .First().AsUnitObservable()));
             }
             else if (task.TaskDescription.TaskType == EHRCTaskType.Sequential)
             {
                 var function1 = ctxt.Methods[method][task].First().First();
                 var function2 = ctxt.Methods[method][task].First().Skip(1).First();
-                disposable.Add(ScheduleTask(function1, method, previous, sim, ctxt));
-                disposable.Add(ScheduleTask(function2, method, sim.ObserveOnTaskFinished<HRCFunction>(function1.TaskId)
-                    .First().AsUnitObservable(), sim, ctxt));
+                disposable.Add(Schedule(function1, method, sim, ctxt, prev));
+                disposable.Add(Schedule(function2, method, sim, ctxt, sim.ObserveOnTaskFinished<HRCFunction>(function1.TaskId)
+                    .First().AsUnitObservable()));
             }
             else
             {
                 foreach (var subTask in subTasks)
                 {
-                    disposable.Add(ScheduleTask(subTask, method, previous, sim, ctxt));
+                    disposable.Add(Schedule(subTask, method, sim, ctxt, prev));
                 }
             }
             return disposable;
             
         }
-        private IDisposable ScheduleFunction(HRCFunction function, IObservable<Unit> previous, ProcessSimulationBase sim)
-        {
-            return previous.Subscribe(_ => sim.Process(function));
-        }
+        public IDisposable Schedule(HRCFunction function, ProcessSimulationBase sim, IProcessSimulationContext _, IObservable<Unit> previous = null)
+            => (previous ?? Observable.Return(Unit.Default)).Subscribe(_ => sim.Process(function));
     }
 }
