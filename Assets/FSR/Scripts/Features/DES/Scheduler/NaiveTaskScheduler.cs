@@ -54,8 +54,7 @@ namespace FSR.DigitalTwin.Client.Features.DES.Scheduler
                 Succeeded = xs.All(x => x.Succeeded),
                 TimeStamp = sim.Now()
             });
-            disposable.Add(previous.Subscribe(_ => sim.Process(method, methodSuccess)));
-            prev = previous;
+            disposable.Add(prev.Subscribe(_ => sim.Process(method, methodSuccess)));
             foreach(HRCTask task in methodTasks)
             {
                 disposable.Add(Schedule(task, method, sim, ctxt, prev));
@@ -95,8 +94,8 @@ namespace FSR.DigitalTwin.Client.Features.DES.Scheduler
             else if (task.TaskDescription.TaskType == EHRCTaskType.Sequential && task.TaskDescription.Constraints.Any(x => x is HRCPrecidenceConstraint))
             {
                 var constraint = task.TaskDescription.Constraints.First(x => x is HRCPrecidenceConstraint) as HRCPrecidenceConstraint;
-                var function1 = ctxt.Methods[method][task].First().Where(t => t.TaskId == constraint.First).First();
-                var function2 = ctxt.Methods[method][task].First().Where(t => t.TaskId == constraint.Second).First();
+                var function1 = ctxt.Methods[method][task].First().First(t => t.TaskId == constraint.First);
+                var function2 = ctxt.Methods[method][task].First().First(t => t.TaskId == constraint.Second);
                 disposable.Add(Schedule(function1, method, sim, ctxt, prev));
                 disposable.Add(Schedule(function2, method, sim, ctxt, sim.ObserveOnTaskFinished<HRCFunction>(function1.TaskId)
                     .First().AsUnitObservable()));
