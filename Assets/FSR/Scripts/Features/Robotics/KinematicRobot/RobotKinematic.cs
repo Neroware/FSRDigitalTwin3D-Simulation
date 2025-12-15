@@ -5,14 +5,12 @@ using UnityEngine;
 using Unity.VisualScripting;
 using FSR.DigitalTwin.Client.Features.UnityClient;
 using FSR.DigitalTwin.Client.Features.Robotics.Sensor;
-using FSR.DigitalTwin.Client.Features.Robotics.ROS;
 
 namespace FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot {
 
     public class RobotKinematic : DigitalTwinComponentBase
     {
         [SerializeField] private List<UrdfJointSensor> _joints;
-        [SerializeField] private RosSourceDestinationPublisherBase _rosSourceDestinationPublisher;
         [SerializeField] private float[] _defaultPoseConfiguration = new float[] { -90.0f, -45.0f, 0.0f, -45.0f, -90.0f, 0.0f };
 
         private async Task UpdateJointPropertiesAsync() {

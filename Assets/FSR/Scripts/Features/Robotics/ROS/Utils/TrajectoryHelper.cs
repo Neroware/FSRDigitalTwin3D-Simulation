@@ -5,7 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using RosMessageTypes.Moveit;
 using RosMessageTypes.Trajectory;
-using RosMessageTypes.Ur5eMoveit;
+using RosMessageTypes.FsrMoveit;
 using UnityEngine;
 
 namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
@@ -14,7 +14,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
     {
         private static readonly string CACHE_DIRECTORY = Path.Combine(Application.dataPath, "Moveit.Trajectories");
 
-        public static ResponseData ToResponseData(this MoverServiceResponse resp)
+        public static ResponseData ToPickAndPlaceResponseData(this PickAndPlaceServiceResponse resp)
         {
             var traj_ = new TrajectoryData[resp.trajectories.Length];
             int i = 0;
@@ -36,7 +36,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
             return new ResponseData { trajectories = traj_ };
         }
 
-        public static MoverServiceResponse ToUr5eMoveitMoverServiceResponse(this ResponseData resp) => new()
+        public static PickAndPlaceServiceResponse ToMoveItPickAndPlaceServiceResponse(this ResponseData resp) => new()
             {
                 trajectories = resp.trajectories.Select(traj => new RobotTrajectoryMsg
                 {
@@ -61,13 +61,13 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
         /// Speichert das Request/Response-Paar als JSON in Application.persistentDataPath/TrajectoryCache.
         /// Dateiname: cache_{GUID}.json
         /// </summary>
-        public static void Save(string name, MoverServiceResponse response)
+        public static void Save(string name, PickAndPlaceServiceResponse response)
         {
             if (!Directory.Exists(CACHE_DIRECTORY))
                 Directory.CreateDirectory(CACHE_DIRECTORY);
             var cache = new CacheFile
             {
-                response = response.ToResponseData()
+                response = response.ToPickAndPlaceResponseData()
             };
             string path = Path.Combine(CACHE_DIRECTORY, name) + ".json";
             try
@@ -109,14 +109,14 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
             return list;
         }
 
-        public static bool IsAvaliable(string name, out MoverServiceResponse response)
+        public static bool IsAvaliable(string name, out PickAndPlaceServiceResponse response)
         {
             List<CacheFile> files = LoadAll();
             foreach (CacheFile file in files)
             {
                 if (file.filename == name)
                 {
-                    response = file.response.ToUr5eMoveitMoverServiceResponse();
+                    response = file.response.ToMoveItPickAndPlaceServiceResponse();
                     return true;
                 }
             }

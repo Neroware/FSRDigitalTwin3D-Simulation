@@ -3,11 +3,12 @@ using System.Linq;
 using FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot;
 using FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils;
 using RosMessageTypes.Geometry;
-using RosMessageTypes.Ur5eMoveit;
+using RosMessageTypes.FsrMoveit;
 using UniRx;
 using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.ROSGeometry;
 using UnityEngine;
+using System;
 
 namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
 {
@@ -21,13 +22,21 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         [SerializeField] private int numRobotJoints = 6;
         [SerializeField] private float jointAssignmentWait = 0.1f;
         [SerializeField] private float poseAssignmentWait = 0.5f;
+        [SerializeField] private float pickPoseOffsetZ = 0.066f;
+        [SerializeField] private float maxVelocity = 0.5f;
+        [SerializeField] private float maxAcceleration = 0.5f;
+        [SerializeField] private string groupName = "ur_manipulator";
+        [SerializeField] private string eeName = "tool0";
+        [SerializeField] private string baseLinkName = "base";
         [SerializeField] private bool forceMoveItRequest = false;
 
-        [SerializeField] private string rosServiceName = "ur5e_moveit";
+        [SerializeField] private string rosServiceName = "fsr_moveit";
         public string RosServiceName { get => rosServiceName; set => rosServiceName = value; }
 
         [SerializeField] private string[] linkNames = { "world/base_link/shoulder_link", "/upper_arm_link", "/forearm_link", "/wrist_1_link", "/wrist_2_link", "/wrist_3_link" };
         public string[] LinkNames => linkNames;
+        [SerializeField] private string[] rosJointNames = { "shoulder_pan_joint", "shoulder_lift_joint", "elbow_joint", "wrist_1_joint", "wrist_2_joint", "wrist_3_joint" };
+        public string[] RosJointNames => rosJointNames;
 
         [SerializeField] private GameObject robot;
         [SerializeField] private GameObject target;
@@ -51,7 +60,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         private ReactiveProperty<bool> _isRunning = new(false);
 
         // Internal state
-        private MoverServiceResponse _plannedTrajectory = null;
+        private PickAndPlaceServiceResponse _plannedTrajectory = null;
         private ArticulationBody[] _jointArticulationBodies;
         private Coroutine _runningAction;
 
@@ -70,7 +79,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         {
             // Get ROS connection static instance
             _ros = ROSConnection.GetOrCreateInstance();
-            _ros.RegisterRosService<MoverServiceRequest, MoverServiceResponse>(rosServiceName);
+            _ros.RegisterRosService<PickAndPlaceServiceRequest, PickAndPlaceServiceResponse>(rosServiceName);
             _jointArticulationBodies = new ArticulationBody[numRobotJoints];
             var linkName = string.Empty;
             for (var i = 0; i < numRobotJoints; i++)
@@ -84,15 +93,25 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         ///     Get the current values of the robot's joint angles.
         /// </summary>
         /// <returns>NiryoMoveitJoints</returns>
-        private UR5eMoveitJointsMsg CurrentJointConfig()
+        private MoveitJointsMsg CurrentJointConfig()
         {
-            var joints = new UR5eMoveitJointsMsg();
+            var joints = new MoveitJointsMsg { joint_names = RosJointNames };
             for (var i = 0; i < numRobotJoints; i++)
             {
                 joints.joints[i] = _jointArticulationBodies[i].jointPosition[0];
             }
             return joints;
         }
+
+        private PickAndPlaceInputMsg PickAndPlaceConfig() => new()
+            {
+                pick_pose_z = pickPoseOffsetZ,
+                max_velocity = maxVelocity,
+                max_acceleration = maxAcceleration,
+                group_name = groupName,
+                end_effector_name = eeName,
+                base_link_name = baseLinkName
+            };
 
         public override void ForceInterrupt()
         {
@@ -110,14 +129,14 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         }
 
         /// <summary>
-        ///     Create a new MoverServiceRequest with the current values of the robot's joint angles,
+        ///     Create a new PickAndPlaceServiceRequest with the current values of the robot's joint angles,
         ///     the target cube's current position and rotation, and the targetPlacement position and rotation.
-        ///     Call the MoverService using the ROSConnection and if a trajectory is successfully planned,
+        ///     Call the PickAndPlaceService using the ROSConnection and if a trajectory is successfully planned,
         ///     store the response in the controller's state variable.
         /// </summary>
         public override void Plan()
         {
-            MoverServiceRequest request = new()
+            PickAndPlaceServiceRequest request = new()
             {
                 joints_input = CurrentJointConfig(),
                 // Pick Pose
@@ -132,10 +151,11 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 {
                     position = (targetPlacement.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
                     orientation = pickOrientation.To<FLU>()
-                }
+                },
+                pnp_input = PickAndPlaceConfig()
             };
             string filename = TrajectoryFilePath(target, targetPlacement);
-            if (!forceMoveItRequest && TrajectoryHelper.IsAvaliable(filename, out MoverServiceResponse response))
+            if (!forceMoveItRequest && TrajectoryHelper.IsAvaliable(filename, out PickAndPlaceServiceResponse response))
             {
                 Debug.Log("response successfully loaded");
                 _plannedTrajectory = response;
@@ -143,11 +163,11 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             }
             else {
                 Debug.Log("Request sent to server");
-                _ros.SendServiceMessage<MoverServiceResponse>(rosServiceName, request, OnTrajectoryResponse);
+                _ros.SendServiceMessage<PickAndPlaceServiceResponse>(rosServiceName, request, OnTrajectoryResponse);
             }
         }
 
-        private void OnTrajectoryResponse(MoverServiceResponse response)
+        private void OnTrajectoryResponse(PickAndPlaceServiceResponse response)
         {
             _plannedTrajectory = response;
             _hasPlanned.Value = true;
@@ -193,17 +213,17 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         }
         
         /// <summary>
-        ///     Execute the returned trajectories from the MoverService.
-        ///     The expectation is that the MoverService will return four trajectory plans,
+        ///     Execute the returned trajectories from the PickAndPlaceService.
+        ///     The expectation is that the PickAndPlaceService will return four trajectory plans,
         ///     PreGrasp, Grasp, PickUp, and Place,
         ///     where each plan is an array of robot poses. A robot pose is the joint angle values
         ///     of the six robot joints.
         ///     Executing a single trajectory will iterate through every robot pose in the array while updating the
         ///     joint values on the robot.
         /// </summary>
-        /// <param name="response"> MoverServiceResponse received from niryo_moveit mover service running in ROS</param>
+        /// <param name="response"> PickAndPlaceServiceResponse received from niryo_moveit mover service running in ROS</param>
         /// <returns></returns>
-        IEnumerator ExecuteTrajectories(MoverServiceResponse response)
+        IEnumerator ExecuteTrajectories(PickAndPlaceServiceResponse response)
         {
             if (response.trajectories != null)
             {
