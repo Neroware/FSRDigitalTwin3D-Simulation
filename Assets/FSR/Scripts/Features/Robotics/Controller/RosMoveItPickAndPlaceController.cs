@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot;
+using FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils;
 using RosMessageTypes.Geometry;
 using RosMessageTypes.Ur5eMoveit;
 using UniRx;
@@ -20,6 +21,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         [SerializeField] private int numRobotJoints = 6;
         [SerializeField] private float jointAssignmentWait = 0.1f;
         [SerializeField] private float poseAssignmentWait = 0.5f;
+        [SerializeField] private bool forceMoveItRequest = false;
 
         [SerializeField] private string rosServiceName = "ur5e_moveit";
         public string RosServiceName { get => rosServiceName; set => rosServiceName = value; }
@@ -69,9 +71,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             // Get ROS connection static instance
             _ros = ROSConnection.GetOrCreateInstance();
             _ros.RegisterRosService<MoverServiceRequest, MoverServiceResponse>(rosServiceName);
-
             _jointArticulationBodies = new ArticulationBody[numRobotJoints];
-
             var linkName = string.Empty;
             for (var i = 0; i < numRobotJoints; i++)
             {
@@ -117,29 +117,31 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         /// </summary>
         public override void Plan()
         {
-            var request = new MoverServiceRequest();
-            request.joints_input = CurrentJointConfig();
-            // Pick Pose
-            request.pick_pose = new PoseMsg
+            MoverServiceRequest request = new()
             {
-                position = (target.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
-                // The hardcoded x/z angles assure that the gripper is always positioned above the target cube before grasping.
-                orientation = (pickOrientation * Quaternion.Euler(0.0f, -target.transform.eulerAngles.y, 0.0f)).To<FLU>() // Quaternion.identity.To<FLU>() // Quaternion.Euler(90, m_Target.transform.eulerAngles.y, 0).To<FLU>()
+                joints_input = CurrentJointConfig(),
+                // Pick Pose
+                pick_pose = new PoseMsg
+                {
+                    position = (target.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
+                    // The hardcoded x/z angles assure that the gripper is always positioned above the target cube before grasping.
+                    orientation = (pickOrientation * Quaternion.Euler(0.0f, -target.transform.eulerAngles.y, 0.0f)).To<FLU>() // Quaternion.identity.To<FLU>() // Quaternion.Euler(90, m_Target.transform.eulerAngles.y, 0).To<FLU>()
+                },
+                // Place Pose
+                place_pose = new PoseMsg
+                {
+                    position = (targetPlacement.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
+                    orientation = pickOrientation.To<FLU>()
+                }
             };
-            // Place Pose
-            request.place_pose = new PoseMsg
-            {
-                position = (targetPlacement.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
-                orientation = pickOrientation.To<FLU>()
-            };
-            string filename = target.name + "to" +  targetPlacement.name;
-            var response = TrajectoryLoader.isAvaliable(filename);
-            if (response != null)
+            string filename = TrajectoryFilePath(target, targetPlacement);
+            if (!forceMoveItRequest && TrajectoryHelper.IsAvaliable(filename, out MoverServiceResponse response))
             {
                 Debug.Log("response successfully loaded");
                 _plannedTrajectory = response;
                 _hasPlanned.Value = true;
-            } else {
+            }
+            else {
                 Debug.Log("Request sent to server");
                 _ros.SendServiceMessage<MoverServiceResponse>(rosServiceName, request, OnTrajectoryResponse);
             }
@@ -149,10 +151,12 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         {
             _plannedTrajectory = response;
             _hasPlanned.Value = true;
-            
-            string filename = target.name + "to" + targetPlacement.name;
-            TrajectorySaver.Save(filename, response);
+            string filename = TrajectoryFilePath(target, targetPlacement);
+            TrajectoryHelper.Save(filename, response);
         }
+
+        private static string TrajectoryFilePath(GameObject from, GameObject to) 
+            => $"ros_moveit_trajectory_{from.name}_to_{to.name}";
 
         public override void RunPlan()
         {
@@ -173,7 +177,8 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
 
         public void PickAndPlace()
         {
-            Plan();
+            if (!HasPlanned.Value) 
+                Plan();
             HasPlanned
                 .Where(x => x)
                 .First()
