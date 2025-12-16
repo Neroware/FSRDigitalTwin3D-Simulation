@@ -5,29 +5,29 @@ using System.Collections.Generic;
 using System.Text;
 using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 
-namespace RosMessageTypes.Ur5eMoveit
+namespace RosMessageTypes.FsrMoveit
 {
     [Serializable]
-    public class MoverServiceResponse : Message
+    public class PickAndPlaceServiceResponse : Message
     {
-        public const string k_RosMessageName = "ur5e_moveit/MoverService";
+        public const string k_RosMessageName = "fsr_moveit/PickAndPlaceService";
         public override string RosMessageName => k_RosMessageName;
 
         public Moveit.RobotTrajectoryMsg[] trajectories;
 
-        public MoverServiceResponse()
+        public PickAndPlaceServiceResponse()
         {
             this.trajectories = new Moveit.RobotTrajectoryMsg[0];
         }
 
-        public MoverServiceResponse(Moveit.RobotTrajectoryMsg[] trajectories)
+        public PickAndPlaceServiceResponse(Moveit.RobotTrajectoryMsg[] trajectories)
         {
             this.trajectories = trajectories;
         }
 
-        public static MoverServiceResponse Deserialize(MessageDeserializer deserializer) => new MoverServiceResponse(deserializer);
+        public static PickAndPlaceServiceResponse Deserialize(MessageDeserializer deserializer) => new PickAndPlaceServiceResponse(deserializer);
 
-        private MoverServiceResponse(MessageDeserializer deserializer)
+        private PickAndPlaceServiceResponse(MessageDeserializer deserializer)
         {
             deserializer.Read(out this.trajectories, Moveit.RobotTrajectoryMsg.Deserialize, deserializer.ReadLength());
         }
@@ -40,7 +40,7 @@ namespace RosMessageTypes.Ur5eMoveit
 
         public override string ToString()
         {
-            return "MoverServiceResponse: " +
+            return "PickAndPlaceServiceResponse: " +
             "\ntrajectories: " + System.String.Join(", ", trajectories.ToList());
         }
 

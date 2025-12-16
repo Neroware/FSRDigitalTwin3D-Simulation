@@ -5,54 +5,60 @@ using System.Collections.Generic;
 using System.Text;
 using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 
-namespace RosMessageTypes.Ur5eMoveit
+namespace RosMessageTypes.FsrMoveit
 {
     [Serializable]
-    public class UR5eMoveitJointsMsg : Message
+    public class PickAndPlaceServiceRequest : Message
     {
-        public const string k_RosMessageName = "ur5e_moveit/UR5eMoveitJoints";
+        public const string k_RosMessageName = "fsr_moveit/PickAndPlaceService";
         public override string RosMessageName => k_RosMessageName;
 
-        public double[] joints;
+        public MoveitJointsMsg joints_input;
         public Geometry.PoseMsg pick_pose;
         public Geometry.PoseMsg place_pose;
+        public PickAndPlaceInputMsg pnp_input;
 
-        public UR5eMoveitJointsMsg()
+        public PickAndPlaceServiceRequest()
         {
-            this.joints = new double[6];
+            this.joints_input = new MoveitJointsMsg();
             this.pick_pose = new Geometry.PoseMsg();
             this.place_pose = new Geometry.PoseMsg();
+            this.pnp_input = new PickAndPlaceInputMsg();
         }
 
-        public UR5eMoveitJointsMsg(double[] joints, Geometry.PoseMsg pick_pose, Geometry.PoseMsg place_pose)
+        public PickAndPlaceServiceRequest(MoveitJointsMsg joints_input, Geometry.PoseMsg pick_pose, Geometry.PoseMsg place_pose, PickAndPlaceInputMsg pnp_input)
         {
-            this.joints = joints;
+            this.joints_input = joints_input;
             this.pick_pose = pick_pose;
             this.place_pose = place_pose;
+            this.pnp_input = pnp_input;
         }
 
-        public static UR5eMoveitJointsMsg Deserialize(MessageDeserializer deserializer) => new UR5eMoveitJointsMsg(deserializer);
+        public static PickAndPlaceServiceRequest Deserialize(MessageDeserializer deserializer) => new PickAndPlaceServiceRequest(deserializer);
 
-        private UR5eMoveitJointsMsg(MessageDeserializer deserializer)
+        private PickAndPlaceServiceRequest(MessageDeserializer deserializer)
         {
-            deserializer.Read(out this.joints, sizeof(double), 6);
+            this.joints_input = MoveitJointsMsg.Deserialize(deserializer);
             this.pick_pose = Geometry.PoseMsg.Deserialize(deserializer);
             this.place_pose = Geometry.PoseMsg.Deserialize(deserializer);
+            this.pnp_input = PickAndPlaceInputMsg.Deserialize(deserializer);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
         {
-            serializer.Write(this.joints);
+            serializer.Write(this.joints_input);
             serializer.Write(this.pick_pose);
             serializer.Write(this.place_pose);
+            serializer.Write(this.pnp_input);
         }
 
         public override string ToString()
         {
-            return "UR5eMoveitJointsMsg: " +
-            "\njoints: " + System.String.Join(", ", joints.ToList()) +
+            return "PickAndPlaceServiceRequest: " +
+            "\njoints_input: " + joints_input.ToString() +
             "\npick_pose: " + pick_pose.ToString() +
-            "\nplace_pose: " + place_pose.ToString();
+            "\nplace_pose: " + place_pose.ToString() +
+            "\npnp_input: " + pnp_input.ToString();
         }
 
 #if UNITY_EDITOR
