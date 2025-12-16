@@ -14,6 +14,7 @@ namespace RosMessageTypes.FsrMoveit
         public override string RosMessageName => k_RosMessageName;
 
         public double pick_pose_z;
+        public double place_pose_z;
         public double max_velocity;
         public double max_acceleration;
         public string group_name;
@@ -23,6 +24,7 @@ namespace RosMessageTypes.FsrMoveit
         public PickAndPlaceInputMsg()
         {
             this.pick_pose_z = 0.0;
+            this.place_pose_z = 0.0;
             this.max_velocity = 0.0;
             this.max_acceleration = 0.0;
             this.group_name = "";
@@ -30,9 +32,10 @@ namespace RosMessageTypes.FsrMoveit
             this.base_link_name = "";
         }
 
-        public PickAndPlaceInputMsg(double pick_pose_z, double max_velocity, double max_acceleration, string group_name, string end_effector_name, string base_link_name)
+        public PickAndPlaceInputMsg(double pick_pose_z, double place_pose_z, double max_velocity, double max_acceleration, string group_name, string end_effector_name, string base_link_name)
         {
             this.pick_pose_z = pick_pose_z;
+            this.place_pose_z = place_pose_z;
             this.max_velocity = max_velocity;
             this.max_acceleration = max_acceleration;
             this.group_name = group_name;
@@ -45,6 +48,7 @@ namespace RosMessageTypes.FsrMoveit
         private PickAndPlaceInputMsg(MessageDeserializer deserializer)
         {
             deserializer.Read(out this.pick_pose_z);
+            deserializer.Read(out this.place_pose_z);
             deserializer.Read(out this.max_velocity);
             deserializer.Read(out this.max_acceleration);
             deserializer.Read(out this.group_name);
@@ -55,6 +59,7 @@ namespace RosMessageTypes.FsrMoveit
         public override void SerializeTo(MessageSerializer serializer)
         {
             serializer.Write(this.pick_pose_z);
+            serializer.Write(this.place_pose_z);
             serializer.Write(this.max_velocity);
             serializer.Write(this.max_acceleration);
             serializer.Write(this.group_name);
@@ -66,6 +71,7 @@ namespace RosMessageTypes.FsrMoveit
         {
             return "PickAndPlaceInputMsg: " +
             "\npick_pose_z: " + pick_pose_z.ToString() +
+            "\nplace_pose_z: " + place_pose_z.ToString() +
             "\nmax_velocity: " + max_velocity.ToString() +
             "\nmax_acceleration: " + max_acceleration.ToString() +
             "\ngroup_name: " + group_name.ToString() +

@@ -23,6 +23,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         [SerializeField] private float jointAssignmentWait = 0.1f;
         [SerializeField] private float poseAssignmentWait = 0.5f;
         [SerializeField] private float pickPoseOffsetZ = 0.066f;
+        [SerializeField] private float placePoseOffsetZ = 0.0f;
         [SerializeField] private float maxVelocity = 0.5f;
         [SerializeField] private float maxAcceleration = 0.5f;
         [SerializeField] private string groupName = "ur_manipulator";
@@ -106,6 +107,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         private PickAndPlaceInputMsg PickAndPlaceConfig() => new()
             {
                 pick_pose_z = pickPoseOffsetZ,
+                place_pose_z = placePoseOffsetZ,
                 max_velocity = maxVelocity,
                 max_acceleration = maxAcceleration,
                 group_name = groupName,
@@ -154,7 +156,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 },
                 pnp_input = PickAndPlaceConfig()
             };
-            string filename = TrajectoryFilePath(target, targetPlacement);
+            string filename = TrajectoryFilePath(gameObject, target, targetPlacement);
             if (!forceMoveItRequest && TrajectoryHelper.IsAvaliable(filename, out PickAndPlaceServiceResponse response))
             {
                 Debug.Log("response successfully loaded");
@@ -171,12 +173,12 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         {
             _plannedTrajectory = response;
             _hasPlanned.Value = true;
-            string filename = TrajectoryFilePath(target, targetPlacement);
+            string filename = TrajectoryFilePath(gameObject, target, targetPlacement);
             TrajectoryHelper.Save(filename, response);
         }
 
-        private static string TrajectoryFilePath(GameObject from, GameObject to) 
-            => $"ros_moveit_trajectory_{from.name}_to_{to.name}";
+        private static string TrajectoryFilePath(GameObject robot, GameObject from, GameObject to) 
+            => $"ros.traj.{robot.name}${from.name}_to_{to.name}.moveit";
 
         public override void RunPlan()
         {
