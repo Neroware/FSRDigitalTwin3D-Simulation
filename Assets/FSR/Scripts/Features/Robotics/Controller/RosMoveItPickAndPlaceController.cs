@@ -90,31 +90,6 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             }
         }
 
-        /// <summary>
-        ///     Get the current values of the robot's joint angles.
-        /// </summary>
-        /// <returns>NiryoMoveitJoints</returns>
-        private MoveitJointsMsg CurrentJointConfig()
-        {
-            var joints = new MoveitJointsMsg { joint_names = RosJointNames };
-            for (var i = 0; i < numRobotJoints; i++)
-            {
-                joints.joints[i] = _jointArticulationBodies[i].jointPosition[0];
-            }
-            return joints;
-        }
-
-        private PickAndPlaceInputMsg PickAndPlaceConfig() => new()
-            {
-                pick_pose_z = pickPoseOffsetZ,
-                place_pose_z = placePoseOffsetZ,
-                max_velocity = maxVelocity,
-                max_acceleration = maxAcceleration,
-                group_name = groupName,
-                end_effector_name = eeName,
-                base_link_name = baseLinkName
-            };
-
         public override void ForceInterrupt()
         {
             Interrupt();
@@ -140,21 +115,9 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         {
             PickAndPlaceServiceRequest request = new()
             {
-                joints_input = CurrentJointConfig(),
-                // Pick Pose
-                pick_pose = new PoseMsg
-                {
-                    position = (target.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
-                    // The hardcoded x/z angles assure that the gripper is always positioned above the target cube before grasping.
-                    orientation = (pickOrientation * Quaternion.Euler(0.0f, -target.transform.eulerAngles.y, 0.0f)).To<FLU>() // Quaternion.identity.To<FLU>() // Quaternion.Euler(90, m_Target.transform.eulerAngles.y, 0).To<FLU>()
-                },
-                // Place Pose
-                place_pose = new PoseMsg
-                {
-                    position = (targetPlacement.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
-                    orientation = pickOrientation.To<FLU>()
-                },
-                pnp_input = PickAndPlaceConfig()
+                joints_input = GetCurrentJointConfig(),
+                group = GetMoveitGroupConfig(),
+                pars = GetPickAndPlaceParameters()
             };
             string filename = TrajectoryFilePath(gameObject, target, targetPlacement);
             if (!forceMoveItRequest && TrajectoryHelper.IsAvaliable(filename, out PickAndPlaceServiceResponse response))
@@ -229,44 +192,28 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         {
             if (response.trajectories != null)
             {
-                // First things first open gripper
                 gripper.OpenGripper();
-
-                // For every trajectory plan returned
                 for (var poseIndex = 0; poseIndex < response.trajectories.Length; poseIndex++)
                 {
-                    // For every robot pose in trajectory plan
                     foreach (var t in response.trajectories[poseIndex].joint_trajectory.points)
                     {
                         var jointPositions = t.positions;
                         var result = jointPositions.Select(r => (float)r * Mathf.Rad2Deg).ToArray();
-
-                        // Set the joint values for every joint
                         for (var joint = 0; joint < _jointArticulationBodies.Length; joint++)
                         {
                             var joint1XDrive = _jointArticulationBodies[joint].xDrive;
                             joint1XDrive.target = result[joint];
                             _jointArticulationBodies[joint].xDrive = joint1XDrive;
                         }
-
-                        // Wait for robot to achieve pose for all joint assignments
                         yield return new WaitForSeconds(jointAssignmentWait);
                     }
-
-                    // Close the gripper if completed executing the trajectory for the Grasp pose
                     if (poseIndex == (int)Poses.Grasp)
                     {
                         gripper.CloseGripper();
                     }
-
-                    // Wait for the robot to achieve the final pose from joint assignment
                     yield return new WaitForSeconds(poseAssignmentWait);
                 }
-
-                // All trajectories have been executed, open the gripper to place the target cube
                 gripper.OpenGripper();
-
-                // Finally free running action
                 _runningAction = null;
             }
         }
@@ -278,5 +225,40 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             PickUp,
             Place
         }
-    }
-}
+
+        // ROS Messages
+
+        private MoveitJointsMsg GetCurrentJointConfig()
+        {
+            var joints = new MoveitJointsMsg { joint_names = RosJointNames };
+            for (var i = 0; i < numRobotJoints; i++)
+            {
+                joints.joints[i] = _jointArticulationBodies[i].jointPosition[0];
+            }
+            return joints;
+        }
+        private PickAndPlaceInputMsg GetPickAndPlaceParameters() => new()
+            {
+                pick_pose = new PoseMsg
+                {
+                    position = (target.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
+                    orientation = (pickOrientation * Quaternion.Euler(0.0f, -target.transform.eulerAngles.y, 0.0f)).To<FLU>()
+                },
+                place_pose = new PoseMsg
+                {
+                    position = (targetPlacement.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
+                    orientation = pickOrientation.To<FLU>()
+                },
+                pick_pose_z = pickPoseOffsetZ,
+                place_pose_z = placePoseOffsetZ,
+                max_velocity = maxVelocity,
+                max_acceleration = maxAcceleration,
+            };
+        private MoveitGroupMsg GetMoveitGroupConfig() => new()
+            {
+                group_name = groupName,
+                end_effector_name = eeName,
+                base_link_name = baseLinkName
+            };
+    } // RosMoveitPickAndPlaceController
+} // namespace FSR.DigitalTwin.Client.Features.Robotics.Controller

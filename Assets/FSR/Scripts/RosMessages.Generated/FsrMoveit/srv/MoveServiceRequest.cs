@@ -8,36 +8,36 @@ using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 namespace RosMessageTypes.FsrMoveit
 {
     [Serializable]
-    public class PickAndPlaceServiceRequest : Message
+    public class MoveServiceRequest : Message
     {
-        public const string k_RosMessageName = "fsr_moveit/PickAndPlaceService";
+        public const string k_RosMessageName = "fsr_moveit/MoveService";
         public override string RosMessageName => k_RosMessageName;
 
         public MoveitJointsMsg joints_input;
         public MoveitGroupMsg group;
-        public PickAndPlaceInputMsg pars;
+        public MoveInputMsg pars;
 
-        public PickAndPlaceServiceRequest()
+        public MoveServiceRequest()
         {
             this.joints_input = new MoveitJointsMsg();
             this.group = new MoveitGroupMsg();
-            this.pars = new PickAndPlaceInputMsg();
+            this.pars = new MoveInputMsg();
         }
 
-        public PickAndPlaceServiceRequest(MoveitJointsMsg joints_input, MoveitGroupMsg group, PickAndPlaceInputMsg pars)
+        public MoveServiceRequest(MoveitJointsMsg joints_input, MoveitGroupMsg group, MoveInputMsg pars)
         {
             this.joints_input = joints_input;
             this.group = group;
             this.pars = pars;
         }
 
-        public static PickAndPlaceServiceRequest Deserialize(MessageDeserializer deserializer) => new PickAndPlaceServiceRequest(deserializer);
+        public static MoveServiceRequest Deserialize(MessageDeserializer deserializer) => new MoveServiceRequest(deserializer);
 
-        private PickAndPlaceServiceRequest(MessageDeserializer deserializer)
+        private MoveServiceRequest(MessageDeserializer deserializer)
         {
             this.joints_input = MoveitJointsMsg.Deserialize(deserializer);
             this.group = MoveitGroupMsg.Deserialize(deserializer);
-            this.pars = PickAndPlaceInputMsg.Deserialize(deserializer);
+            this.pars = MoveInputMsg.Deserialize(deserializer);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
@@ -49,7 +49,7 @@ namespace RosMessageTypes.FsrMoveit
 
         public override string ToString()
         {
-            return "PickAndPlaceServiceRequest: " +
+            return "MoveServiceRequest: " +
             "\njoints_input: " + joints_input.ToString() +
             "\ngroup: " + group.ToString() +
             "\npars: " + pars.ToString();
