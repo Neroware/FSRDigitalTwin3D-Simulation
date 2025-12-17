@@ -16,19 +16,22 @@ namespace RosMessageTypes.FsrMoveit
         public Geometry.PoseMsg target_pose;
         public double max_velocity;
         public double max_acceleration;
+        public double ee_offset;
 
         public MoveInputMsg()
         {
             this.target_pose = new Geometry.PoseMsg();
             this.max_velocity = 0.0;
             this.max_acceleration = 0.0;
+            this.ee_offset = 0.0;
         }
 
-        public MoveInputMsg(Geometry.PoseMsg target_pose, double max_velocity, double max_acceleration)
+        public MoveInputMsg(Geometry.PoseMsg target_pose, double max_velocity, double max_acceleration, double ee_offset)
         {
             this.target_pose = target_pose;
             this.max_velocity = max_velocity;
             this.max_acceleration = max_acceleration;
+            this.ee_offset = ee_offset;
         }
 
         public static MoveInputMsg Deserialize(MessageDeserializer deserializer) => new MoveInputMsg(deserializer);
@@ -38,6 +41,7 @@ namespace RosMessageTypes.FsrMoveit
             this.target_pose = Geometry.PoseMsg.Deserialize(deserializer);
             deserializer.Read(out this.max_velocity);
             deserializer.Read(out this.max_acceleration);
+            deserializer.Read(out this.ee_offset);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
@@ -45,6 +49,7 @@ namespace RosMessageTypes.FsrMoveit
             serializer.Write(this.target_pose);
             serializer.Write(this.max_velocity);
             serializer.Write(this.max_acceleration);
+            serializer.Write(this.ee_offset);
         }
 
         public override string ToString()
@@ -52,7 +57,8 @@ namespace RosMessageTypes.FsrMoveit
             return "MoveInputMsg: " +
             "\ntarget_pose: " + target_pose.ToString() +
             "\nmax_velocity: " + max_velocity.ToString() +
-            "\nmax_acceleration: " + max_acceleration.ToString();
+            "\nmax_acceleration: " + max_acceleration.ToString() +
+            "\nee_offset: " + ee_offset.ToString();
         }
 
 #if UNITY_EDITOR

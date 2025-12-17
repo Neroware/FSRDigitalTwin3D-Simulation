@@ -22355,15 +22355,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6c8f723e4eff0458e787277febaba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#SM_UR5e_Controller
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#SM_UR5e_Controller0
   _actor: {fileID: 5955250382980222833}
   _enableOperationModeOverride: 0
   _operationModeOverride: 0
   numRobotJoints: 6
   jointAssignmentWait: 0.1
   poseAssignmentWait: 0.5
+  pickPoseOffsetZ: 0.066
+  placePoseOffsetZ: 0
+  maxVelocity: 0.5
+  maxAcceleration: 0.5
+  groupName: ur_manipulator
+  eeName: tool0
+  baseLinkName: base
   forceMoveItRequest: 1
-  rosServiceName: fsr_moveit
+  rosServiceName: fsr_moveit_pick_and_place_srv
   linkNames:
   - world/base_link/shoulder_link
   - /upper_arm_link
@@ -27971,18 +27978,18 @@ PrefabInstance:
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1741056423}
+      objectReference: {fileID: 5955250382980222843}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PickAndPlace
+      value: Move
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FSR.DigitalTwin.Client.Features.Robotics.Controller.RosMoveitPickAndPlaceController,
+      value: FSR.DigitalTwin.Client.Features.Robotics.Controller.RosMoveitMoveController,
         Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
@@ -28489,6 +28496,9 @@ PrefabInstance:
       addedObject: {fileID: 1741056423}
     - targetCorrespondingSourceObject: {fileID: 472273861288168908, guid: b990ce72bcda62d4b871c5e92369120f, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 5955250382980222843}
+    - targetCorrespondingSourceObject: {fileID: 472273861288168908, guid: b990ce72bcda62d4b871c5e92369120f, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 5955250382980222842}
     - targetCorrespondingSourceObject: {fileID: 8272980315594807359, guid: b990ce72bcda62d4b871c5e92369120f, type: 3}
       insertIndex: -1
@@ -28580,6 +28590,49 @@ MonoBehaviour:
   operatorId: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#robot
   agentType: 2
   _skillList: {fileID: 761682136}
+--- !u!114 &5955250382980222843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603320903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a12e24e5378f39446987d7d3020bcb54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#SM_UR5e_Controller1
+  _actor: {fileID: 5955250382980222833}
+  _enableOperationModeOverride: 0
+  _operationModeOverride: 0
+  numRobotJoints: 6
+  jointAssignmentWait: 0.1
+  poseAssignmentWait: 0.5
+  maxVelocity: 0.5
+  maxAcceleration: 0.5
+  eeOffset: -0.135
+  groupName: ur_manipulator
+  baseLinkName: base
+  forceMoveItRequest: 1
+  rosServiceName: fsr_moveit_move_srv
+  linkNames:
+  - world/base_link/shoulder_link
+  - /upper_arm_link
+  - /forearm_link
+  - /wrist_1_link
+  - /wrist_2_link
+  - /wrist_3_link
+  rosJointNames:
+  - shoulder_pan_joint
+  - shoulder_lift_joint
+  - elbow_joint
+  - wrist_1_joint
+  - wrist_2_joint
+  - wrist_3_joint
+  robot: {fileID: 1603320903}
+  target: {fileID: 1095286935}
+  targetOrientation: {x: -1, y: 0, z: 0, w: -0.00000004371139}
 --- !u!224 &6740993857694528104 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7453539377829711679, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}

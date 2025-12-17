@@ -13,7 +13,8 @@ using System;
 namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
 {
     /// <summary>
-    /// A robot controller that uses the MoveIt service running in a ROS2 workspace for planning.
+    /// A robot controller that uses the MoveIt service running in a ROS2 workspace for planning
+    /// Pick-and-Place movement.
     /// </summary>
     public class RosMoveitPickAndPlaceController : RobotControllerComponent
     {
@@ -31,7 +32,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         [SerializeField] private string baseLinkName = "base";
         [SerializeField] private bool forceMoveItRequest = false;
 
-        [SerializeField] private string rosServiceName = "fsr_moveit";
+        [SerializeField] private string rosServiceName = "fsr_moveit_pick_and_place_srv";
         public string RosServiceName { get => rosServiceName; set => rosServiceName = value; }
 
         [SerializeField] private string[] linkNames = { "world/base_link/shoulder_link", "/upper_arm_link", "/forearm_link", "/wrist_1_link", "/wrist_2_link", "/wrist_3_link" };
@@ -119,7 +120,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 group = GetMoveitGroupConfig(),
                 pars = GetPickAndPlaceParameters()
             };
-            string filename = TrajectoryFilePath(gameObject, target, targetPlacement);
+            string filename = GetTrajectoryFilePath(gameObject, target, targetPlacement);
             if (!forceMoveItRequest && TrajectoryHelper.IsAvaliable(filename, out PickAndPlaceServiceResponse response))
             {
                 Debug.Log("response successfully loaded");
@@ -136,11 +137,11 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         {
             _plannedTrajectory = response;
             _hasPlanned.Value = true;
-            string filename = TrajectoryFilePath(gameObject, target, targetPlacement);
-            TrajectoryHelper.Save(filename, response);
+            string filename = GetTrajectoryFilePath(gameObject, target, targetPlacement);
+            TrajectoryHelper.Save(filename, response.ToResponseData());
         }
 
-        private static string TrajectoryFilePath(GameObject robot, GameObject from, GameObject to) 
+        private static string GetTrajectoryFilePath(GameObject robot, GameObject from, GameObject to) 
             => $"ros.traj.{robot.name}${from.name}_to_{to.name}.moveit";
 
         public override void RunPlan()
