@@ -28610,7 +28610,6 @@ MonoBehaviour:
   poseAssignmentWait: 0.5
   maxVelocity: 0.5
   maxAcceleration: 0.5
-  eeOffset: -0.135
   groupName: ur_manipulator
   baseLinkName: base
   forceMoveItRequest: 1
@@ -28630,7 +28629,7 @@ MonoBehaviour:
   - wrist_2_joint
   - wrist_3_joint
   robot: {fileID: 1603320903}
-  target: {fileID: 1095286935}
+  target: {x: 16.892, y: 0.8, z: -14.114}
   targetOrientation: {x: -1, y: 0, z: 0, w: -0.00000004371139}
 --- !u!224 &6740993857694528104 stripped
 RectTransform:

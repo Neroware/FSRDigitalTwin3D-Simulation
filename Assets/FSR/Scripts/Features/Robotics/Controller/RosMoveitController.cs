@@ -11,14 +11,13 @@ using UnityEngine;
 
 namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
 {
-    public class RosMoveitMoveController : RobotControllerComponent
+    public class RosMoveitController : RobotControllerComponent
     {
         [SerializeField] private int numRobotJoints = 6;
         [SerializeField] private float jointAssignmentWait = 0.1f;
         [SerializeField] private float poseAssignmentWait = 0.5f;
         [SerializeField] private float maxVelocity = 0.5f;
         [SerializeField] private float maxAcceleration = 0.5f;
-        [SerializeField] private float eeOffset = 0.066f;
         [SerializeField] private string groupName = "ur_manipulator";
         // [SerializeField] private string eeName = "tool0";
         [SerializeField] private string baseLinkName = "base";
@@ -32,8 +31,9 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         public string[] RosJointNames => rosJointNames;
 
         [SerializeField] private GameObject robot;
-        [SerializeField] private GameObject target;
-        public GameObject Target { get => target; set => target = value; }
+        [SerializeField] private Vector3 target;
+        [SerializeField] private Vector3 targetOffset;
+        public Vector3 Target { get => target; set => target = value; }
 
         [SerializeField] private Quaternion targetOrientation = Quaternion.Euler(new Vector3(-180, 0, 0));
 
@@ -93,7 +93,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 group = GetMoveitGroupConfig(),
                 pars = GetMoveParameters()
             };
-            string filename = GetTrajectoryFilePath(trajectoryName, target);
+            string filename = GetTrajectoryFilePath(trajectoryName, robot);
             if (!forceMoveItRequest && TrajectoryHelper.IsAvaliable(filename, out MoveToServiceResponse response))
             {
                 Debug.Log("response successfully loaded");
@@ -109,11 +109,11 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         {
             _plannedTrajectory = response;
             _hasPlanned.Value = true;
-            string filename = GetTrajectoryFilePath(trajectoryName, target);
+            string filename = GetTrajectoryFilePath(trajectoryName, robot);
             TrajectoryHelper.Save(filename, response.ToResponseData());
         }
-        private string GetTrajectoryFilePath(string trajectoryName, GameObject target)
-            => $"ros.traj.{trajectoryName}${target.name}.moveit";
+        private string GetTrajectoryFilePath(string trajectoryName, GameObject robot)
+            => $"ros.traj.{trajectoryName}${robot.name}.moveit";
         public override void RunPlan()
         {
             _isInterrupted.Value = false;
@@ -181,7 +181,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             {
                 target_pose = new PoseMsg
                 {
-                    position = (target.transform.position - robot.transform.position).To<FLU>(),
+                    position = (target - targetOffset - robot.transform.position).To<FLU>(),
                     orientation = targetOrientation.To<FLU>()
                 },
                 max_velocity = maxVelocity,
