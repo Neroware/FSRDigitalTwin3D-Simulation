@@ -8,36 +8,36 @@ using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 namespace RosMessageTypes.FsrMoveit
 {
     [Serializable]
-    public class MoveServiceRequest : Message
+    public class MoveToServiceRequest : Message
     {
-        public const string k_RosMessageName = "fsr_moveit/MoveService";
+        public const string k_RosMessageName = "fsr_moveit/MoveToService";
         public override string RosMessageName => k_RosMessageName;
 
         public MoveitJointsMsg joints_input;
         public MoveitGroupMsg group;
-        public MoveInputMsg pars;
+        public MoveToInputMsg pars;
 
-        public MoveServiceRequest()
+        public MoveToServiceRequest()
         {
             this.joints_input = new MoveitJointsMsg();
             this.group = new MoveitGroupMsg();
-            this.pars = new MoveInputMsg();
+            this.pars = new MoveToInputMsg();
         }
 
-        public MoveServiceRequest(MoveitJointsMsg joints_input, MoveitGroupMsg group, MoveInputMsg pars)
+        public MoveToServiceRequest(MoveitJointsMsg joints_input, MoveitGroupMsg group, MoveToInputMsg pars)
         {
             this.joints_input = joints_input;
             this.group = group;
             this.pars = pars;
         }
 
-        public static MoveServiceRequest Deserialize(MessageDeserializer deserializer) => new MoveServiceRequest(deserializer);
+        public static MoveToServiceRequest Deserialize(MessageDeserializer deserializer) => new MoveToServiceRequest(deserializer);
 
-        private MoveServiceRequest(MessageDeserializer deserializer)
+        private MoveToServiceRequest(MessageDeserializer deserializer)
         {
             this.joints_input = MoveitJointsMsg.Deserialize(deserializer);
             this.group = MoveitGroupMsg.Deserialize(deserializer);
-            this.pars = MoveInputMsg.Deserialize(deserializer);
+            this.pars = MoveToInputMsg.Deserialize(deserializer);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
@@ -49,7 +49,7 @@ namespace RosMessageTypes.FsrMoveit
 
         public override string ToString()
         {
-            return "MoveServiceRequest: " +
+            return "MoveToServiceRequest: " +
             "\njoints_input: " + joints_input.ToString() +
             "\ngroup: " + group.ToString() +
             "\npars: " + pars.ToString();

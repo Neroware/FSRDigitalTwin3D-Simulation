@@ -23,7 +23,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         // [SerializeField] private string eeName = "tool0";
         [SerializeField] private string baseLinkName = "base";
         [SerializeField] private bool forceMoveItRequest = false;
-        [SerializeField] private string rosServiceName = "fsr_moveit_move_srv";
+        [SerializeField] private string rosServiceName = "fsr_moveit_move_to_srv";
         public string RosServiceName { get => rosServiceName; set => rosServiceName = value; }
 
         [SerializeField] private string[] linkNames = { "world/base_link/shoulder_link", "/upper_arm_link", "/forearm_link", "/wrist_1_link", "/wrist_2_link", "/wrist_3_link" };
@@ -52,7 +52,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         // Internal state
         private ArticulationBody[] _jointArticulationBodies;
         private Coroutine _runningAction;
-        private MoveServiceResponse _plannedTrajectory = null;
+        private MoveToServiceResponse _plannedTrajectory = null;
         private string trajectoryName = "my_trajectory";
 
         public string TrajectoryName { set => trajectoryName = value; }
@@ -63,7 +63,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         protected override void OnInitComponent()
         {
             _ros = ROSConnection.GetOrCreateInstance();
-            _ros.RegisterRosService<MoveServiceRequest, MoveServiceResponse>(rosServiceName);
+            _ros.RegisterRosService<MoveToServiceRequest, MoveToServiceResponse>(rosServiceName);
             _jointArticulationBodies = new ArticulationBody[numRobotJoints];
             var linkName = string.Empty;
             for (var i = 0; i < numRobotJoints; i++)
@@ -87,14 +87,14 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         }
         public override void Plan()
         {
-            MoveServiceRequest request = new()
+            MoveToServiceRequest request = new()
             {
                 joints_input = GetCurrentJointConfig(),
                 group = GetMoveitGroupConfig(),
                 pars = GetMoveParameters()
             };
             string filename = GetTrajectoryFilePath(trajectoryName, target);
-            if (!forceMoveItRequest && TrajectoryHelper.IsAvaliable(filename, out MoveServiceResponse response))
+            if (!forceMoveItRequest && TrajectoryHelper.IsAvaliable(filename, out MoveToServiceResponse response))
             {
                 Debug.Log("response successfully loaded");
                 _plannedTrajectory = response;
@@ -102,10 +102,10 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             }
             else {
                 Debug.Log("Request sent to server");
-                _ros.SendServiceMessage<MoveServiceResponse>(rosServiceName, request, OnTrajectoryResponse);
+                _ros.SendServiceMessage<MoveToServiceResponse>(rosServiceName, request, OnTrajectoryResponse);
             }
         }
-        private void OnTrajectoryResponse(MoveServiceResponse response)
+        private void OnTrajectoryResponse(MoveToServiceResponse response)
         {
             _plannedTrajectory = response;
             _hasPlanned.Value = true;
@@ -145,7 +145,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 })
                 .AddTo(this);
         }
-        private IEnumerator ExecuteTrajectories(MoveServiceResponse response)
+        private IEnumerator ExecuteTrajectories(MoveToServiceResponse response)
         {
             if (response.trajectory != null)
             {
@@ -177,7 +177,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             }
             return joints;
         }
-        private MoveInputMsg GetMoveParameters() => new()
+        private MoveToInputMsg GetMoveParameters() => new()
             {
                 target_pose = new PoseMsg
                 {
@@ -186,7 +186,6 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 },
                 max_velocity = maxVelocity,
                 max_acceleration = maxAcceleration,
-                ee_offset = eeOffset
             };
         private MoveitGroupMsg GetMoveitGroupConfig() => new()
             {

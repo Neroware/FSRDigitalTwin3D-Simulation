@@ -16,7 +16,6 @@ namespace RosMessageTypes.FsrMoveit
         public Geometry.PoseMsg pick_pose;
         public Geometry.PoseMsg place_pose;
         public double pick_pose_z;
-        public double place_pose_z;
         public double max_velocity;
         public double max_acceleration;
 
@@ -25,17 +24,15 @@ namespace RosMessageTypes.FsrMoveit
             this.pick_pose = new Geometry.PoseMsg();
             this.place_pose = new Geometry.PoseMsg();
             this.pick_pose_z = 0.0;
-            this.place_pose_z = 0.0;
             this.max_velocity = 0.0;
             this.max_acceleration = 0.0;
         }
 
-        public PickAndPlaceInputMsg(Geometry.PoseMsg pick_pose, Geometry.PoseMsg place_pose, double pick_pose_z, double place_pose_z, double max_velocity, double max_acceleration)
+        public PickAndPlaceInputMsg(Geometry.PoseMsg pick_pose, Geometry.PoseMsg place_pose, double pick_pose_z, double max_velocity, double max_acceleration)
         {
             this.pick_pose = pick_pose;
             this.place_pose = place_pose;
             this.pick_pose_z = pick_pose_z;
-            this.place_pose_z = place_pose_z;
             this.max_velocity = max_velocity;
             this.max_acceleration = max_acceleration;
         }
@@ -47,7 +44,6 @@ namespace RosMessageTypes.FsrMoveit
             this.pick_pose = Geometry.PoseMsg.Deserialize(deserializer);
             this.place_pose = Geometry.PoseMsg.Deserialize(deserializer);
             deserializer.Read(out this.pick_pose_z);
-            deserializer.Read(out this.place_pose_z);
             deserializer.Read(out this.max_velocity);
             deserializer.Read(out this.max_acceleration);
         }
@@ -57,7 +53,6 @@ namespace RosMessageTypes.FsrMoveit
             serializer.Write(this.pick_pose);
             serializer.Write(this.place_pose);
             serializer.Write(this.pick_pose_z);
-            serializer.Write(this.place_pose_z);
             serializer.Write(this.max_velocity);
             serializer.Write(this.max_acceleration);
         }
@@ -68,7 +63,6 @@ namespace RosMessageTypes.FsrMoveit
             "\npick_pose: " + pick_pose.ToString() +
             "\nplace_pose: " + place_pose.ToString() +
             "\npick_pose_z: " + pick_pose_z.ToString() +
-            "\nplace_pose_z: " + place_pose_z.ToString() +
             "\nmax_velocity: " + max_velocity.ToString() +
             "\nmax_acceleration: " + max_acceleration.ToString();
         }

@@ -8,26 +8,26 @@ using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 namespace RosMessageTypes.FsrMoveit
 {
     [Serializable]
-    public class MoveServiceResponse : Message
+    public class MoveToServiceResponse : Message
     {
-        public const string k_RosMessageName = "fsr_moveit/MoveService";
+        public const string k_RosMessageName = "fsr_moveit/MoveToService";
         public override string RosMessageName => k_RosMessageName;
 
         public Moveit.RobotTrajectoryMsg trajectory;
 
-        public MoveServiceResponse()
+        public MoveToServiceResponse()
         {
             this.trajectory = new Moveit.RobotTrajectoryMsg();
         }
 
-        public MoveServiceResponse(Moveit.RobotTrajectoryMsg trajectory)
+        public MoveToServiceResponse(Moveit.RobotTrajectoryMsg trajectory)
         {
             this.trajectory = trajectory;
         }
 
-        public static MoveServiceResponse Deserialize(MessageDeserializer deserializer) => new MoveServiceResponse(deserializer);
+        public static MoveToServiceResponse Deserialize(MessageDeserializer deserializer) => new MoveToServiceResponse(deserializer);
 
-        private MoveServiceResponse(MessageDeserializer deserializer)
+        private MoveToServiceResponse(MessageDeserializer deserializer)
         {
             this.trajectory = Moveit.RobotTrajectoryMsg.Deserialize(deserializer);
         }
@@ -39,7 +39,7 @@ namespace RosMessageTypes.FsrMoveit
 
         public override string ToString()
         {
-            return "MoveServiceResponse: " +
+            return "MoveToServiceResponse: " +
             "\ntrajectory: " + trajectory.ToString();
         }
 

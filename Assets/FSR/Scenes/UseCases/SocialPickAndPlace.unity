@@ -22363,7 +22363,6 @@ MonoBehaviour:
   jointAssignmentWait: 0.1
   poseAssignmentWait: 0.5
   pickPoseOffsetZ: 0.066
-  placePoseOffsetZ: 0
   maxVelocity: 0.5
   maxAcceleration: 0.5
   groupName: ur_manipulator
@@ -28615,7 +28614,7 @@ MonoBehaviour:
   groupName: ur_manipulator
   baseLinkName: base
   forceMoveItRequest: 1
-  rosServiceName: fsr_moveit_move_srv
+  rosServiceName: fsr_moveit_move_to_srv
   linkNames:
   - world/base_link/shoulder_link
   - /upper_arm_link

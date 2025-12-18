@@ -35,7 +35,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
             }
             return new ResponseData { trajectories = traj_ };
         }
-        public static ResponseData ToResponseData(this MoveServiceResponse resp)
+        public static ResponseData ToResponseData(this MoveToServiceResponse resp)
         {
             var traj_ = new TrajectoryData[1];
             var traj = resp.trajectory;
@@ -73,7 +73,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
                     multi_dof_joint_trajectory = null
                 }).ToArray()
             };
-        public static MoveServiceResponse ToMoveServiceResponse(this ResponseData resp) => new()
+        public static MoveToServiceResponse ToMoveServiceResponse(this ResponseData resp) => new()
             {
                 trajectory = resp.trajectories.Select(traj => new RobotTrajectoryMsg
                 {
@@ -152,7 +152,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
             response = cache.response.ToRosPickAndPlaceServiceResponse();
             return response != null;
         }
-        public static bool IsAvaliable(string name, out MoveServiceResponse response)
+        public static bool IsAvaliable(string name, out MoveToServiceResponse response)
         {
             var cache = GetCachedTrajectory(name);
             response = cache.response.ToMoveServiceResponse();

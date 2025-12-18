@@ -24,7 +24,6 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         [SerializeField] private float jointAssignmentWait = 0.1f;
         [SerializeField] private float poseAssignmentWait = 0.5f;
         [SerializeField] private float pickPoseOffsetZ = 0.066f;
-        [SerializeField] private float placePoseOffsetZ = 0.0f;
         [SerializeField] private float maxVelocity = 0.5f;
         [SerializeField] private float maxAcceleration = 0.5f;
         [SerializeField] private string groupName = "ur_manipulator";
@@ -251,7 +250,6 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                     orientation = pickOrientation.To<FLU>()
                 },
                 pick_pose_z = pickPoseOffsetZ,
-                place_pose_z = placePoseOffsetZ,
                 max_velocity = maxVelocity,
                 max_acceleration = maxAcceleration,
             };

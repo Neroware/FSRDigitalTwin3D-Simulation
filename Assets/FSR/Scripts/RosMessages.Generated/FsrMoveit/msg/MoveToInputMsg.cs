@@ -8,40 +8,36 @@ using Unity.Robotics.ROSTCPConnector.MessageGeneration;
 namespace RosMessageTypes.FsrMoveit
 {
     [Serializable]
-    public class MoveInputMsg : Message
+    public class MoveToInputMsg : Message
     {
-        public const string k_RosMessageName = "fsr_moveit/MoveInput";
+        public const string k_RosMessageName = "fsr_moveit/MoveToInput";
         public override string RosMessageName => k_RosMessageName;
 
         public Geometry.PoseMsg target_pose;
         public double max_velocity;
         public double max_acceleration;
-        public double ee_offset;
 
-        public MoveInputMsg()
+        public MoveToInputMsg()
         {
             this.target_pose = new Geometry.PoseMsg();
             this.max_velocity = 0.0;
             this.max_acceleration = 0.0;
-            this.ee_offset = 0.0;
         }
 
-        public MoveInputMsg(Geometry.PoseMsg target_pose, double max_velocity, double max_acceleration, double ee_offset)
+        public MoveToInputMsg(Geometry.PoseMsg target_pose, double max_velocity, double max_acceleration)
         {
             this.target_pose = target_pose;
             this.max_velocity = max_velocity;
             this.max_acceleration = max_acceleration;
-            this.ee_offset = ee_offset;
         }
 
-        public static MoveInputMsg Deserialize(MessageDeserializer deserializer) => new MoveInputMsg(deserializer);
+        public static MoveToInputMsg Deserialize(MessageDeserializer deserializer) => new MoveToInputMsg(deserializer);
 
-        private MoveInputMsg(MessageDeserializer deserializer)
+        private MoveToInputMsg(MessageDeserializer deserializer)
         {
             this.target_pose = Geometry.PoseMsg.Deserialize(deserializer);
             deserializer.Read(out this.max_velocity);
             deserializer.Read(out this.max_acceleration);
-            deserializer.Read(out this.ee_offset);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
@@ -49,16 +45,14 @@ namespace RosMessageTypes.FsrMoveit
             serializer.Write(this.target_pose);
             serializer.Write(this.max_velocity);
             serializer.Write(this.max_acceleration);
-            serializer.Write(this.ee_offset);
         }
 
         public override string ToString()
         {
-            return "MoveInputMsg: " +
+            return "MoveToInputMsg: " +
             "\ntarget_pose: " + target_pose.ToString() +
             "\nmax_velocity: " + max_velocity.ToString() +
-            "\nmax_acceleration: " + max_acceleration.ToString() +
-            "\nee_offset: " + ee_offset.ToString();
+            "\nmax_acceleration: " + max_acceleration.ToString();
         }
 
 #if UNITY_EDITOR
