@@ -7,8 +7,10 @@ using UnityEngine;
 namespace FSR.DigitalTwin.Client.Features.DES.Utils
 {
     /// <summary>
-    /// A class matching URIs to supported HRCFunctions. Note: A function is not a skill, because a skill is a specific implementation
-    /// of a function. This is the reason, why this class is located in the DES feature and not under SkillBasedProgramming.
+    /// A class matching URIs to supported HRCFunctions. Note: A function is not a skill. A skill is the implementation of
+    /// an agent's capability, while a function represents the task, that needs to be carried out to act out the skill.
+    /// 
+    /// This is the reason, why this class is located in the DES feature and not under SkillBasedProgramming.
     /// </summary>
     [CreateAssetMenu(fileName = "UnnamedHRCFunctionFactory", menuName = "ScriptableObjects/DES/HRCFunctionFactory", order = 1)]
     public class HRCFunctionFactory : ScriptableObject, IHRCFunctionFactory

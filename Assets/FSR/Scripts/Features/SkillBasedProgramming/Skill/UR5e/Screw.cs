@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
@@ -6,15 +7,15 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.UR5e
 {
     public class Screw : OperatorSkillBase
     {
-        public override List<IDevicePrimitive> Primitives => throw new System.NotImplementedException();
-
+        private readonly Primitive.Delay _delay = new(TimeSpan.FromSeconds(5));
+        public override List<IDevicePrimitive> Primitives => new() { _delay };
         public override void Execute(int primitive, object[] input, in SkillResult result)
         {
-            Task.Delay(5000).RunSynchronously();
+            _delay.Execute();
         }
         public override async Task ExecuteAsync(int primitive, object[] input, SkillResult result)
         {
-            await Task.Delay(5000);
+            await _delay.ExecuteAsync();
         }
         public override object[] MapPrimitiveInput(int primitive, object[] inputs, object[] inOuts)
         {

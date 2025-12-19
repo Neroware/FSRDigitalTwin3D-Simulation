@@ -27977,18 +27977,18 @@ PrefabInstance:
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 5955250382980222843}
+      objectReference: {fileID: 1741056423}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Move
+      value: PickAndPlace
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FSR.DigitalTwin.Client.Features.Robotics.Controller.RosMoveitMoveController,
+      value: FSR.DigitalTwin.Client.Features.Robotics.Controller.RosMoveitPickAndPlaceController,
         Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
@@ -28630,7 +28630,8 @@ MonoBehaviour:
   - wrist_3_joint
   robot: {fileID: 1603320903}
   target: {x: 16.892, y: 0.8, z: -14.114}
-  targetOrientation: {x: -1, y: 0, z: 0, w: -0.00000004371139}
+  targetOffset: {x: 0, y: 0, z: 0}
+  targetOrientation: {x: -1, y: 0, z: 0}
 --- !u!224 &6740993857694528104 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7453539377829711679, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
