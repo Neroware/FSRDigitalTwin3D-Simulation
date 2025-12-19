@@ -33,9 +33,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         [SerializeField] private GameObject robot;
         [SerializeField] private Vector3 target;
         [SerializeField] private Vector3 targetOffset;
-        public Vector3 Target { get => target; set => target = value; }
-
-        [SerializeField] private Quaternion targetOrientation = Quaternion.Euler(new Vector3(-180, 0, 0));
+        [SerializeField] private Vector3 targetOrientation = new(-180, 0, 0);
 
         // Controller interface
         public override GameObject Robot { get => robot; }
@@ -55,7 +53,10 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         private MoveToServiceResponse _plannedTrajectory = null;
         private string trajectoryName = "my_trajectory";
 
+        // Parameters
         public string TrajectoryName { set => trajectoryName = value; }
+        public Vector3 Target { get => target; set => target = value; }
+        public Vector3 TargetOrientation { get => target; set => target = value; }
 
         // ROS Connector
         private ROSConnection _ros;
@@ -182,7 +183,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 target_pose = new PoseMsg
                 {
                     position = (target - targetOffset - robot.transform.position).To<FLU>(),
-                    orientation = targetOrientation.To<FLU>()
+                    orientation = Quaternion.Euler(targetOrientation).To<FLU>()
                 },
                 max_velocity = maxVelocity,
                 max_acceleration = maxAcceleration,

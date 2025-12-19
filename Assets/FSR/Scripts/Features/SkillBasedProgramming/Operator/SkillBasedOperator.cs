@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill;
 using UnityEngine;
 
 namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Operator

@@ -67,7 +67,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
                 .SetResultAsync(result with
                 {
                     InOuts = invocation.InOuts,
-                    Outputs = res.Value,
+                    Outputs = res.Outputs,
                     TimeStamp = (long) (DateTimeOffset.FromUnixTimeSeconds(
                         invocation.TimeStamp).DateTime + res.TimeExpired).TimeOfDay.TotalSeconds
                 });
@@ -100,7 +100,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
                 Process = function,
                 Succeeded = res.Succeeded,
                 TimeStamp = function.Timestamp + res.TimeExpired,
-                Outputs = res.Value
+                Outputs = res.Outputs
             };
         }
         public async Task<HRCProcessResult<HRCFunction>> RunFunctionAsync(HRCFunction function)
@@ -111,7 +111,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
                 Process = function,
                 Succeeded = res.Succeeded,
                 TimeStamp = function.Timestamp + res.TimeExpired,
-                Outputs = res.Value
+                Outputs = res.Outputs
             };
         }
 
