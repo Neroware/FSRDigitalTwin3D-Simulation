@@ -6,28 +6,17 @@ using UnityEngine;
 
 namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.UR5e
 {
-    public class PickAndPlace : OperatorSkillBase
+    public class PickAndPlace : PickAndPlaceBase
     {
         [SerializeField] private RosMoveitPickAndPlaceController _controller;
-
         public override List<IDevicePrimitive> Primitives => throw new System.NotImplementedException();
-
-        public override void Execute(int primitive, object[] input, in SkillResult result)
+        public override SkillResult Run(Vector3 pickPosition, Vector3 pickOrientation, Vector3 placePosition, Vector3 placeOrientation)
         {
             throw new System.NotImplementedException();
         }
-        public override Task ExecuteAsync(int primitive, object[] input, SkillResult result)
+        public override Task<SkillResult> RunAsync(Vector3 pickPosition, Vector3 pickOrientation, Vector3 placePosition, Vector3 placeOrientation)
         {
             throw new System.NotImplementedException();
         }
-        public override object[] MapPrimitiveInput(int primitive, object[] inputs, object[] inOuts)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        // public override Task<SkillResult> RunAsync(object[] inputs, object[] inOuts)
-        // {
-        //     return Task.FromResult(new SkillResult() { Succeeded = false });
-        // }
     }
 }

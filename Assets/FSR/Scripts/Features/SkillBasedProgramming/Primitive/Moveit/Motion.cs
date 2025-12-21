@@ -41,7 +41,6 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Moveit
                 {
                     return MotionResult.Failure();
                 }
-                
             }
             _controller.RunPlan();
             _controller.IsRunning.First(x => x).ToTask().RunSynchronously();

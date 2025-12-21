@@ -8,22 +8,25 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
         public bool Failed => !Succeeded;
         public TimeSpan TimeExpired { init; get; }
         public object[] Outputs { init; get; }
-        public static SkillResult Failure(TimeSpan timeExpired)
+        public string Message { get; init; }
+        public static SkillResult Failure(TimeSpan timeExpired, string message = "A skill failed")
         {
             return new()
             {
                 Succeeded = false,
                 TimeExpired = timeExpired,
-                Outputs = new object[0]
+                Outputs = new object[0],
+                Message = message
             };
         }
-        public static SkillResult Success(object[] outputs, TimeSpan timeExpired)
+        public static SkillResult Success(object[] outputs, TimeSpan timeExpired, string message = "")
         {
             return new()
             {
                 Succeeded = true,
                 TimeExpired = timeExpired,
-                Outputs = outputs
+                Outputs = outputs,
+                Message = message
             };
         }
     }
@@ -34,7 +37,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
         public bool Failed => !Succeeded;
         public string Message { get; init; }
         public object[] Outputs { get; init; }
-        public static PrimitiveResult Failure(string message = "A device primitive failed!")
+        public static PrimitiveResult Failure(string message = "A device primitive failed")
         {
             return new()
             {

@@ -1,79 +1,49 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
-using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive;
+using UnityEngine;
 
 namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill
 {
-    public abstract class PickAndPlace : OperatorSkillBase
+    public abstract class PickAndPlaceBase : OperatorSkillBase
     {
-        private readonly MotionBase preGraspPose;
-        private readonly MotionBase graspPose;
-        private readonly MotionBase pickupPose;
-        private readonly MotionBase prePlacePose;
-        private readonly MotionBase placePose;
-        // private readonly GripperActionBase openGripper;
-        // private readonly GripperActionBase closeGripper;
-
-        public override List<IDevicePrimitive> Primitives => new ()
-        {
-            // openGripper,
-            preGraspPose,
-            graspPose,
-            // closeGripper,
-            pickupPose,
-            prePlacePose,
-            placePose,
-            // openGripper  
-        };
-
-        private enum EPrimitives
+        protected enum EPrimitives
         {
             /* OPEN_GRIPPER, */ PRE_GRASP, GRASP, /* CLOSE_GRIPPER, */ PICKUP, PRE_PLACE, PLACE, /* RELEASE */
         }
-
-        public override object[] MapPrimitiveInput(int primitive, object[] inputs, object[] inOuts)
+        private bool GetMappedInput(in object[] input, out Vector3 pickPosition, out Vector3 pickOrientation,
+            out Vector3 placePosition, out Vector3 placeOrientation)
         {
-            return (EPrimitives) primitive switch
-            {
-                EPrimitives.PRE_GRASP or EPrimitives.GRASP or EPrimitives.PICKUP 
-                    or EPrimitives.PRE_PLACE or EPrimitives.PLACE => inputs,
-                // case ...
-                //    return new object[0];
-                _ => throw new IndexOutOfRangeException("should not happen"),
-            };
+            pickPosition = pickOrientation = placePosition = placeOrientation = Vector3.zero;
+            if (input.Length < 4 || !input.All(x => x is Vector3))
+                return false;
+            pickPosition = (Vector3) input[0];
+            pickOrientation = (Vector3) input[1];
+            placePosition = (Vector3) input[2];
+            placeOrientation = (Vector3) input[3];
+            return true;
         }
-        public override void Execute(int primitive, object[] input, in SkillResult result)
+        public override SkillResult Run(object[] inputs, object[] inOuts)
         {
-            switch ((EPrimitives) primitive)
+            if (!GetMappedInput(inputs, out Vector3 pickPosition, out Vector3 pickOrientation, 
+                out Vector3 placePosition, out Vector3 placeOrientation))
             {
-                case EPrimitives.PRE_GRASP: prePlacePose.Execute(input); break;
-                case EPrimitives.GRASP: prePlacePose.Execute(input); break;
-                case EPrimitives.PICKUP: prePlacePose.Execute(input); break;
-                case EPrimitives.PRE_PLACE: prePlacePose.Execute(input); break;
-                case EPrimitives.PLACE: prePlacePose.Execute(input); break;
-                default:
-                    throw new IndexOutOfRangeException("should not happen");
+                return SkillResult.Failure(TimeSpan.Zero, "Bad input");
             }
+            return Run(pickPosition, pickOrientation, placePosition, placeOrientation);
         }
-        public override async Task ExecuteAsync(int primitive, object[] input, SkillResult result)
+        public override async Task<SkillResult> RunAsync(object[] inputs, object[] inOuts)
         {
-            switch ((EPrimitives) primitive)
+            if (!GetMappedInput(inputs, out Vector3 pickPosition, out Vector3 pickOrientation, 
+                out Vector3 placePosition, out Vector3 placeOrientation))
             {
-                case EPrimitives.PRE_GRASP: await prePlacePose.ExecuteAsync(input); break;
-                case EPrimitives.GRASP: await prePlacePose.ExecuteAsync(input); break;
-                case EPrimitives.PICKUP: await prePlacePose.ExecuteAsync(input); break;
-                case EPrimitives.PRE_PLACE: await prePlacePose.ExecuteAsync(input); break;
-                case EPrimitives.PLACE: await prePlacePose.ExecuteAsync(input); break;
-                default:
-                    throw new IndexOutOfRangeException("should not happen");
+                return SkillResult.Failure(TimeSpan.Zero, "Bad input");
             }
+            return await RunAsync(pickPosition, pickOrientation, placePosition, placeOrientation);
         }
-
-        // TODO Implement abstract base class
-
-        // protected abstract Task<bool> ExecuteAsync(Transform pick, Vector3 pickDirection, Transform place, Vector3 placeDirection);
-        // protected abstract bool Execute(Transform pick, Vector3 pickDirection, Transform place, Vector3 placeDirection);
+        public abstract SkillResult Run(Vector3 pickPosition, Vector3 pickOrientation, 
+            Vector3 placePosition, Vector3 placeOrientation);
+        public abstract Task<SkillResult> RunAsync(Vector3 pickPosition, Vector3 pickOrientation, 
+            Vector3 placePosition, Vector3 placeOrientation);
     }
 }

@@ -14,27 +14,37 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill
         public Uri Id => new(_id);
 
         public abstract List<IDevicePrimitive> Primitives { get; }
-        public abstract object[] MapPrimitiveInput(int primitive, object[] inputs, object[] inOuts);
-        public abstract void Execute(int primitive, object[] input, in SkillResult result);
-        public abstract Task ExecuteAsync(int primitive, object[] input, SkillResult result);
-
-        public SkillResult Run(object[] inputs, object[] inOuts)
+        public virtual SkillResult Run(object[] inputs, object[] inOuts)
         {
             SkillResult result = new();
             for (int i = 0; i < Primitives.Count; i++)
             {
-                Execute(i, MapPrimitiveInput(i, inputs, inOuts), result);
+                var res = Primitives[i].Execute(inputs);
+                if (res.Failed)
+                {
+                    // TODO Use clock to determine time delta
+                    return SkillResult.Failure(TimeSpan.Zero,
+                        $"Device primtive '{Primitives[i].Name}' with Id {Primitives[i].Id} failed");
+                }
             }
-            return result;
+            // TODO Use clock to determine time delta
+            return result with { Succeeded = true, TimeExpired = TimeSpan.Zero };
         }
-        public async Task<SkillResult> RunAsync(object[] inputs, object[] inOuts)
+        public virtual async Task<SkillResult> RunAsync(object[] inputs, object[] inOuts)
         {
             SkillResult result = new();
             for (int i = 0; i < Primitives.Count; i++)
             {
-                await ExecuteAsync(i, MapPrimitiveInput(i, inputs, inOuts), result);
+                var res = await Primitives[i].ExecuteAsync(inputs);
+                if (res.Failed)
+                {
+                    // TODO Use clock to determine time delta
+                    return SkillResult.Failure(TimeSpan.Zero,
+                        $"Device primtive '{Primitives[i].Name}' with Id {Primitives[i].Id} failed");
+                }
             }
-            return result;
+            // TODO Use clock to determine time delta
+            return result with { Succeeded = true, TimeExpired = TimeSpan.Zero };
         }
     }
 }
