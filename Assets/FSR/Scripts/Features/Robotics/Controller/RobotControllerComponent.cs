@@ -18,9 +18,27 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         public abstract bool Interrupt();
 
         public abstract void Plan();
-        // public abstract void PlanAndRunIfValid();
         public abstract void RunPlan();
         public abstract bool ValidatePlan();
-    }
 
+        /// <summary>
+        /// Plans and runs the plan if valid.
+        /// </summary>
+        public virtual void PlanAndRun()
+        {
+            if (!HasPlanned.Value) 
+                Plan();
+            HasPlanned
+                .Where(x => x)
+                .First()
+                .Subscribe(_ =>
+                {
+                    if (ValidatePlan())
+                    {
+                        RunPlan();
+                    }
+                })
+                .AddTo(this);
+        }
+    }
 }

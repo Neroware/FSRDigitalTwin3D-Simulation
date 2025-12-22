@@ -20,19 +20,8 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Interfaces
         void Plan();
         bool ValidatePlan();
         void RunPlan();
-        // void PlanAndRunIfValid();
+        void PlanAndRun();
         bool Interrupt();
         void ForceInterrupt();
     }
-
-    public interface IRobotAsyncController : IRobotController
-    {
-        Task PlanAsync();
-        Task<bool> ValidatePlanAsync();
-        Task RunPlanAsync();
-        Task PlanAndRunIfValidAsync();
-        Task<bool> InterruptAsync();
-        Task ForceInterruptAsync();
-    }
-
 }

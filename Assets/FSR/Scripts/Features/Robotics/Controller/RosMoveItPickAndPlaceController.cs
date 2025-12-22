@@ -151,6 +151,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 Debug.LogError("Failed to run planned trajectory!");
                 return;
             }
+            _isRunning.Value = true;
             _runningAction = StartCoroutine(ExecuteTrajectories(_plannedTrajectory));
         }
 
@@ -158,23 +159,6 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         {
             _isValid.Value = _plannedTrajectory.trajectories.Length > 0;
             return _isValid.Value;
-        }
-
-        public void PickAndPlace()
-        {
-            if (!HasPlanned.Value) 
-                Plan();
-            HasPlanned
-                .Where(x => x)
-                .First()
-                .Subscribe(_ =>
-                {
-                    if (ValidatePlan())
-                    {
-                        RunPlan();
-                    }
-                })
-                .AddTo(this);
         }
         
         /// <summary>
@@ -214,8 +198,9 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                     yield return new WaitForSeconds(poseAssignmentWait);
                 }
                 gripper.OpenGripper();
-                _runningAction = null;
             }
+            _runningAction = null;
+            _isRunning.Value = false;
         }
 
         enum Poses

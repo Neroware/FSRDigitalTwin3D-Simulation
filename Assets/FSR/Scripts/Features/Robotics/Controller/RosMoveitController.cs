@@ -56,7 +56,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         // Parameters
         public string TrajectoryName { set => trajectoryName = value; }
         public Vector3 Target { get => target; set => target = value; }
-        public Vector3 TargetOrientation { get => target; set => target = value; }
+        public Vector3 TargetOrientation { get => targetOrientation; set => targetOrientation = value; }
 
         // ROS Connector
         private ROSConnection _ros;
@@ -88,6 +88,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         }
         public override void Plan()
         {
+            _hasPlanned.Value = false;
             MoveToServiceRequest request = new()
             {
                 joints_input = GetCurrentJointConfig(),
@@ -114,7 +115,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             TrajectoryHelper.Save(filename, response.ToResponseData());
         }
         private string GetTrajectoryFilePath(string trajectoryName, GameObject robot)
-            => $"ros.traj.{trajectoryName}${robot.name}.moveit";
+            => $"ros.traj.{robot.name}${trajectoryName}.moveit";
         public override void RunPlan()
         {
             _isInterrupted.Value = false;
@@ -123,28 +124,13 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 Debug.LogError("Failed to run planned trajectory!");
                 return;
             }
+            _isRunning.Value = true;
             _runningAction = StartCoroutine(ExecuteTrajectories(_plannedTrajectory));
         }
         public override bool ValidatePlan()
         {
-            _isValid.Value = _plannedTrajectory.trajectory != null;
+            _isValid.Value = _plannedTrajectory != null && _plannedTrajectory.trajectory != null;
             return _isValid.Value;
-        }
-        public void Move()
-        {
-            if (!HasPlanned.Value) 
-                Plan();
-            HasPlanned
-                .Where(x => x)
-                .First()
-                .Subscribe(_ =>
-                {
-                    if (ValidatePlan())
-                    {
-                        RunPlan();
-                    }
-                })
-                .AddTo(this);
         }
         private IEnumerator ExecuteTrajectories(MoveToServiceResponse response)
         {
@@ -163,8 +149,9 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                     yield return new WaitForSeconds(jointAssignmentWait);
                 }
                 yield return new WaitForSeconds(poseAssignmentWait);
-                _runningAction = null;
             }
+            _runningAction = null;
+            _isRunning.Value = false;
         }
 
         // ROS Messages

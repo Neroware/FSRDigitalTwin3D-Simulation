@@ -9,7 +9,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill
     {
         protected enum EPrimitives
         {
-            /* OPEN_GRIPPER, */ PRE_GRASP, GRASP, /* CLOSE_GRIPPER, */ PICKUP, PRE_PLACE, PLACE, /* RELEASE */
+            OPEN_GRIPPER, PRE_GRASP, GRASP, CLOSE_GRIPPER, PICKUP, PRE_PLACE, PLACE, RELEASE
         }
         private bool GetMappedInput(in object[] input, out Vector3 pickPosition, out Vector3 pickOrientation,
             out Vector3 placePosition, out Vector3 placeOrientation)
