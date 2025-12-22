@@ -9,6 +9,7 @@ using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.ROSGeometry;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
 {
@@ -18,7 +19,6 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
     /// </summary>
     public class RosMoveitPickAndPlaceController : RobotControllerComponent
     {
-
         // MoveIt variables
         [SerializeField] private int numRobotJoints = 6;
         [SerializeField] private float jointAssignmentWait = 0.1f;
@@ -50,20 +50,11 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
 
         // Controller interface
         public override GameObject Robot { get => robot; }
-        public override ReadOnlyReactiveProperty<bool> HasPlanned => _hasPlanned.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsValid => _isValid.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsInterrupted => _isInterrupted.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsRunning => _isRunning.ToReadOnlyReactiveProperty();
-
-        private ReactiveProperty<bool> _hasPlanned = new(false);
-        private ReactiveProperty<bool> _isValid = new(false);
-        private ReactiveProperty<bool> _isInterrupted = new(false);
-        private ReactiveProperty<bool> _isRunning = new(false);
 
         // Internal state
         private PickAndPlaceServiceResponse _plannedTrajectory = null;
         private ArticulationBody[] _jointArticulationBodies;
-        private Coroutine _runningAction;
+        private IDisposable _runningAction;
 
         // Base EE interface
         [SerializeField] private GripperBase gripper;
@@ -89,29 +80,30 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 _jointArticulationBodies[i] = robot.transform.Find(linkName).GetComponent<ArticulationBody>();
             }
         }
-
         public override void ForceInterrupt()
         {
             Interrupt();
         }
-
         public override bool Interrupt()
         {
-            if (_runningAction != null)
-            {
-                StopCoroutine(_runningAction);
-                _isInterrupted.Value = true;
-            }
-            return _isInterrupted.Value;
+            _runningAction?.Dispose();
+            _runningAction = null;
+            return true;
         }
-
         /// <summary>
         ///     Create a new PickAndPlaceServiceRequest with the current values of the robot's joint angles,
         ///     the target cube's current position and rotation, and the targetPlacement position and rotation.
         ///     Call the PickAndPlaceService using the ROSConnection and if a trajectory is successfully planned,
         ///     store the response in the controller's state variable.
         /// </summary>
-        public override void Plan()
+        public override bool Plan() => PlanAsync().Result;
+        /// <summary>
+        ///     Create a new PickAndPlaceServiceRequest with the current values of the robot's joint angles,
+        ///     the target cube's current position and rotation, and the targetPlacement position and rotation.
+        ///     Call the PickAndPlaceService using the ROSConnection and if a trajectory is successfully planned,
+        ///     store the response in the controller's state variable.
+        /// </summary>
+        public override async Task<bool> PlanAsync()
         {
             PickAndPlaceServiceRequest request = new()
             {
@@ -124,43 +116,42 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             {
                 Debug.Log("response successfully loaded");
                 _plannedTrajectory = response;
-                _hasPlanned.Value = true;
+                return true;
             }
-            else {
-                Debug.Log("Request sent to server");
-                _ros.SendServiceMessage<PickAndPlaceServiceResponse>(rosServiceName, request, OnTrajectoryResponse);
-            }
+            Debug.Log("Request sent to server");
+            _plannedTrajectory = await SendServiceMessageAsync(request);
+            TrajectoryHelper.Save(filename, _plannedTrajectory.ToResponseData());
+            return true;
         }
-
-        private void OnTrajectoryResponse(PickAndPlaceServiceResponse response)
-        {
-            _plannedTrajectory = response;
-            _hasPlanned.Value = true;
-            string filename = GetTrajectoryFilePath(gameObject, target, targetPlacement);
-            TrajectoryHelper.Save(filename, response.ToResponseData());
-        }
-
-        private static string GetTrajectoryFilePath(GameObject robot, GameObject from, GameObject to) 
-            => $"ros.traj.{robot.name}${from.name}_to_{to.name}.moveit";
-
-        public override void RunPlan()
-        {
-            _isInterrupted.Value = false;
-            if (!HasPlanned.Value || !IsValid.Value || IsRunning.Value)
-            {
-                Debug.LogError("Failed to run planned trajectory!");
-                return;
-            }
-            _isRunning.Value = true;
-            _runningAction = StartCoroutine(ExecuteTrajectories(_plannedTrajectory));
-        }
-
         public override bool ValidatePlan()
         {
-            _isValid.Value = _plannedTrajectory.trajectories.Length > 0;
-            return _isValid.Value;
+            return _plannedTrajectory != null && _plannedTrajectory.trajectories.Length > 0;
         }
-        
+        public override void RunPlan() => RunPlanAsync().RunSynchronously();
+        public override async Task RunPlanAsync()
+        {
+            if (_runningAction != null)
+            {
+                throw new Exception("should not happen");
+            }
+            var task = Observable.FromCoroutine(ExecuteTrajectories).ToTask();
+            _runningAction = task;
+            await task;
+            _runningAction = null;
+        }
+        private Task<PickAndPlaceServiceResponse> SendServiceMessageAsync(PickAndPlaceServiceRequest request)
+        {
+            var tcs = new TaskCompletionSource<PickAndPlaceServiceResponse>();
+            _ros.SendServiceMessage<PickAndPlaceServiceResponse>(
+                rosServiceName,
+                request,
+                response =>
+                {
+                    tcs.SetResult(response);
+                }
+            );
+            return tcs.Task;
+        }
         /// <summary>
         ///     Execute the returned trajectories from the PickAndPlaceService.
         ///     The expectation is that the PickAndPlaceService will return four trajectory plans,
@@ -172,8 +163,9 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         /// </summary>
         /// <param name="response"> PickAndPlaceServiceResponse received from niryo_moveit mover service running in ROS</param>
         /// <returns></returns>
-        IEnumerator ExecuteTrajectories(PickAndPlaceServiceResponse response)
+        IEnumerator ExecuteTrajectories()
         {
+            PickAndPlaceServiceResponse response = _plannedTrajectory;
             if (response.trajectories != null)
             {
                 gripper.OpenGripper();
@@ -199,8 +191,6 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 }
                 gripper.OpenGripper();
             }
-            _runningAction = null;
-            _isRunning.Value = false;
         }
 
         enum Poses
@@ -210,6 +200,9 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             PickUp,
             Place
         }
+
+        private static string GetTrajectoryFilePath(GameObject robot, GameObject from, GameObject to) 
+            => $"ros.traj.{robot.name}${from.name}_to_{to.name}.moveit";
 
         // ROS Messages
 

@@ -52,7 +52,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.Moveit
             await _pickup.ExecuteAsync(pickPosition + prePickOffset, pickOrientation);
             await _prePlace.ExecuteAsync(placePosition + prePlaceOffset, placeOrientation);
             await _place.ExecuteAsync(placePosition, placeOrientation);
-            // await _release.ExecuteAsync();
+            await _release.ExecuteAsync();
             return SkillResult.Success(new object[0], System.TimeSpan.Zero);
         }
     }

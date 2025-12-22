@@ -149,14 +149,24 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
         public static bool IsAvaliable(string name, out PickAndPlaceServiceResponse response)
         {
             var cache = GetCachedTrajectory(name);
+            if (cache == null)
+            {
+                response = null;
+                return false;
+            }
             response = cache.response.ToRosPickAndPlaceServiceResponse();
-            return response != null;
+            return true;
         }
         public static bool IsAvaliable(string name, out MoveToServiceResponse response)
         {
             var cache = GetCachedTrajectory(name);
+            if (cache == null)
+            {
+                response = null;
+                return false;
+            }
             response = cache.response.ToMoveServiceResponse();
-            return response != null;
+            return true;
         }
 
         private static CacheFile GetCachedTrajectory(string name)

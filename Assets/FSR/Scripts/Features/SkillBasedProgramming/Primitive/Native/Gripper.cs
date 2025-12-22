@@ -1,8 +1,5 @@
-using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using FSR.DigitalTwin.Client.Features.Robotics.Controller;
-using UniRx;
 
 namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Native
 {
@@ -24,12 +21,10 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Native
             if (_mode == EMode.OPEN)
             {
                 _controller.OpenGripper();
-                _controller.GripperOpened.First().ToTask().RunSynchronously();
             }
             else
             {
                 _controller.CloseGripper();
-                _controller.GripperClosed.First().ToTask().RunSynchronously();
             }
             return PrimitiveResult.Success(new object[0]);
         }
@@ -37,13 +32,11 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Native
         {
             if (_mode == EMode.OPEN)
             {
-                _controller.OpenGripper();
-                await _controller.GripperOpened.First().ToTask();
+                await _controller.OpenGripperAsync();
             }
             else
             {
-                _controller.CloseGripper();
-                await _controller.GripperClosed.First().ToTask();
+                await _controller.CloseGripperAsync();
             }
             return PrimitiveResult.Success(new object[0]);
         }

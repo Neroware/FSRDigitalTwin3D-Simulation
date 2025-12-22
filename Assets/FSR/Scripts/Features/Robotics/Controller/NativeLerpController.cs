@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
@@ -15,10 +16,6 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
 
         // Controller Interface
         public override GameObject Robot => throw new System.NotImplementedException();
-        public override ReadOnlyReactiveProperty<bool> HasPlanned => throw new System.NotImplementedException();
-        public override ReadOnlyReactiveProperty<bool> IsValid => throw new System.NotImplementedException();
-        public override ReadOnlyReactiveProperty<bool> IsInterrupted => throw new System.NotImplementedException();
-        public override ReadOnlyReactiveProperty<bool> IsRunning => throw new System.NotImplementedException();
 
         public override void ForceInterrupt()
         {
@@ -30,12 +27,22 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             throw new System.NotImplementedException();
         }
 
-        public override void Plan()
+        public override bool Plan()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override Task<bool> PlanAsync()
         {
             throw new System.NotImplementedException();
         }
 
         public override void RunPlan()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override Task RunPlanAsync()
         {
             throw new System.NotImplementedException();
         }

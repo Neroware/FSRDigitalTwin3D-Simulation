@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using FSR.DigitalTwin.Client.Features.Robotics.Interfaces;
 using FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot;
 using UniRx;
@@ -20,83 +21,54 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         {
             OPEN, CLOSE
         }
-
+        
+        // Controller interface
         public override GameObject Robot => _robot;
-        public override ReadOnlyReactiveProperty<bool> HasPlanned => _hasPlanned.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsValid => _isValid.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsInterrupted => _isInterrupted.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsRunning => _isRunning.ToReadOnlyReactiveProperty();
-
-        private ReactiveProperty<bool> _hasPlanned = new(false);
-        private ReactiveProperty<bool> _isValid = new(false);
-        private ReactiveProperty<bool> _isInterrupted = new(false);
-        private ReactiveProperty<bool> _isRunning = new(false);
-
         public IGripperTool Gripper => _gripper;
-        public IObservable<IGripperTool> GripperOpened => _gripperSubject
-            .Where(x => x == EMode.OPEN).Select(_ => _gripper);
-        public IObservable<IGripperTool> GripperClosed => _gripperSubject
-            .Where(x => x == EMode.CLOSE).Select(_ => _gripper);
 
-        private Subject<EMode> _gripperSubject = new();
-
-        public void CloseGripper()
+        public override bool Plan()
         {
-            _isValid.Value = true;
-            _isRunning.Value = true;
-            _isInterrupted.Value = false;
-            _gripper.CloseGripper();
-            Observable.Timer(TimeSpan.FromSeconds(_gripperDelaySec))
-                .First()
-                .Subscribe(x => {
-                    _gripperSubject.OnNext(EMode.CLOSE);
-                    _isRunning.Value = false;
-                })
-                .AddTo(this);
+            return _gripper != null;
         }
-        public override void ForceInterrupt() { }
-        public override bool Interrupt() => true;
-        public void OpenGripper()
+        public override Task<bool> PlanAsync()
         {
-            _isValid.Value = true;
-            _isRunning.Value = true;
-            _isInterrupted.Value = false;
-            _gripper.OpenGripper();
-            Observable.Timer(TimeSpan.FromSeconds(_gripperDelaySec))
-                .First()
-                .Subscribe(x => {
-                    _gripperSubject.OnNext(EMode.OPEN);
-                    _isRunning.Value = false;
-                })
-                .AddTo(this);
-        }
-        public override void Plan()
-        {
-            if (_gripper != null)
-            {
-                _hasPlanned.Value = true;
-            }
-        }
-        public override void RunPlan()
-        {
-            if (!IsValid.Value) return;
-            _isInterrupted.Value = false;
-            _isRunning.Value = true;
-            if (_mode == EMode.OPEN) OpenGripper();
-            else CloseGripper();
-            Observable.Timer(TimeSpan.FromSeconds(_gripperDelaySec))
-                .First()
-                .Subscribe(x => {
-                    _gripperSubject.OnNext(_mode);
-                    _isRunning.Value = false;
-                })
-                .AddTo(this);
+            return Task.FromResult(Plan());
         }
         public override bool ValidatePlan()
         {
-            bool valid = _hasPlanned.Value && _gripper != null;
-            _isValid.Value = valid;
-            return valid;
+            return _gripper != null;
+        }
+        public override void RunPlan()
+        {
+            if (_mode == EMode.OPEN) OpenGripper();
+            else CloseGripper();
+        }
+        public override async Task RunPlanAsync()
+        {
+            if (_mode == EMode.OPEN) await OpenGripperAsync();
+            else await CloseGripperAsync();
+        }
+        public override bool Interrupt() => true;
+        public override void ForceInterrupt() { Interrupt(); }
+        public void OpenGripper()
+        {
+            _gripper.OpenGripper();
+            Task.Delay(TimeSpan.FromSeconds(_gripperDelaySec)).RunSynchronously();
+        }
+        public async Task OpenGripperAsync()
+        {
+            _gripper.OpenGripper();
+            await Task.Delay(TimeSpan.FromSeconds(_gripperDelaySec));
+        }
+        public void CloseGripper()
+        {
+            _gripper.CloseGripper();
+            Task.Delay(TimeSpan.FromSeconds(_gripperDelaySec)).RunSynchronously();
+        }
+        public async Task CloseGripperAsync()
+        {
+            _gripper.CloseGripper();
+            await Task.Delay(TimeSpan.FromSeconds(_gripperDelaySec));
         }
         public void SetMode(EMode mode) => _mode = mode;
     }

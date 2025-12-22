@@ -1944,6 +1944,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 17435654}
     m_Modifications:
     - target: {fileID: 1161697520552972089, guid: 7dad9409f07fdad7b8f5b4bfdf3859d8, type: 3}
+      propertyPath: m_XDrive.target
+      value: -0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 1161697520552972089, guid: 7dad9409f07fdad7b8f5b4bfdf3859d8, type: 3}
       propertyPath: m_ParentAnchorPosition.x
       value: -0.0000007599593
       objectReference: {fileID: 0}
@@ -1962,6 +1966,10 @@ PrefabInstance:
     - target: {fileID: 1241434989612285112, guid: 7dad9409f07fdad7b8f5b4bfdf3859d8, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415467554168907375, guid: 7dad9409f07fdad7b8f5b4bfdf3859d8, type: 3}
+      propertyPath: m_XDrive.target
+      value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: 2415467554168907375, guid: 7dad9409f07fdad7b8f5b4bfdf3859d8, type: 3}
       propertyPath: m_ParentAnchorPosition.x
@@ -5823,6 +5831,8 @@ MonoBehaviour:
   pickOffset: {x: 0, y: 0.2, z: 0}
   placeOffset: {x: 0, y: 0.2, z: 0}
   pnp: {fileID: 761682138}
+  _pnpController: {fileID: 1741056423}
+  _controller: {fileID: 5955250382980222843}
 --- !u!1 &399213439
 GameObject:
   m_ObjectHideFlags: 0
@@ -22389,7 +22399,7 @@ MonoBehaviour:
   groupName: ur_manipulator
   eeName: tool0
   baseLinkName: base
-  forceMoveItRequest: 1
+  forceMoveItRequest: 0
   rosServiceName: fsr_moveit_pick_and_place_srv
   linkNames:
   - world/base_link/shoulder_link
@@ -28005,7 +28015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RunPickAndPlaceSkillTest
+      value: RunPickAndPlaceControllerTest
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -28635,7 +28645,7 @@ MonoBehaviour:
   maxAcceleration: 0.5
   groupName: ur_manipulator
   baseLinkName: base
-  forceMoveItRequest: 1
+  forceMoveItRequest: 0
   rosServiceName: fsr_moveit_move_to_srv
   linkNames:
   - world/base_link/shoulder_link

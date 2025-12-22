@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 using FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils;
 using RosMessageTypes.FsrMoveit;
 using RosMessageTypes.Geometry;
@@ -19,7 +20,6 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         [SerializeField] private float maxVelocity = 0.5f;
         [SerializeField] private float maxAcceleration = 0.5f;
         [SerializeField] private string groupName = "ur_manipulator";
-        // [SerializeField] private string eeName = "tool0";
         [SerializeField] private string baseLinkName = "base";
         [SerializeField] private bool forceMoveItRequest = false;
         [SerializeField] private string rosServiceName = "fsr_moveit_move_to_srv";
@@ -35,21 +35,9 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         [SerializeField] private Vector3 targetOffset;
         [SerializeField] private Vector3 targetOrientation = new(-180, 0, 0);
 
-        // Controller interface
-        public override GameObject Robot { get => robot; }
-        public override ReadOnlyReactiveProperty<bool> HasPlanned => _hasPlanned.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsValid => _isValid.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsInterrupted => _isInterrupted.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsRunning => _isRunning.ToReadOnlyReactiveProperty();
-
-        private ReactiveProperty<bool> _hasPlanned = new(false);
-        private ReactiveProperty<bool> _isValid = new(false);
-        private ReactiveProperty<bool> _isInterrupted = new(false);
-        private ReactiveProperty<bool> _isRunning = new(false);
-
         // Internal state
         private ArticulationBody[] _jointArticulationBodies;
-        private Coroutine _runningAction;
+        private IDisposable _runningAction;
         private MoveToServiceResponse _plannedTrajectory = null;
         private string trajectoryName = "my_trajectory";
 
@@ -57,6 +45,9 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         public string TrajectoryName { set => trajectoryName = value; }
         public Vector3 Target { get => target; set => target = value; }
         public Vector3 TargetOrientation { get => targetOrientation; set => targetOrientation = value; }
+
+        // Controller interface
+        public override GameObject Robot => robot;
 
         // ROS Connector
         private ROSConnection _ros;
@@ -73,22 +64,9 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 _jointArticulationBodies[i] = robot.transform.Find(linkName).GetComponent<ArticulationBody>();
             }
         }
-        public override void ForceInterrupt()
+        public override bool Plan() => PlanAsync().Result;
+        public override async Task<bool> PlanAsync()
         {
-            Interrupt();
-        }
-        public override bool Interrupt()
-        {
-            if (_runningAction != null)
-            {
-                StopCoroutine(_runningAction);
-                _isInterrupted.Value = true;
-            }
-            return _isInterrupted.Value;
-        }
-        public override void Plan()
-        {
-            _hasPlanned.Value = false;
             MoveToServiceRequest request = new()
             {
                 joints_input = GetCurrentJointConfig(),
@@ -100,40 +78,55 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             {
                 Debug.Log("response successfully loaded");
                 _plannedTrajectory = response;
-                _hasPlanned.Value = true;
+                return true;
             }
-            else {
-                Debug.Log("Request sent to server");
-                _ros.SendServiceMessage<MoveToServiceResponse>(rosServiceName, request, OnTrajectoryResponse);
-            }
-        }
-        private void OnTrajectoryResponse(MoveToServiceResponse response)
-        {
-            _plannedTrajectory = response;
-            _hasPlanned.Value = true;
-            string filename = GetTrajectoryFilePath(trajectoryName, robot);
-            TrajectoryHelper.Save(filename, response.ToResponseData());
-        }
-        private string GetTrajectoryFilePath(string trajectoryName, GameObject robot)
-            => $"ros.traj.{robot.name}${trajectoryName}.moveit";
-        public override void RunPlan()
-        {
-            _isInterrupted.Value = false;
-            if (!HasPlanned.Value || !IsValid.Value || IsRunning.Value)
-            {
-                Debug.LogError("Failed to run planned trajectory!");
-                return;
-            }
-            _isRunning.Value = true;
-            _runningAction = StartCoroutine(ExecuteTrajectories(_plannedTrajectory));
+            Debug.Log("Request sent to server");
+            _plannedTrajectory = await SendServiceMessageAsync(request);
+            TrajectoryHelper.Save(filename, _plannedTrajectory.ToResponseData());
+            return true;
         }
         public override bool ValidatePlan()
         {
-            _isValid.Value = _plannedTrajectory != null && _plannedTrajectory.trajectory != null;
-            return _isValid.Value;
+            return _plannedTrajectory != null && _plannedTrajectory.trajectory != null;
         }
-        private IEnumerator ExecuteTrajectories(MoveToServiceResponse response)
+        public override void RunPlan() => RunPlanAsync().RunSynchronously();
+        public async override Task RunPlanAsync()
         {
+            if (_runningAction != null)
+            {
+                throw new Exception("should not happen");
+            }
+            var task = Observable.FromCoroutine(ExecuteTrajectories).ToTask();
+            _runningAction = task;
+            await task;
+            _runningAction = null;
+        }
+        public override void ForceInterrupt()
+        {
+            Interrupt();
+        }
+        public override bool Interrupt()
+        {
+            _runningAction?.Dispose();
+            _runningAction = null;
+            return true;
+        }
+        private Task<MoveToServiceResponse> SendServiceMessageAsync(MoveToServiceRequest request)
+        {
+            var tcs = new TaskCompletionSource<MoveToServiceResponse>();
+            _ros.SendServiceMessage<MoveToServiceResponse>(
+                rosServiceName,
+                request,
+                response =>
+                {
+                    tcs.SetResult(response);
+                }
+            );
+            return tcs.Task;
+        }
+        private IEnumerator ExecuteTrajectories()
+        {
+            MoveToServiceResponse response = _plannedTrajectory;
             if (response.trajectory != null)
             {
                 foreach (var t in response.trajectory.joint_trajectory.points)
@@ -150,9 +143,10 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 }
                 yield return new WaitForSeconds(poseAssignmentWait);
             }
-            _runningAction = null;
-            _isRunning.Value = false;
         }
+
+        private string GetTrajectoryFilePath(string trajectoryName, GameObject robot)
+            => $"ros.traj.{robot.name}${trajectoryName}.moveit";
 
         // ROS Messages
 

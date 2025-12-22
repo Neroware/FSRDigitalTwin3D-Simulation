@@ -1,14 +1,14 @@
 using System;
+using System.Threading.Tasks;
 
 namespace FSR.DigitalTwin.Client.Features.Robotics.Interfaces
 {
     public interface IGripperController
     {
         IGripperTool Gripper { get; }
-        IObservable<IGripperTool> GripperOpened { get; }
-        IObservable<IGripperTool> GripperClosed { get; }
         public void OpenGripper();
+        public Task OpenGripperAsync();
         public void CloseGripper();
-
+        public Task CloseGripperAsync();
     }
 }
