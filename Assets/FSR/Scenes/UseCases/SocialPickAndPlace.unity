@@ -10802,7 +10802,6 @@ GameObject:
   - component: {fileID: 761682137}
   - component: {fileID: 761682138}
   - component: {fileID: 761682140}
-  - component: {fileID: 761682139}
   m_Layer: 0
   m_Name: Skills
   m_TagString: Untagged
@@ -10837,28 +10836,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee57b0c79796bea49a033a120a9c8014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: http://pst.istc.cnr.it/ontologies/2019/01/soho#PickPlace
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#robot-pickplace-skill
   _shortIds:
   - pick_and_place
   _controller: {fileID: 5955250382980222843}
   _gripperController: {fileID: 5955250382980222846}
   prePickOffset: {x: 0, y: 0.2, z: 0}
   prePlaceOffset: {x: 0, y: 0.2, z: 0}
---- !u!114 &761682139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 761682136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7632049bc48d7344cb905c224c7c8761, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _id: http://pst.istc.cnr.it/ontologies/2019/01/soho#Join
-  _shortIds:
-  - join
 --- !u!114 &761682140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10871,9 +10855,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7632049bc48d7344cb905c224c7c8761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: http://pst.istc.cnr.it/ontologies/2019/01/soho#Screw
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#robot-screw-skill
   _shortIds:
   - screw
+  - join
 --- !u!1 &764170675
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using FSR.DigitalTwin.Client.Features.DES.Interfaces;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming;
+using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
 using FSR.DigitalTwin.Client.Features.UnityClient;
 using UniRx;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace FSR.DigitalTwin.Client.Features.DES
         public IDictionary<HRCMethod, IDictionary<HRCTask, IList<ISet<HRCTask>>>> Methods { get; init; } = new Dictionary<HRCMethod, IDictionary<HRCTask, IList<ISet<HRCTask>>>>();
         public IList<HRCFunction> Functions { get; init; } = new List<HRCFunction>();
         public IProcessSimulation Simulation { get; set; }
+        public IDictionary<HRCFunction, IList<IOperatorSkill>> Skills { get; init; }
     }
 
     public abstract class ProcessSimulationBase : IProcessSimulation

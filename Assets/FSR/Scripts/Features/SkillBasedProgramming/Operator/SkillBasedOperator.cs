@@ -25,18 +25,18 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Operator
 
         private void FindSkills(GameObject skillList)
         {
-            var functions = skillList.GetComponents<OperatorSkillBase>();
-            foreach (var function in functions)
+            var skills = skillList.GetComponents<OperatorSkillBase>();
+            foreach (var skill in skills)
             {
-                if (_skills.ContainsKey(function.Id.ToString()))
+                if (_skills.ContainsKey(skill.Id.ToString()))
                 {
-                    Debug.LogError($"Duplicate function {function.Id} found in operator {OperatorId}");
+                    Debug.LogError($"Duplicate function {skill.Id} found in operator {OperatorId}");
                     continue;
                 }
-                _skills.Add(function.Id.ToString(), function);
-                foreach(var shortId in function.ShortIds)
+                _skills.Add(skill.Id.ToString(), skill);
+                foreach(var shortId in skill.ShortIds)
                 {
-                    _shortIds[shortId] = function;
+                    _shortIds[shortId] = skill;
                 }
             }
         }

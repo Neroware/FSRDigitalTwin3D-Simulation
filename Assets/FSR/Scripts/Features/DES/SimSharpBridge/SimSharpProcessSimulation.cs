@@ -157,8 +157,7 @@ namespace FSR.DigitalTwin.Client.Features.DES.SimSharpBridge
                 .Where(op => op.AgentType == EHRCAgentType.Any
                     || function.FunctionDescription.AgentType == EHRCAgentType.Any 
                     || function.FunctionDescription.AgentType == op.AgentType)
-                .Where(op => op.CanRun(new Uri(function.FunctionDescription.FunctionType)))
-                .FirstOrDefault();
+                .FirstOrDefault(op => op.CanRun(new Uri(function.FunctionDescription.FunctionType)));
             if (agent == null)
             {
                 return false;

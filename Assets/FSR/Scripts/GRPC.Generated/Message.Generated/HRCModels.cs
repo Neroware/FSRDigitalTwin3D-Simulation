@@ -39,50 +39,54 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
             "CgVhZ2VudBgLIAEoDjIjLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQQy5BZ2Vu",
             "dFR5cGUSEwoLbWluRHVyYXRpb24YDCABKAISEwoLbWF4RHVyYXRpb24YDSAB",
             "KAISFwoPYXZlcmFnZUR1cmF0aW9uGA4gASgCEhsKE2R1cmF0aW9uVW5jZXJ0",
-            "YWludHkYDyABKAISEwoLc3VjY2Vzc1JhdGUYECABKAEixwEKC0hSQ01vZGVs",
-            "RFRPEg8KB2hvcml6b24YASABKAISMwoFdGFza3MYAiADKAsyJC5GU1IuRGln",
-            "aXRhbFR3aW4uQXBwLkdSUEMuSFJDVGFza0RUTxI4Cgpyb2JvdFRhc2tzGAMg",
-            "AygLMiQuRlNSLkRpZ2l0YWxUd2luLkFwcC5HUlBDLkhSQ1Rhc2tEVE8SOAoK",
-            "aHVtYW5UYXNrcxgEIAMoCzIkLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQQy5I",
-            "UkNUYXNrRFRPIk8KB0dvYWxEVE8SDgoGZ29hbElkGAEgASgJEjQKB21ldGhv",
-            "ZHMYAiADKAsyIy5GU1IuRGlnaXRhbFR3aW4uQXBwLkdSUEMuTWV0aG9kRFRP",
-            "IvUBChZJbnRlcmFjdGlvbk1vZGFsaXR5RFRPEgoKAmlkGAEgASgJEj8KBHR5",
-            "cGUYAiABKA4yMS5GU1IuRGlnaXRhbFR3aW4uQXBwLkdSUEMuSW50ZXJhY3Rp",
-            "b25Nb2RhbGl0eVR5cGUSEQoJZnVuY3Rpb24xGAMgASgJEjMKBmFnZW50MRgE",
-            "IAEoDjIjLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQQy5BZ2VudFR5cGUSEQoJ",
-            "ZnVuY3Rpb24yGAUgASgJEjMKBmFnZW50MhgGIAEoDjIjLkZTUi5EaWdpdGFs",
-            "VHdpbi5BcHAuR1JQQy5BZ2VudFR5cGUigAEKB1Rhc2tEVE8SDgoGdGFza0lk",
-            "GAEgASgJEjAKBHR5cGUYAiABKA4yIi5GU1IuRGlnaXRhbFR3aW4uQXBwLkdS",
-            "UEMuVGFza1R5cGUSMwoIc3ViVGFza3MYAyADKAsyIS5GU1IuRGlnaXRhbFR3",
-            "aW4uQXBwLkdSUEMuVGFza0RUTyKrAQoJTWV0aG9kRFRPEg4KBmdvYWxJZBgB",
-            "IAEoCRI9CgVncmFwaBgCIAMoCzIuLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQ",
-            "Qy5NZXRob2REVE8uR3JhcGhFbnRyeRpPCgpHcmFwaEVudHJ5EgsKA2tleRgB",
-            "IAEoCRIwCgV2YWx1ZRgCIAEoCzIhLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQ",
-            "Qy5UYXNrRFRPOgI4ASJaCghBZ2VudERUTxIKCgJpZBgBIAEoCRI0CgR0eXBl",
-            "GAIgASgOMiYuRlNSLkRpZ2l0YWxUd2luLkFwcC5HUlBDLkhSQ0FnZW50VHlw",
-            "ZRIMCgRuYW1lGAMgASgJKksKCUFnZW50VHlwZRISCg5BR0VOVF9UWVBFX0FO",
-            "WRAAEhQKEEFHRU5UX1RZUEVfSFVNQU4QARIUChBBR0VOVF9UWVBFX1JPQk9U",
-            "EAIqngEKDEhSQ0FnZW50VHlwZRIcChhIUkNfQUdFTlRfVFlQRV9VTkRFRklO",
-            "RUQQABIYChRIUkNfQUdFTlRfVFlQRV9IVU1BThABEhgKFEhSQ19BR0VOVF9U",
-            "WVBFX1JPQk9UEAISIgoeSFJDX0FHRU5UX1RZUEVfV09SS0VSX09QRVJBVE9S",
-            "EAMSGAoUSFJDX0FHRU5UX1RZUEVfQ09CT1QQBCqrAQoIVGFza1R5cGUSEgoO",
-            "VEFTS19UWVBFX1RBU0sQABISCg5UQVNLX1RZUEVfR09BTBABEhQKEFRBU0tf",
-            "VFlQRV9NRVRIT0QQAhIVChFUQVNLX1RZUEVfQ09NUExFWBADEhgKFFRBU0tf",
-            "VFlQRV9DT05KVUNUSU9OEAQSGAoUVEFTS19UWVBFX0RJU0pVQ1RJT04QBRIW",
-            "ChJUQVNLX1RZUEVfRlVOQ1RJT04QBiroAQoXSW50ZXJhY3Rpb25Nb2RhbGl0",
-            "eVR5cGUSIgoeSU5URVJBQ1RJT05fTU9EQUxJVFlfVFlQRV9OT05FEAASKQol",
-            "SU5URVJBQ1RJT05fTU9EQUxJVFlfVFlQRV9JTkRFUEVOREVOVBABEigKJElO",
-            "VEVSQUNUSU9OX01PREFMSVRZX1RZUEVfU0VRVUVOVElBTBACEioKJklOVEVS",
-            "QUNUSU9OX01PREFMSVRZX1RZUEVfU0lNVUxUQU5FT1VTEAMSKAokSU5URVJB",
-            "Q1RJT05fTU9EQUxJVFlfVFlQRV9TVVBQT1JUSVZFEARCJ6oCJEZTUi5EaWdp",
-            "dGFsVHdpbi5BcHAuR1JQQy5Qcm9jZXNzLkhSQ2IGcHJvdG8z"));
+            "YWludHkYDyABKAISEwoLc3VjY2Vzc1JhdGUYECABKAEiUQoLSFJDU2tpbGxE",
+            "VE8SDwoHc2tpbGxJZBgBIAEoCRIMCgR0eXBlGAIgASgJEhIKCmNhcGFiaWxp",
+            "dHkYAyABKAkSDwoHbWV0aG9kcxgEIAMoCSKDAgoLSFJDTW9kZWxEVE8SDwoH",
+            "aG9yaXpvbhgBIAEoAhIzCgV0YXNrcxgCIAMoCzIkLkZTUi5EaWdpdGFsVHdp",
+            "bi5BcHAuR1JQQy5IUkNUYXNrRFRPEjgKCnJvYm90VGFza3MYAyADKAsyJC5G",
+            "U1IuRGlnaXRhbFR3aW4uQXBwLkdSUEMuSFJDVGFza0RUTxI4CgpodW1hblRh",
+            "c2tzGAQgAygLMiQuRlNSLkRpZ2l0YWxUd2luLkFwcC5HUlBDLkhSQ1Rhc2tE",
+            "VE8SOgoLYWdlbnRTa2lsbHMYBSADKAsyJS5GU1IuRGlnaXRhbFR3aW4uQXBw",
+            "LkdSUEMuSFJDU2tpbGxEVE8iTwoHR29hbERUTxIOCgZnb2FsSWQYASABKAkS",
+            "NAoHbWV0aG9kcxgCIAMoCzIjLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQQy5N",
+            "ZXRob2REVE8i9QEKFkludGVyYWN0aW9uTW9kYWxpdHlEVE8SCgoCaWQYASAB",
+            "KAkSPwoEdHlwZRgCIAEoDjIxLkZTUi5EaWdpdGFsVHdpbi5BcHAuR1JQQy5J",
+            "bnRlcmFjdGlvbk1vZGFsaXR5VHlwZRIRCglmdW5jdGlvbjEYAyABKAkSMwoG",
+            "YWdlbnQxGAQgASgOMiMuRlNSLkRpZ2l0YWxUd2luLkFwcC5HUlBDLkFnZW50",
+            "VHlwZRIRCglmdW5jdGlvbjIYBSABKAkSMwoGYWdlbnQyGAYgASgOMiMuRlNS",
+            "LkRpZ2l0YWxUd2luLkFwcC5HUlBDLkFnZW50VHlwZSKAAQoHVGFza0RUTxIO",
+            "CgZ0YXNrSWQYASABKAkSMAoEdHlwZRgCIAEoDjIiLkZTUi5EaWdpdGFsVHdp",
+            "bi5BcHAuR1JQQy5UYXNrVHlwZRIzCghzdWJUYXNrcxgDIAMoCzIhLkZTUi5E",
+            "aWdpdGFsVHdpbi5BcHAuR1JQQy5UYXNrRFRPIqsBCglNZXRob2REVE8SDgoG",
+            "Z29hbElkGAEgASgJEj0KBWdyYXBoGAIgAygLMi4uRlNSLkRpZ2l0YWxUd2lu",
+            "LkFwcC5HUlBDLk1ldGhvZERUTy5HcmFwaEVudHJ5Gk8KCkdyYXBoRW50cnkS",
+            "CwoDa2V5GAEgASgJEjAKBXZhbHVlGAIgASgLMiEuRlNSLkRpZ2l0YWxUd2lu",
+            "LkFwcC5HUlBDLlRhc2tEVE86AjgBIloKCEFnZW50RFRPEgoKAmlkGAEgASgJ",
+            "EjQKBHR5cGUYAiABKA4yJi5GU1IuRGlnaXRhbFR3aW4uQXBwLkdSUEMuSFJD",
+            "QWdlbnRUeXBlEgwKBG5hbWUYAyABKAkqSwoJQWdlbnRUeXBlEhIKDkFHRU5U",
+            "X1RZUEVfQU5ZEAASFAoQQUdFTlRfVFlQRV9IVU1BThABEhQKEEFHRU5UX1RZ",
+            "UEVfUk9CT1QQAiqeAQoMSFJDQWdlbnRUeXBlEhwKGEhSQ19BR0VOVF9UWVBF",
+            "X1VOREVGSU5FRBAAEhgKFEhSQ19BR0VOVF9UWVBFX0hVTUFOEAESGAoUSFJD",
+            "X0FHRU5UX1RZUEVfUk9CT1QQAhIiCh5IUkNfQUdFTlRfVFlQRV9XT1JLRVJf",
+            "T1BFUkFUT1IQAxIYChRIUkNfQUdFTlRfVFlQRV9DT0JPVBAEKqsBCghUYXNr",
+            "VHlwZRISCg5UQVNLX1RZUEVfVEFTSxAAEhIKDlRBU0tfVFlQRV9HT0FMEAES",
+            "FAoQVEFTS19UWVBFX01FVEhPRBACEhUKEVRBU0tfVFlQRV9DT01QTEVYEAMS",
+            "GAoUVEFTS19UWVBFX0NPTkpVQ1RJT04QBBIYChRUQVNLX1RZUEVfRElTSlVD",
+            "VElPThAFEhYKElRBU0tfVFlQRV9GVU5DVElPThAGKugBChdJbnRlcmFjdGlv",
+            "bk1vZGFsaXR5VHlwZRIiCh5JTlRFUkFDVElPTl9NT0RBTElUWV9UWVBFX05P",
+            "TkUQABIpCiVJTlRFUkFDVElPTl9NT0RBTElUWV9UWVBFX0lOREVQRU5ERU5U",
+            "EAESKAokSU5URVJBQ1RJT05fTU9EQUxJVFlfVFlQRV9TRVFVRU5USUFMEAIS",
+            "KgomSU5URVJBQ1RJT05fTU9EQUxJVFlfVFlQRV9TSU1VTFRBTkVPVVMQAxIo",
+            "CiRJTlRFUkFDVElPTl9NT0RBTElUWV9UWVBFX1NVUFBPUlRJVkUQBEInqgIk",
+            "RlNSLkRpZ2l0YWxUd2luLkFwcC5HUlBDLlByb2Nlc3MuSFJDYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.AgentType), typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCAgentType), typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.TaskType), typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.InteractionModalityType), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.FunctionPropertyDataDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.FunctionPropertyDataDTO.Parser, new[]{ "FunctionId", "ProcedureName", "ProcedureDescr", "ProcedureId", "Duration", "DurationUncertainty", "Goal" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.FunctionObjectDataDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.FunctionObjectDataDTO.Parser, new[]{ "FunctionId", "Target", "StartLocation", "EndLocation", "Location" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCTaskDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCTaskDTO.Parser, new[]{ "TaskId", "Type", "Target", "Name", "Id", "Description", "Goal", "StartLocation", "EndLocation", "Location", "Agent", "MinDuration", "MaxDuration", "AverageDuration", "DurationUncertainty", "SuccessRate" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelDTO.Parser, new[]{ "Horizon", "Tasks", "RobotTasks", "HumanTasks" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCSkillDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCSkillDTO.Parser, new[]{ "SkillId", "Type", "Capability", "Methods" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelDTO.Parser, new[]{ "Horizon", "Tasks", "RobotTasks", "HumanTasks", "AgentSkills" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.GoalDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.GoalDTO.Parser, new[]{ "GoalId", "Methods" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.InteractionModalityDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.InteractionModalityDTO.Parser, new[]{ "Id", "Type", "Function1", "Agent1", "Function2", "Agent2" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::FSR.DigitalTwin.App.GRPC.Process.HRC.TaskDTO), global::FSR.DigitalTwin.App.GRPC.Process.HRC.TaskDTO.Parser, new[]{ "TaskId", "Type", "SubTasks" }, null, null, null),
@@ -1216,6 +1220,211 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
 
   }
 
+  public sealed partial class HRCSkillDTO : pb::IMessage<HRCSkillDTO> {
+    private static readonly pb::MessageParser<HRCSkillDTO> _parser = new pb::MessageParser<HRCSkillDTO>(() => new HRCSkillDTO());
+    private pb::UnknownFieldSet _unknownFields;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pb::MessageParser<HRCSkillDTO> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[3]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public HRCSkillDTO() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public HRCSkillDTO(HRCSkillDTO other) : this() {
+      skillId_ = other.skillId_;
+      type_ = other.type_;
+      capability_ = other.capability_;
+      methods_ = other.methods_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public HRCSkillDTO Clone() {
+      return new HRCSkillDTO(this);
+    }
+
+    /// <summary>Field number for the "skillId" field.</summary>
+    public const int SkillIdFieldNumber = 1;
+    private string skillId_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string SkillId {
+      get { return skillId_; }
+      set {
+        skillId_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "type" field.</summary>
+    public const int TypeFieldNumber = 2;
+    private string type_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Type {
+      get { return type_; }
+      set {
+        type_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "capability" field.</summary>
+    public const int CapabilityFieldNumber = 3;
+    private string capability_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Capability {
+      get { return capability_; }
+      set {
+        capability_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "methods" field.</summary>
+    public const int MethodsFieldNumber = 4;
+    private static readonly pb::FieldCodec<string> _repeated_methods_codec
+        = pb::FieldCodec.ForString(34);
+    private readonly pbc::RepeatedField<string> methods_ = new pbc::RepeatedField<string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<string> Methods {
+      get { return methods_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override bool Equals(object other) {
+      return Equals(other as HRCSkillDTO);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public bool Equals(HRCSkillDTO other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (SkillId != other.SkillId) return false;
+      if (Type != other.Type) return false;
+      if (Capability != other.Capability) return false;
+      if(!methods_.Equals(other.methods_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (SkillId.Length != 0) hash ^= SkillId.GetHashCode();
+      if (Type.Length != 0) hash ^= Type.GetHashCode();
+      if (Capability.Length != 0) hash ^= Capability.GetHashCode();
+      hash ^= methods_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void WriteTo(pb::CodedOutputStream output) {
+      if (SkillId.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(SkillId);
+      }
+      if (Type.Length != 0) {
+        output.WriteRawTag(18);
+        output.WriteString(Type);
+      }
+      if (Capability.Length != 0) {
+        output.WriteRawTag(26);
+        output.WriteString(Capability);
+      }
+      methods_.WriteTo(output, _repeated_methods_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public int CalculateSize() {
+      int size = 0;
+      if (SkillId.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(SkillId);
+      }
+      if (Type.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Type);
+      }
+      if (Capability.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Capability);
+      }
+      size += methods_.CalculateSize(_repeated_methods_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(HRCSkillDTO other) {
+      if (other == null) {
+        return;
+      }
+      if (other.SkillId.Length != 0) {
+        SkillId = other.SkillId;
+      }
+      if (other.Type.Length != 0) {
+        Type = other.Type;
+      }
+      if (other.Capability.Length != 0) {
+        Capability = other.Capability;
+      }
+      methods_.Add(other.methods_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public void MergeFrom(pb::CodedInputStream input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            SkillId = input.ReadString();
+            break;
+          }
+          case 18: {
+            Type = input.ReadString();
+            break;
+          }
+          case 26: {
+            Capability = input.ReadString();
+            break;
+          }
+          case 34: {
+            methods_.AddEntriesFrom(input, _repeated_methods_codec);
+            break;
+          }
+        }
+      }
+    }
+
+  }
+
   public sealed partial class HRCModelDTO : pb::IMessage<HRCModelDTO> {
     private static readonly pb::MessageParser<HRCModelDTO> _parser = new pb::MessageParser<HRCModelDTO>(() => new HRCModelDTO());
     private pb::UnknownFieldSet _unknownFields;
@@ -1224,7 +1433,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[3]; }
+      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[4]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1245,6 +1454,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       tasks_ = other.tasks_.Clone();
       robotTasks_ = other.robotTasks_.Clone();
       humanTasks_ = other.humanTasks_.Clone();
+      agentSkills_ = other.agentSkills_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1294,6 +1504,16 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       get { return humanTasks_; }
     }
 
+    /// <summary>Field number for the "agentSkills" field.</summary>
+    public const int AgentSkillsFieldNumber = 5;
+    private static readonly pb::FieldCodec<global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCSkillDTO> _repeated_agentSkills_codec
+        = pb::FieldCodec.ForMessage(42, global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCSkillDTO.Parser);
+    private readonly pbc::RepeatedField<global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCSkillDTO> agentSkills_ = new pbc::RepeatedField<global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCSkillDTO>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public pbc::RepeatedField<global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCSkillDTO> AgentSkills {
+      get { return agentSkills_; }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as HRCModelDTO);
@@ -1311,6 +1531,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       if(!tasks_.Equals(other.tasks_)) return false;
       if(!robotTasks_.Equals(other.robotTasks_)) return false;
       if(!humanTasks_.Equals(other.humanTasks_)) return false;
+      if(!agentSkills_.Equals(other.agentSkills_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1321,6 +1542,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       hash ^= tasks_.GetHashCode();
       hash ^= robotTasks_.GetHashCode();
       hash ^= humanTasks_.GetHashCode();
+      hash ^= agentSkills_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1341,6 +1563,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       tasks_.WriteTo(output, _repeated_tasks_codec);
       robotTasks_.WriteTo(output, _repeated_robotTasks_codec);
       humanTasks_.WriteTo(output, _repeated_humanTasks_codec);
+      agentSkills_.WriteTo(output, _repeated_agentSkills_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1355,6 +1578,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       size += tasks_.CalculateSize(_repeated_tasks_codec);
       size += robotTasks_.CalculateSize(_repeated_robotTasks_codec);
       size += humanTasks_.CalculateSize(_repeated_humanTasks_codec);
+      size += agentSkills_.CalculateSize(_repeated_agentSkills_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1372,6 +1596,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
       tasks_.Add(other.tasks_);
       robotTasks_.Add(other.robotTasks_);
       humanTasks_.Add(other.humanTasks_);
+      agentSkills_.Add(other.agentSkills_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1399,6 +1624,10 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
             humanTasks_.AddEntriesFrom(input, _repeated_humanTasks_codec);
             break;
           }
+          case 42: {
+            agentSkills_.AddEntriesFrom(input, _repeated_agentSkills_codec);
+            break;
+          }
         }
       }
     }
@@ -1413,7 +1642,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[4]; }
+      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[5]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1562,7 +1791,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[5]; }
+      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[6]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1831,7 +2060,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[6]; }
+      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[7]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2008,7 +2237,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[7]; }
+      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[8]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2157,7 +2386,7 @@ namespace FSR.DigitalTwin.App.GRPC.Process.HRC {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[8]; }
+      get { return global::FSR.DigitalTwin.App.GRPC.Process.HRC.HRCModelsReflection.Descriptor.MessageTypes[9]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
