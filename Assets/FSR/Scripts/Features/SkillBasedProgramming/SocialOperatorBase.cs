@@ -19,7 +19,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
         public abstract string RunningOperation { get; }
         public EHRCAgentType AgentType => agentType;
 
-        protected abstract Task<SkillResult> OnFunction(string function, object[] inputs, object[] inOuts);
+        protected abstract Task<SkillResult> OnRun(string operation, object[] inputs, object[] inOuts);
 
         public Uri OperatorId => operatorId.Length == 0 ? Id : new(operatorId);
 
@@ -27,14 +27,14 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
         {
             DigitalWorkspace.Instance.Operational.ProcessInvoked
                 .Where(i => i.OwnerId == Id.ToSafeString())
-                .Subscribe(RunFunction).AddTo(this);
+                .Subscribe(RunOperation).AddTo(this);
         }
 
-        public async Task RunFunctionAsync(ProcessInvocation invocation)
+        public async Task RunOperationAsync(ProcessInvocation invocation)
         {
             if (IsBusy)
             {
-                throw new InvalidOperationException("Cannot run function because operator is busy!");
+                throw new InvalidOperationException("Cannot run operation because operator is busy!");
             }
             ProcessResult result = new()
             {
@@ -54,7 +54,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
                 ProcessName = invocation.ProcessName,
                 State = ProcessExecutionState.EState.INITIATED
             };
-            var res = await OnFunction(invocation.ProcessName, invocation.Inputs, invocation.InOuts);
+            var res = await OnRun(invocation.ProcessName, invocation.Inputs, invocation.InOuts);
             if (res.Failed)
             {
                 await DigitalWorkspace.Instance.Operational
@@ -72,29 +72,29 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
                         invocation.TimeStamp).DateTime + res.TimeExpired).TimeOfDay.TotalSeconds
                 });
         }
-        public async void RunFunction(ProcessInvocation invocation)
+        public async void RunOperation(ProcessInvocation invocation)
         {
-            await RunFunctionAsync(invocation);
+            await RunOperationAsync(invocation);
         }
-        public SkillResult RunFunction(string function, object[] inputs, object[] inOuts)
+        public SkillResult RunOperation(string operation, object[] inputs, object[] inOuts)
         {
             if (IsBusy)
             {
-                throw new InvalidOperationException("Cannot run function because operator is busy!");
+                throw new InvalidOperationException("Cannot run operation because operator is busy!");
             }
-            return OnFunction(function, inputs, inOuts).Result;
+            return OnRun(operation, inputs, inOuts).Result;
         }
-        public async Task<SkillResult> RunFunctionAsync(string function, object[] inputs, object[] inOuts)
+        public async Task<SkillResult> RunOperationAsync(string operation, object[] inputs, object[] inOuts)
         {
             if (IsBusy)
             {
-                throw new InvalidOperationException("Cannot run function because operator is busy!");
+                throw new InvalidOperationException("Cannot run operation because operator is busy!");
             }
-            return await OnFunction(function, inputs, inOuts);
+            return await OnRun(operation, inputs, inOuts);
         }
-        public HRCProcessResult<HRCFunction> RunFunction(HRCFunction function)
+        public HRCProcessResult<HRCFunction> RunOperation(string operation, HRCFunction function)
         {
-            var res = RunFunction(function.FunctionDescription.FunctionType, function.Inputs, function.InOuts);
+            var res = RunOperation(operation, function.Inputs, function.InOuts);
             return new HRCProcessResult<HRCFunction>()
             {
                 Process = function,
@@ -103,9 +103,9 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
                 Outputs = res.Outputs
             };
         }
-        public async Task<HRCProcessResult<HRCFunction>> RunFunctionAsync(HRCFunction function)
+        public async Task<HRCProcessResult<HRCFunction>> RunOperationAsync(string operation, HRCFunction function)
         {
-            var res = await RunFunctionAsync(function.FunctionDescription.FunctionType, function.Inputs, function.InOuts);
+            var res = await RunOperationAsync(operation, function.Inputs, function.InOuts);
             return new HRCProcessResult<HRCFunction>()
             {
                 Process = function,

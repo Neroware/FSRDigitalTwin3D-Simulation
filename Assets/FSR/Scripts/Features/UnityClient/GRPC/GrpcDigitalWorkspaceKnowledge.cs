@@ -191,6 +191,7 @@ namespace FSR.DigitalTwin.Client.Features.UnityClient.GRPC
                 Goals = goals,
                 Functions = tasks.Values.Where(t => t.ProcessType == EHRCProcessType.Function).Cast<HRCFunction>().ToList(),
                 Methods = methods,
+                Skills = skills,
                 Simulation = null
             };
         }

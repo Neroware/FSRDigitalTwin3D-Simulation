@@ -41,28 +41,28 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Operator
             }
         }
 
-        protected override async Task<SkillResult> OnFunction(string function, object[] inputs, object[] inOuts)
+        protected override async Task<SkillResult> OnRun(string operation, object[] inputs, object[] inOuts)
         {
-            if (_isBusy) throw new InvalidOperationException("Cannot launch function on a busy operator");
-            if (_shortIds.TryGetValue(function, out OperatorSkillBase skill))
+            if (_isBusy) throw new InvalidOperationException("Cannot launch operation on a busy operator");
+            if (_shortIds.TryGetValue(operation, out OperatorSkillBase skill))
             {
                 _isBusy = true;
-                _runningOperation = function;
+                _runningOperation = operation;
                 var res = await skill.RunAsync(inputs, inOuts);
                 _isBusy = false;
                 _runningOperation = "";
                 return res;
             }
-            else if (_skills.TryGetValue(function, out OperatorSkillBase skill0))
+            else if (_skills.TryGetValue(operation, out OperatorSkillBase skill0))
             {
                 _isBusy = true;
-                _runningOperation = function;
+                _runningOperation = operation;
                 var res = await skill0.RunAsync(inputs, inOuts);
                 _isBusy = false;
                 _runningOperation = "";
                 return res;
             }
-            Debug.LogError($"Unknown function '{function}' in operator '{OperatorId}'");
+            Debug.LogError($"Unknown operation '{operation}' in operator '{OperatorId}'");
             return new SkillResult() { Succeeded = false, TimeExpired = TimeSpan.Zero };
         }
 
