@@ -13,64 +13,58 @@ namespace RosMessageTypes.FsrMoveit
         public const string k_RosMessageName = "fsr_moveit/PickAndPlaceInput";
         public override string RosMessageName => k_RosMessageName;
 
+        public Geometry.PoseMsg pick_pose;
+        public Geometry.PoseMsg place_pose;
         public double pick_pose_z;
         public double max_velocity;
         public double max_acceleration;
-        public string group_name;
-        public string end_effector_name;
-        public string base_link_name;
 
         public PickAndPlaceInputMsg()
         {
+            this.pick_pose = new Geometry.PoseMsg();
+            this.place_pose = new Geometry.PoseMsg();
             this.pick_pose_z = 0.0;
             this.max_velocity = 0.0;
             this.max_acceleration = 0.0;
-            this.group_name = "";
-            this.end_effector_name = "";
-            this.base_link_name = "";
         }
 
-        public PickAndPlaceInputMsg(double pick_pose_z, double max_velocity, double max_acceleration, string group_name, string end_effector_name, string base_link_name)
+        public PickAndPlaceInputMsg(Geometry.PoseMsg pick_pose, Geometry.PoseMsg place_pose, double pick_pose_z, double max_velocity, double max_acceleration)
         {
+            this.pick_pose = pick_pose;
+            this.place_pose = place_pose;
             this.pick_pose_z = pick_pose_z;
             this.max_velocity = max_velocity;
             this.max_acceleration = max_acceleration;
-            this.group_name = group_name;
-            this.end_effector_name = end_effector_name;
-            this.base_link_name = base_link_name;
         }
 
         public static PickAndPlaceInputMsg Deserialize(MessageDeserializer deserializer) => new PickAndPlaceInputMsg(deserializer);
 
         private PickAndPlaceInputMsg(MessageDeserializer deserializer)
         {
+            this.pick_pose = Geometry.PoseMsg.Deserialize(deserializer);
+            this.place_pose = Geometry.PoseMsg.Deserialize(deserializer);
             deserializer.Read(out this.pick_pose_z);
             deserializer.Read(out this.max_velocity);
             deserializer.Read(out this.max_acceleration);
-            deserializer.Read(out this.group_name);
-            deserializer.Read(out this.end_effector_name);
-            deserializer.Read(out this.base_link_name);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
         {
+            serializer.Write(this.pick_pose);
+            serializer.Write(this.place_pose);
             serializer.Write(this.pick_pose_z);
             serializer.Write(this.max_velocity);
             serializer.Write(this.max_acceleration);
-            serializer.Write(this.group_name);
-            serializer.Write(this.end_effector_name);
-            serializer.Write(this.base_link_name);
         }
 
         public override string ToString()
         {
             return "PickAndPlaceInputMsg: " +
+            "\npick_pose: " + pick_pose.ToString() +
+            "\nplace_pose: " + place_pose.ToString() +
             "\npick_pose_z: " + pick_pose_z.ToString() +
             "\nmax_velocity: " + max_velocity.ToString() +
-            "\nmax_acceleration: " + max_acceleration.ToString() +
-            "\ngroup_name: " + group_name.ToString() +
-            "\nend_effector_name: " + end_effector_name.ToString() +
-            "\nbase_link_name: " + base_link_name.ToString();
+            "\nmax_acceleration: " + max_acceleration.ToString();
         }
 
 #if UNITY_EDITOR

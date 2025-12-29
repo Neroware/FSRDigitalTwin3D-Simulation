@@ -8,9 +8,12 @@ using FSR.DigitalTwin.Client.Common;
 using FSR.DigitalTwin.Client.Features.DES;
 using FSR.DigitalTwin.Client.Features.DES.Interfaces;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming;
+using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
+using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill;
 using FSR.DigitalTwin.Client.Features.UnityClient.Interfaces;
 using Grpc.Core;
 using Grpc.Core.Utils;
+using UnityEngine;
 
 namespace FSR.DigitalTwin.Client.Features.UnityClient.GRPC
 {
@@ -158,6 +161,28 @@ namespace FSR.DigitalTwin.Client.Features.UnityClient.GRPC
                 }
             }
 
+            Dictionary<HRCFunction, IList<IOperatorSkill>> skills = new();
+            foreach (OperatorSkillBase operatorSkill in GameObject.FindObjectsByType<OperatorSkillBase>(FindObjectsSortMode.None))
+            {
+                foreach (HRCSkillDTO skill in model.AgentSkills)
+                {
+                    if (operatorSkill.Id.ToString() != skill.SkillId)
+                        continue;
+                    foreach (string method in skill.Methods)
+                    {
+                        var functions = tasks.Values
+                            .Where(t => t.ProcessType == EHRCProcessType.Function && t.TaskId == method)
+                            .Cast<HRCFunction>();
+                        foreach (HRCFunction function in functions)
+                        {
+                            if (!skills.ContainsKey(function))
+                                skills[function] = new List<IOperatorSkill>();
+                            skills[function].Add(operatorSkill);
+                        }
+                    }
+                }
+            }
+
             return new ProcessSimulationContext()
             {
                 Horizon = model.Horizon,
@@ -166,6 +191,7 @@ namespace FSR.DigitalTwin.Client.Features.UnityClient.GRPC
                 Goals = goals,
                 Functions = tasks.Values.Where(t => t.ProcessType == EHRCProcessType.Function).Cast<HRCFunction>().ToList(),
                 Methods = methods,
+                Skills = skills,
                 Simulation = null
             };
         }

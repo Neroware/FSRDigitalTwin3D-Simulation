@@ -1,5 +1,5 @@
 using FSR.DigitalTwin.Client.Common;
-using FSR.DigitalTwin.Client.Common.Utils.Semantic;
+using FSR.DigitalTwin.Client.Common.Utils;
 using FSR.DigitalTwin.Client.Features.DES;
 using FSR.DigitalTwin.Client.Features.DES.Interfaces;
 using FSR.DigitalTwin.Client.Features.UnityClient;

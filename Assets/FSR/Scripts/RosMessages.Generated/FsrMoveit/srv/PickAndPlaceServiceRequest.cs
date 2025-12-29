@@ -14,24 +14,21 @@ namespace RosMessageTypes.FsrMoveit
         public override string RosMessageName => k_RosMessageName;
 
         public MoveitJointsMsg joints_input;
-        public Geometry.PoseMsg pick_pose;
-        public Geometry.PoseMsg place_pose;
-        public PickAndPlaceInputMsg pnp_input;
+        public MoveitGroupMsg group;
+        public PickAndPlaceInputMsg pars;
 
         public PickAndPlaceServiceRequest()
         {
             this.joints_input = new MoveitJointsMsg();
-            this.pick_pose = new Geometry.PoseMsg();
-            this.place_pose = new Geometry.PoseMsg();
-            this.pnp_input = new PickAndPlaceInputMsg();
+            this.group = new MoveitGroupMsg();
+            this.pars = new PickAndPlaceInputMsg();
         }
 
-        public PickAndPlaceServiceRequest(MoveitJointsMsg joints_input, Geometry.PoseMsg pick_pose, Geometry.PoseMsg place_pose, PickAndPlaceInputMsg pnp_input)
+        public PickAndPlaceServiceRequest(MoveitJointsMsg joints_input, MoveitGroupMsg group, PickAndPlaceInputMsg pars)
         {
             this.joints_input = joints_input;
-            this.pick_pose = pick_pose;
-            this.place_pose = place_pose;
-            this.pnp_input = pnp_input;
+            this.group = group;
+            this.pars = pars;
         }
 
         public static PickAndPlaceServiceRequest Deserialize(MessageDeserializer deserializer) => new PickAndPlaceServiceRequest(deserializer);
@@ -39,26 +36,23 @@ namespace RosMessageTypes.FsrMoveit
         private PickAndPlaceServiceRequest(MessageDeserializer deserializer)
         {
             this.joints_input = MoveitJointsMsg.Deserialize(deserializer);
-            this.pick_pose = Geometry.PoseMsg.Deserialize(deserializer);
-            this.place_pose = Geometry.PoseMsg.Deserialize(deserializer);
-            this.pnp_input = PickAndPlaceInputMsg.Deserialize(deserializer);
+            this.group = MoveitGroupMsg.Deserialize(deserializer);
+            this.pars = PickAndPlaceInputMsg.Deserialize(deserializer);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
         {
             serializer.Write(this.joints_input);
-            serializer.Write(this.pick_pose);
-            serializer.Write(this.place_pose);
-            serializer.Write(this.pnp_input);
+            serializer.Write(this.group);
+            serializer.Write(this.pars);
         }
 
         public override string ToString()
         {
             return "PickAndPlaceServiceRequest: " +
             "\njoints_input: " + joints_input.ToString() +
-            "\npick_pose: " + pick_pose.ToString() +
-            "\nplace_pose: " + place_pose.ToString() +
-            "\npnp_input: " + pnp_input.ToString();
+            "\ngroup: " + group.ToString() +
+            "\npars: " + pars.ToString();
         }
 
 #if UNITY_EDITOR

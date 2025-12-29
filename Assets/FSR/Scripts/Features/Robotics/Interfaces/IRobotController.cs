@@ -12,27 +12,14 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Interfaces
     public interface IRobotController
     {
         GameObject Robot { get; }
-        ReadOnlyReactiveProperty<bool> HasPlanned { get; }
-        ReadOnlyReactiveProperty<bool> IsValid { get; }
-        ReadOnlyReactiveProperty<bool> IsInterrupted { get; }
-        ReadOnlyReactiveProperty<bool> IsRunning { get; }
-
-        void Plan();
+        bool Plan();
+        Task<bool> PlanAsync();
         bool ValidatePlan();
         void RunPlan();
-        // void PlanAndRunIfValid();
+        Task RunPlanAsync();
+        void PlanAndRun();
+        Task PlanAndRunAsync();
         bool Interrupt();
         void ForceInterrupt();
     }
-
-    public interface IRobotAsyncController : IRobotController
-    {
-        Task PlanAsync();
-        Task<bool> ValidatePlanAsync();
-        Task RunPlanAsync();
-        Task PlanAndRunIfValidAsync();
-        Task<bool> InterruptAsync();
-        Task ForceInterruptAsync();
-    }
-
 }

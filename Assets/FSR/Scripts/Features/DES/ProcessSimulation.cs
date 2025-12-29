@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using FSR.DigitalTwin.Client.Features.DES.Interfaces;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming;
+using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
 using FSR.DigitalTwin.Client.Features.UnityClient;
 using UniRx;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace FSR.DigitalTwin.Client.Features.DES
         public IDictionary<HRCGoal, IList<HRCMethod>> Goals { get; init; } = new Dictionary<HRCGoal, IList<HRCMethod>>();
         public IDictionary<HRCMethod, IDictionary<HRCTask, IList<ISet<HRCTask>>>> Methods { get; init; } = new Dictionary<HRCMethod, IDictionary<HRCTask, IList<ISet<HRCTask>>>>();
         public IList<HRCFunction> Functions { get; init; } = new List<HRCFunction>();
+        public IDictionary<HRCFunction, IList<IOperatorSkill>> Skills { get; init; }
         public IProcessSimulation Simulation { get; set; }
     }
 
@@ -88,11 +90,11 @@ namespace FSR.DigitalTwin.Client.Features.DES
             IObservable<Exception> failure = failure_ ?? Observable.Never<Exception>();
             if (process is HRCFunction function)
             {
-                bool hasOperator = OnFunctionLaunch(function, out SocialOperatorBase socialOperator);
+                bool hasOperator = OnFunctionLaunch(function, out string operation, out SocialOperatorBase socialOperator);
                 if (hasOperator)
                 {
                     success = success.Merge(
-                        socialOperator.RunFunctionAsync(function)
+                        socialOperator.RunOperationAsync(operation, function)
                             .ToObservable()
                             .Select(result => (HRCProcessResult)result)
                     );
@@ -128,8 +130,9 @@ namespace FSR.DigitalTwin.Client.Features.DES
         protected abstract void OnStop();
         protected abstract void OnRun();
         protected abstract void OnReset();
-        protected virtual bool OnFunctionLaunch(HRCFunction function, out SocialOperatorBase socialOperator)
+        protected virtual bool OnFunctionLaunch(HRCFunction function, out string operationName, out SocialOperatorBase socialOperator)
         {
+            operationName = "";
             socialOperator = null;
             return false;
         }

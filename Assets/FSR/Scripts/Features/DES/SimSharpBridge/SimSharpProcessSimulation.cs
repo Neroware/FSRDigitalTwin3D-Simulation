@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FSR.DigitalTwin.Client.Features.DES.Interfaces;
+using FSR.DigitalTwin.Client.Features.DES.Scheduler;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming;
+using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
 using SimSharp;
 using UniRx;
 using UnityEngine;
@@ -149,19 +151,29 @@ namespace FSR.DigitalTwin.Client.Features.DES.SimSharpBridge
             }
         }
 
-        protected override bool OnFunctionLaunch(HRCFunction function, out SocialOperatorBase socialOperator)
+        protected override bool OnFunctionLaunch(HRCFunction function, out string operation, out SocialOperatorBase socialOperator)
         {
             socialOperator = null;
-            var agent = _context.Operators
+            operation = "";
+            var agents = _context.Operators
                 .Where(op => op.AgentType == EHRCAgentType.Any
                     || function.FunctionDescription.AgentType == EHRCAgentType.Any 
-                    || function.FunctionDescription.AgentType == op.AgentType)
-                .Where(op => op.CanRun(new Uri(function.FunctionDescription.FunctionType)))
-                .FirstOrDefault();
-            if (agent == null)
+                    || function.FunctionDescription.AgentType == op.AgentType);
+            var skills = _context.Skills.ContainsKey(function) ? _context.Skills[function] : new List<IOperatorSkill>();
+            foreach (var agent in agents)
             {
-                return false;
+                foreach (IOperatorSkill skill in skills)
+                {
+                    if (agent.CanRun(skill.Id))
+                    {
+                        operation = skill.Id.ToString();
+                        socialOperator = agent;
+                        break;
+                    }
+                }
             }
+            if (socialOperator == null) 
+                return false;
             _environment.SetRealtime(_rtTimeScale);
             if (_rtTimeSkips)
             {
@@ -171,7 +183,6 @@ namespace FSR.DigitalTwin.Client.Features.DES.SimSharpBridge
                         .Where(_ => --_runningFunctionCounter == 0)
                         .Subscribe(_ => _environment.SetVirtualtime()));
             }
-            socialOperator = agent;
             return true;
         }
 

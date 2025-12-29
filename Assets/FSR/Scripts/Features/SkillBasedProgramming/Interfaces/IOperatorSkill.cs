@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces
@@ -7,8 +8,9 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces
     {
         string[] ShortIds { get; }
         Uri Id { get; }
-        SkillResult Run(object[] inputs, object[] inOuts);
-        Task<SkillResult> RunAsync(object[] inputs, object[] inOuts);
+        SkillResult Run(string task, object[] inputs, object[] inOuts);
+        Task<SkillResult> RunAsync(string task, object[] inputs, object[] inOuts);
+        List<IDevicePrimitive> Primitives { get; }
     }
 }
 

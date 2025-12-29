@@ -1944,6 +1944,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 17435654}
     m_Modifications:
     - target: {fileID: 1161697520552972089, guid: 7dad9409f07fdad7b8f5b4bfdf3859d8, type: 3}
+      propertyPath: m_XDrive.target
+      value: -0.025
+      objectReference: {fileID: 0}
+    - target: {fileID: 1161697520552972089, guid: 7dad9409f07fdad7b8f5b4bfdf3859d8, type: 3}
       propertyPath: m_ParentAnchorPosition.x
       value: -0.0000007599593
       objectReference: {fileID: 0}
@@ -1962,6 +1966,10 @@ PrefabInstance:
     - target: {fileID: 1241434989612285112, guid: 7dad9409f07fdad7b8f5b4bfdf3859d8, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2415467554168907375, guid: 7dad9409f07fdad7b8f5b4bfdf3859d8, type: 3}
+      propertyPath: m_XDrive.target
+      value: 0.025
       objectReference: {fileID: 0}
     - target: {fileID: 2415467554168907375, guid: 7dad9409f07fdad7b8f5b4bfdf3859d8, type: 3}
       propertyPath: m_ParentAnchorPosition.x
@@ -5747,6 +5755,7 @@ GameObject:
   - component: {fileID: 399024708}
   - component: {fileID: 399024709}
   - component: {fileID: 399024710}
+  - component: {fileID: 399024711}
   m_Layer: 0
   m_Name: Testing
   m_TagString: Untagged
@@ -5805,6 +5814,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a9076c35492d044eb27b97c8c66d4da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &399024711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399024706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ff9dc6a3cf78e54eb2e989fea5fa1f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickTarget: {fileID: 1095286935}
+  placeLocation: {fileID: 1413831698}
+  pickOffset: {x: 0, y: 0.2, z: 0}
+  placeOffset: {x: 0, y: 0.2, z: 0}
+  pnp: {fileID: 761682138}
+  _pnpController: {fileID: 1741056423}
+  _controller: {fileID: 5955250382980222843}
 --- !u!1 &399213439
 GameObject:
   m_ObjectHideFlags: 0
@@ -10774,7 +10802,6 @@ GameObject:
   - component: {fileID: 761682137}
   - component: {fileID: 761682138}
   - component: {fileID: 761682140}
-  - component: {fileID: 761682139}
   m_Layer: 0
   m_Name: Skills
   m_TagString: Untagged
@@ -10809,25 +10836,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee57b0c79796bea49a033a120a9c8014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: http://pst.istc.cnr.it/ontologies/2019/01/soho#PickPlace
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#robot-pickplace-skill
   _shortIds:
   - pick_and_place
-  _controller: {fileID: 1741056423}
---- !u!114 &761682139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 761682136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7632049bc48d7344cb905c224c7c8761, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _id: http://pst.istc.cnr.it/ontologies/2019/01/soho#Join
-  _shortIds:
-  - join
+  _controller: {fileID: 5955250382980222843}
+  _gripperController: {fileID: 5955250382980222846}
+  prePickOffset: {x: 0, y: 0.2, z: 0}
+  prePlaceOffset: {x: 0, y: 0.2, z: 0}
 --- !u!114 &761682140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10840,9 +10855,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7632049bc48d7344cb905c224c7c8761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: http://pst.istc.cnr.it/ontologies/2019/01/soho#Screw
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#robot-screw-skill
   _shortIds:
   - screw
+  - join
 --- !u!1 &764170675
 GameObject:
   m_ObjectHideFlags: 0
@@ -22355,15 +22371,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f6c8f723e4eff0458e787277febaba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#SM_UR5e_Controller
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#SM_UR5e_PnPController
   _actor: {fileID: 5955250382980222833}
   _enableOperationModeOverride: 0
   _operationModeOverride: 0
   numRobotJoints: 6
   jointAssignmentWait: 0.1
   poseAssignmentWait: 0.5
-  forceMoveItRequest: 1
-  rosServiceName: fsr_moveit
+  pickPoseOffsetZ: 0.066
+  maxVelocity: 0.5
+  maxAcceleration: 0.5
+  groupName: ur_manipulator
+  eeName: tool0
+  baseLinkName: base
+  forceMoveItRequest: 0
+  rosServiceName: fsr_moveit_pick_and_place_srv
   linkNames:
   - world/base_link/shoulder_link
   - /upper_arm_link
@@ -27971,19 +27993,18 @@ PrefabInstance:
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1741056423}
+      objectReference: {fileID: 399024711}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PickAndPlace
+      value: RunPickAndPlaceSkillTest
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FSR.DigitalTwin.Client.Features.Robotics.Controller.RosMoveitPickAndPlaceController,
-        Assembly-CSharp
+      value: FSR.DigitalTwin.Client.Dummy.UR5CobotPickAndPlaceSkillDummy, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -28144,7 +28165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8623299632640902648, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FSR.DigitalTwin.Client.Unity.Workspace.Virtual.Component.Robots.Urdf.UrdfRobotKinematic,
+      value: FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot.RobotKinematic,
         Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8623299632640902648, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
@@ -28489,7 +28510,13 @@ PrefabInstance:
       addedObject: {fileID: 1741056423}
     - targetCorrespondingSourceObject: {fileID: 472273861288168908, guid: b990ce72bcda62d4b871c5e92369120f, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 5955250382980222843}
+    - targetCorrespondingSourceObject: {fileID: 472273861288168908, guid: b990ce72bcda62d4b871c5e92369120f, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 5955250382980222842}
+    - targetCorrespondingSourceObject: {fileID: 472273861288168908, guid: b990ce72bcda62d4b871c5e92369120f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5955250382980222846}
     - targetCorrespondingSourceObject: {fileID: 8272980315594807359, guid: b990ce72bcda62d4b871c5e92369120f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5955250382980222834}
@@ -28580,6 +28607,69 @@ MonoBehaviour:
   operatorId: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#robot
   agentType: 2
   _skillList: {fileID: 761682136}
+--- !u!114 &5955250382980222843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603320903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a12e24e5378f39446987d7d3020bcb54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#SM_UR5e_Controller
+  _actor: {fileID: 5955250382980222833}
+  _enableOperationModeOverride: 0
+  _operationModeOverride: 0
+  numRobotJoints: 6
+  jointAssignmentWait: 0.1
+  poseAssignmentWait: 0.5
+  maxVelocity: 0.5
+  maxAcceleration: 0.5
+  groupName: ur_manipulator
+  baseLinkName: base
+  forceMoveItRequest: 0
+  rosServiceName: fsr_moveit_move_to_srv
+  linkNames:
+  - world/base_link/shoulder_link
+  - /upper_arm_link
+  - /forearm_link
+  - /wrist_1_link
+  - /wrist_2_link
+  - /wrist_3_link
+  rosJointNames:
+  - shoulder_pan_joint
+  - shoulder_lift_joint
+  - elbow_joint
+  - wrist_1_joint
+  - wrist_2_joint
+  - wrist_3_joint
+  robot: {fileID: 1603320903}
+  target: {x: 16.892, y: 0.8, z: -14.114}
+  targetOffset: {x: 0, y: 0, z: 0}
+  targetOrientation: {x: -180, y: 0, z: 0}
+--- !u!114 &5955250382980222846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603320903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d884bc95b7223774b9aa45fb8f0ccbc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#SM_UR5e_GripperController
+  _actor: {fileID: 156031520}
+  _enableOperationModeOverride: 0
+  _operationModeOverride: 0
+  _robot: {fileID: 1603320903}
+  _gripper: {fileID: 156031520}
+  _gripperDelaySec: 0.5
+  _mode: 0
 --- !u!224 &6740993857694528104 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7453539377829711679, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}

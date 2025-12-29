@@ -15,23 +15,17 @@ namespace RosMessageTypes.FsrMoveit
 
         public string[] joint_names;
         public double[] joints;
-        public Geometry.PoseMsg pick_pose;
-        public Geometry.PoseMsg place_pose;
 
         public MoveitJointsMsg()
         {
             this.joint_names = new string[0];
             this.joints = new double[6];
-            this.pick_pose = new Geometry.PoseMsg();
-            this.place_pose = new Geometry.PoseMsg();
         }
 
-        public MoveitJointsMsg(string[] joint_names, double[] joints, Geometry.PoseMsg pick_pose, Geometry.PoseMsg place_pose)
+        public MoveitJointsMsg(string[] joint_names, double[] joints)
         {
             this.joint_names = joint_names;
             this.joints = joints;
-            this.pick_pose = pick_pose;
-            this.place_pose = place_pose;
         }
 
         public static MoveitJointsMsg Deserialize(MessageDeserializer deserializer) => new MoveitJointsMsg(deserializer);
@@ -40,8 +34,6 @@ namespace RosMessageTypes.FsrMoveit
         {
             deserializer.Read(out this.joint_names, deserializer.ReadLength());
             deserializer.Read(out this.joints, sizeof(double), 6);
-            this.pick_pose = Geometry.PoseMsg.Deserialize(deserializer);
-            this.place_pose = Geometry.PoseMsg.Deserialize(deserializer);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
@@ -49,17 +41,13 @@ namespace RosMessageTypes.FsrMoveit
             serializer.WriteLength(this.joint_names);
             serializer.Write(this.joint_names);
             serializer.Write(this.joints);
-            serializer.Write(this.pick_pose);
-            serializer.Write(this.place_pose);
         }
 
         public override string ToString()
         {
             return "MoveitJointsMsg: " +
             "\njoint_names: " + System.String.Join(", ", joint_names.ToList()) +
-            "\njoints: " + System.String.Join(", ", joints.ToList()) +
-            "\npick_pose: " + pick_pose.ToString() +
-            "\nplace_pose: " + place_pose.ToString();
+            "\njoints: " + System.String.Join(", ", joints.ToList());
         }
 
 #if UNITY_EDITOR

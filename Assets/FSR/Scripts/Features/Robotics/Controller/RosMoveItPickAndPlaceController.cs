@@ -9,15 +9,16 @@ using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.ROSGeometry;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
 {
     /// <summary>
-    /// A robot controller that uses the MoveIt service running in a ROS2 workspace for planning.
+    /// A robot controller that uses the MoveIt service running in a ROS2 workspace for planning
+    /// Pick-and-Place movement.
     /// </summary>
     public class RosMoveitPickAndPlaceController : RobotControllerComponent
     {
-
         // MoveIt variables
         [SerializeField] private int numRobotJoints = 6;
         [SerializeField] private float jointAssignmentWait = 0.1f;
@@ -30,7 +31,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         [SerializeField] private string baseLinkName = "base";
         [SerializeField] private bool forceMoveItRequest = false;
 
-        [SerializeField] private string rosServiceName = "fsr_moveit";
+        [SerializeField] private string rosServiceName = "fsr_moveit_pick_and_place_srv";
         public string RosServiceName { get => rosServiceName; set => rosServiceName = value; }
 
         [SerializeField] private string[] linkNames = { "world/base_link/shoulder_link", "/upper_arm_link", "/forearm_link", "/wrist_1_link", "/wrist_2_link", "/wrist_3_link" };
@@ -49,20 +50,11 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
 
         // Controller interface
         public override GameObject Robot { get => robot; }
-        public override ReadOnlyReactiveProperty<bool> HasPlanned => _hasPlanned.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsValid => _isValid.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsInterrupted => _isInterrupted.ToReadOnlyReactiveProperty();
-        public override ReadOnlyReactiveProperty<bool> IsRunning => _isRunning.ToReadOnlyReactiveProperty();
-
-        private ReactiveProperty<bool> _hasPlanned = new(false);
-        private ReactiveProperty<bool> _isValid = new(false);
-        private ReactiveProperty<bool> _isInterrupted = new(false);
-        private ReactiveProperty<bool> _isRunning = new(false);
 
         // Internal state
         private PickAndPlaceServiceResponse _plannedTrajectory = null;
         private ArticulationBody[] _jointArticulationBodies;
-        private Coroutine _runningAction;
+        private IDisposable _runningAction;
 
         // Base EE interface
         [SerializeField] private GripperBase gripper;
@@ -88,130 +80,78 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 _jointArticulationBodies[i] = robot.transform.Find(linkName).GetComponent<ArticulationBody>();
             }
         }
-
-        /// <summary>
-        ///     Get the current values of the robot's joint angles.
-        /// </summary>
-        /// <returns>NiryoMoveitJoints</returns>
-        private MoveitJointsMsg CurrentJointConfig()
-        {
-            var joints = new MoveitJointsMsg { joint_names = RosJointNames };
-            for (var i = 0; i < numRobotJoints; i++)
-            {
-                joints.joints[i] = _jointArticulationBodies[i].jointPosition[0];
-            }
-            return joints;
-        }
-
-        private PickAndPlaceInputMsg PickAndPlaceConfig() => new()
-            {
-                pick_pose_z = pickPoseOffsetZ,
-                max_velocity = maxVelocity,
-                max_acceleration = maxAcceleration,
-                group_name = groupName,
-                end_effector_name = eeName,
-                base_link_name = baseLinkName
-            };
-
         public override void ForceInterrupt()
         {
             Interrupt();
         }
-
         public override bool Interrupt()
         {
-            if (_runningAction != null)
-            {
-                StopCoroutine(_runningAction);
-                _isInterrupted.Value = true;
-            }
-            return _isInterrupted.Value;
+            _runningAction?.Dispose();
+            _runningAction = null;
+            return true;
         }
-
         /// <summary>
         ///     Create a new PickAndPlaceServiceRequest with the current values of the robot's joint angles,
         ///     the target cube's current position and rotation, and the targetPlacement position and rotation.
         ///     Call the PickAndPlaceService using the ROSConnection and if a trajectory is successfully planned,
         ///     store the response in the controller's state variable.
         /// </summary>
-        public override void Plan()
+        public override bool Plan() => PlanAsync().Result;
+        /// <summary>
+        ///     Create a new PickAndPlaceServiceRequest with the current values of the robot's joint angles,
+        ///     the target cube's current position and rotation, and the targetPlacement position and rotation.
+        ///     Call the PickAndPlaceService using the ROSConnection and if a trajectory is successfully planned,
+        ///     store the response in the controller's state variable.
+        /// </summary>
+        public override async Task<bool> PlanAsync()
         {
             PickAndPlaceServiceRequest request = new()
             {
-                joints_input = CurrentJointConfig(),
-                // Pick Pose
-                pick_pose = new PoseMsg
-                {
-                    position = (target.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
-                    // The hardcoded x/z angles assure that the gripper is always positioned above the target cube before grasping.
-                    orientation = (pickOrientation * Quaternion.Euler(0.0f, -target.transform.eulerAngles.y, 0.0f)).To<FLU>() // Quaternion.identity.To<FLU>() // Quaternion.Euler(90, m_Target.transform.eulerAngles.y, 0).To<FLU>()
-                },
-                // Place Pose
-                place_pose = new PoseMsg
-                {
-                    position = (targetPlacement.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
-                    orientation = pickOrientation.To<FLU>()
-                },
-                pnp_input = PickAndPlaceConfig()
+                joints_input = GetCurrentJointConfig(),
+                group = GetMoveitGroupConfig(),
+                pars = GetPickAndPlaceParameters()
             };
-            string filename = TrajectoryFilePath(target, targetPlacement);
+            string filename = GetTrajectoryFilePath(gameObject, target, targetPlacement);
             if (!forceMoveItRequest && TrajectoryHelper.IsAvaliable(filename, out PickAndPlaceServiceResponse response))
             {
                 Debug.Log("response successfully loaded");
                 _plannedTrajectory = response;
-                _hasPlanned.Value = true;
+                return true;
             }
-            else {
-                Debug.Log("Request sent to server");
-                _ros.SendServiceMessage<PickAndPlaceServiceResponse>(rosServiceName, request, OnTrajectoryResponse);
-            }
+            Debug.Log("Request sent to server");
+            _plannedTrajectory = await SendServiceMessageAsync(request);
+            TrajectoryHelper.Save(filename, _plannedTrajectory.ToResponseData());
+            return true;
         }
-
-        private void OnTrajectoryResponse(PickAndPlaceServiceResponse response)
-        {
-            _plannedTrajectory = response;
-            _hasPlanned.Value = true;
-            string filename = TrajectoryFilePath(target, targetPlacement);
-            TrajectoryHelper.Save(filename, response);
-        }
-
-        private static string TrajectoryFilePath(GameObject from, GameObject to) 
-            => $"ros_moveit_trajectory_{from.name}_to_{to.name}";
-
-        public override void RunPlan()
-        {
-            _isInterrupted.Value = false;
-            if (!HasPlanned.Value || !IsValid.Value || IsRunning.Value)
-            {
-                Debug.LogError("Failed to run planned trajectory!");
-                return;
-            }
-            _runningAction = StartCoroutine(ExecuteTrajectories(_plannedTrajectory));
-        }
-
         public override bool ValidatePlan()
         {
-            _isValid.Value = _plannedTrajectory.trajectories.Length > 0;
-            return _isValid.Value;
+            return _plannedTrajectory != null && _plannedTrajectory.trajectories.Length > 0;
         }
-
-        public void PickAndPlace()
+        public override void RunPlan() => RunPlanAsync().RunSynchronously();
+        public override async Task RunPlanAsync()
         {
-            if (!HasPlanned.Value) 
-                Plan();
-            HasPlanned
-                .Where(x => x)
-                .First()
-                .Subscribe(_ =>
-                {
-                    if (ValidatePlan())
-                    {
-                        RunPlan();
-                    }
-                })
-                .AddTo(this);
+            if (_runningAction != null)
+            {
+                throw new Exception("should not happen");
+            }
+            var task = Observable.FromCoroutine(ExecuteTrajectories).ToTask();
+            _runningAction = task;
+            await task;
+            _runningAction = null;
         }
-        
+        private Task<PickAndPlaceServiceResponse> SendServiceMessageAsync(PickAndPlaceServiceRequest request)
+        {
+            var tcs = new TaskCompletionSource<PickAndPlaceServiceResponse>();
+            _ros.SendServiceMessage<PickAndPlaceServiceResponse>(
+                rosServiceName,
+                request,
+                response =>
+                {
+                    tcs.SetResult(response);
+                }
+            );
+            return tcs.Task;
+        }
         /// <summary>
         ///     Execute the returned trajectories from the PickAndPlaceService.
         ///     The expectation is that the PickAndPlaceService will return four trajectory plans,
@@ -223,49 +163,33 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         /// </summary>
         /// <param name="response"> PickAndPlaceServiceResponse received from niryo_moveit mover service running in ROS</param>
         /// <returns></returns>
-        IEnumerator ExecuteTrajectories(PickAndPlaceServiceResponse response)
+        IEnumerator ExecuteTrajectories()
         {
+            PickAndPlaceServiceResponse response = _plannedTrajectory;
             if (response.trajectories != null)
             {
-                // First things first open gripper
                 gripper.OpenGripper();
-
-                // For every trajectory plan returned
                 for (var poseIndex = 0; poseIndex < response.trajectories.Length; poseIndex++)
                 {
-                    // For every robot pose in trajectory plan
                     foreach (var t in response.trajectories[poseIndex].joint_trajectory.points)
                     {
                         var jointPositions = t.positions;
                         var result = jointPositions.Select(r => (float)r * Mathf.Rad2Deg).ToArray();
-
-                        // Set the joint values for every joint
                         for (var joint = 0; joint < _jointArticulationBodies.Length; joint++)
                         {
                             var joint1XDrive = _jointArticulationBodies[joint].xDrive;
                             joint1XDrive.target = result[joint];
                             _jointArticulationBodies[joint].xDrive = joint1XDrive;
                         }
-
-                        // Wait for robot to achieve pose for all joint assignments
                         yield return new WaitForSeconds(jointAssignmentWait);
                     }
-
-                    // Close the gripper if completed executing the trajectory for the Grasp pose
                     if (poseIndex == (int)Poses.Grasp)
                     {
                         gripper.CloseGripper();
                     }
-
-                    // Wait for the robot to achieve the final pose from joint assignment
                     yield return new WaitForSeconds(poseAssignmentWait);
                 }
-
-                // All trajectories have been executed, open the gripper to place the target cube
                 gripper.OpenGripper();
-
-                // Finally free running action
-                _runningAction = null;
             }
         }
 
@@ -276,5 +200,42 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             PickUp,
             Place
         }
-    }
-}
+
+        private static string GetTrajectoryFilePath(GameObject robot, GameObject from, GameObject to) 
+            => $"ros.traj.{robot.name}${from.name}_to_{to.name}.moveit";
+
+        // ROS Messages
+
+        private MoveitJointsMsg GetCurrentJointConfig()
+        {
+            var joints = new MoveitJointsMsg { joint_names = RosJointNames };
+            for (var i = 0; i < numRobotJoints; i++)
+            {
+                joints.joints[i] = _jointArticulationBodies[i].jointPosition[0];
+            }
+            return joints;
+        }
+        private PickAndPlaceInputMsg GetPickAndPlaceParameters() => new()
+            {
+                pick_pose = new PoseMsg
+                {
+                    position = (target.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
+                    orientation = (pickOrientation * Quaternion.Euler(0.0f, -target.transform.eulerAngles.y, 0.0f)).To<FLU>()
+                },
+                place_pose = new PoseMsg
+                {
+                    position = (targetPlacement.transform.position - robot.transform.position + pickPoseOffset).To<FLU>(),
+                    orientation = pickOrientation.To<FLU>()
+                },
+                pick_pose_z = pickPoseOffsetZ,
+                max_velocity = maxVelocity,
+                max_acceleration = maxAcceleration,
+            };
+        private MoveitGroupMsg GetMoveitGroupConfig() => new()
+            {
+                group_name = groupName,
+                end_effector_name = eeName,
+                base_link_name = baseLinkName
+            };
+    } // RosMoveitPickAndPlaceController
+} // namespace FSR.DigitalTwin.Client.Features.Robotics.Controller

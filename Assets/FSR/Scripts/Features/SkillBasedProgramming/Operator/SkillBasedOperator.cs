@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill;
 using UnityEngine;
 
 namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Operator
@@ -24,44 +25,44 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Operator
 
         private void FindSkills(GameObject skillList)
         {
-            var functions = skillList.GetComponents<OperatorSkillBase>();
-            foreach (var function in functions)
+            var skills = skillList.GetComponents<OperatorSkillBase>();
+            foreach (var skill in skills)
             {
-                if (_skills.ContainsKey(function.Id.ToString()))
+                if (_skills.ContainsKey(skill.Id.ToString()))
                 {
-                    Debug.LogError($"Duplicate function {function.Id} found in operator {OperatorId}");
+                    Debug.LogError($"Duplicate function {skill.Id} found in operator {OperatorId}");
                     continue;
                 }
-                _skills.Add(function.Id.ToString(), function);
-                foreach(var shortId in function.ShortIds)
+                _skills.Add(skill.Id.ToString(), skill);
+                foreach(var shortId in skill.ShortIds)
                 {
-                    _shortIds[shortId] = function;
+                    _shortIds[shortId] = skill;
                 }
             }
         }
 
-        protected override async Task<SkillResult> OnFunction(string function, object[] inputs, object[] inOuts)
+        protected override async Task<SkillResult> OnRun(string operation, string task, object[] inputs, object[] inOuts)
         {
-            if (_isBusy) throw new InvalidOperationException("Cannot launch function on a busy operator");
-            if (_shortIds.TryGetValue(function, out OperatorSkillBase skill))
+            if (_isBusy) throw new InvalidOperationException("Cannot launch operation on a busy operator");
+            if (_shortIds.TryGetValue(operation, out OperatorSkillBase skill))
             {
                 _isBusy = true;
-                _runningOperation = function;
-                var res = await skill.RunAsync(inputs, inOuts);
+                _runningOperation = operation;
+                var res = await skill.RunAsync(task, inputs, inOuts);
                 _isBusy = false;
                 _runningOperation = "";
                 return res;
             }
-            else if (_skills.TryGetValue(function, out OperatorSkillBase skill0))
+            else if (_skills.TryGetValue(operation, out OperatorSkillBase skill0))
             {
                 _isBusy = true;
-                _runningOperation = function;
-                var res = await skill0.RunAsync(inputs, inOuts);
+                _runningOperation = operation;
+                var res = await skill0.RunAsync(task, inputs, inOuts);
                 _isBusy = false;
                 _runningOperation = "";
                 return res;
             }
-            Debug.LogError($"Unknown function '{function}' in operator '{OperatorId}'");
+            Debug.LogError($"Unknown operation '{operation}' in operator '{OperatorId}'");
             return new SkillResult() { Succeeded = false, TimeExpired = TimeSpan.Zero };
         }
 

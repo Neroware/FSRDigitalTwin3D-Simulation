@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming;
+using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
 using FSR.DigitalTwin.Client.Features.UnityClient;
 
 namespace FSR.DigitalTwin.Client.Features.DES.Interfaces
@@ -34,6 +35,7 @@ namespace FSR.DigitalTwin.Client.Features.DES.Interfaces
         IList<SocialOperatorBase> Operators { init; get; }
         IDictionary<HRCGoal, IList<HRCMethod>> Goals { init; get; }
         IDictionary<HRCMethod, IDictionary<HRCTask, IList<ISet<HRCTask>>>> Methods { init; get; }
+        IDictionary<HRCFunction, IList<IOperatorSkill>> Skills { init; get; }
         IList<HRCFunction> Functions { init; get; }
         IProcessSimulation Simulation { set; get; }
 

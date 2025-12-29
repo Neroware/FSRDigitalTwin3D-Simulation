@@ -1,6 +1,6 @@
 using System;
 
-namespace FSR.DigitalTwin.Client.Common.Utils.Semantic
+namespace FSR.DigitalTwin.Client.Common.Utils
 {
     public class UriPrefix
     {

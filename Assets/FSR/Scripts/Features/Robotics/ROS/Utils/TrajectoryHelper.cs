@@ -14,7 +14,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
     {
         private static readonly string CACHE_DIRECTORY = Path.Combine(Application.dataPath, "Moveit.Trajectories");
 
-        public static ResponseData ToPickAndPlaceResponseData(this PickAndPlaceServiceResponse resp)
+        public static ResponseData ToResponseData(this PickAndPlaceServiceResponse resp)
         {
             var traj_ = new TrajectoryData[resp.trajectories.Length];
             int i = 0;
@@ -35,8 +35,25 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
             }
             return new ResponseData { trajectories = traj_ };
         }
+        public static ResponseData ToResponseData(this MoveToServiceResponse resp)
+        {
+            var traj_ = new TrajectoryData[1];
+            var traj = resp.trajectory;
+            var jt_ = new JointTrajectoryPoints[traj.joint_trajectory.points.Length];
+            if (traj?.joint_trajectory?.points != null)
+            {
+                int n = 0;
+                foreach (var p in traj.joint_trajectory.points)
+                {
+                    jt_[n] = new JointTrajectoryPoints { positions = p.positions ?? new double[0] };
+                    n++;
+                }
+            }
+            traj_[0] = new TrajectoryData { jointTrajectory = new JointTrajectory { points = jt_ } };
+            return new ResponseData { trajectories = traj_ };
+        }
 
-        public static PickAndPlaceServiceResponse ToMoveItPickAndPlaceServiceResponse(this ResponseData resp) => new()
+        public static PickAndPlaceServiceResponse ToRosPickAndPlaceServiceResponse(this ResponseData resp) => new()
             {
                 trajectories = resp.trajectories.Select(traj => new RobotTrajectoryMsg
                 {
@@ -56,18 +73,38 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
                     multi_dof_joint_trajectory = null
                 }).ToArray()
             };
+        public static MoveToServiceResponse ToMoveServiceResponse(this ResponseData resp) => new()
+            {
+                trajectory = resp.trajectories.Select(traj => new RobotTrajectoryMsg
+                {
+                    joint_trajectory = new JointTrajectoryMsg
+                    {
+                        header = null,
+                        joint_names = null,
+                        points = traj.jointTrajectory.points.Select(point => new JointTrajectoryPointMsg
+                        {           
+                            positions = point.positions,
+                            velocities = null,
+                            accelerations = null,
+                            effort = null,
+                            time_from_start = null
+                        }).ToArray()
+                    },
+                    multi_dof_joint_trajectory = null
+                }).ToArray().First()
+            };
         
         /// <summary>
         /// Speichert das Request/Response-Paar als JSON in Application.persistentDataPath/TrajectoryCache.
         /// Dateiname: cache_{GUID}.json
         /// </summary>
-        public static void Save(string name, PickAndPlaceServiceResponse response)
+        public static void Save(string name, ResponseData response)
         {
             if (!Directory.Exists(CACHE_DIRECTORY))
                 Directory.CreateDirectory(CACHE_DIRECTORY);
             var cache = new CacheFile
             {
-                response = response.ToPickAndPlaceResponseData()
+                response = response
             };
             string path = Path.Combine(CACHE_DIRECTORY, name) + ".json";
             try
@@ -111,17 +148,38 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils
 
         public static bool IsAvaliable(string name, out PickAndPlaceServiceResponse response)
         {
+            var cache = GetCachedTrajectory(name);
+            if (cache == null)
+            {
+                response = null;
+                return false;
+            }
+            response = cache.response.ToRosPickAndPlaceServiceResponse();
+            return true;
+        }
+        public static bool IsAvaliable(string name, out MoveToServiceResponse response)
+        {
+            var cache = GetCachedTrajectory(name);
+            if (cache == null)
+            {
+                response = null;
+                return false;
+            }
+            response = cache.response.ToMoveServiceResponse();
+            return true;
+        }
+
+        private static CacheFile GetCachedTrajectory(string name)
+        {
             List<CacheFile> files = LoadAll();
             foreach (CacheFile file in files)
             {
                 if (file.filename == name)
                 {
-                    response = file.response.ToMoveItPickAndPlaceServiceResponse();
-                    return true;
+                    return file;
                 }
             }
-            response = null;
-            return false;
+            return null;
         }
     } // class TrajectoryHelper
 } // namespace FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils

@@ -1,3 +1,7 @@
+using System;
+using System.Threading.Tasks;
+using FSR.DigitalTwin.Client.Features.Robotics.Interfaces;
+using FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot;
 using UniRx;
 using UnityEngine;
 
@@ -6,37 +10,66 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
     /// <summary>
     /// A native robot controller for very simple gripping end-effectors
     /// </summary>
-    public class NativeGripperController : RobotControllerComponent
+    public class NativeGripperController : RobotControllerComponent, IGripperController
     {
-        public override GameObject Robot => throw new System.NotImplementedException();
-        public override ReadOnlyReactiveProperty<bool> HasPlanned => throw new System.NotImplementedException();
-        public override ReadOnlyReactiveProperty<bool> IsValid => throw new System.NotImplementedException();
-        public override ReadOnlyReactiveProperty<bool> IsInterrupted => throw new System.NotImplementedException();
-        public override ReadOnlyReactiveProperty<bool> IsRunning => throw new System.NotImplementedException();
+        [SerializeField] private GameObject _robot;
+        [SerializeField] private GripperBase _gripper;
+        [SerializeField] private double _gripperDelaySec = 0.5;
+        [SerializeField] private EMode _mode;
 
-        public override void ForceInterrupt()
+        public enum EMode
         {
-            throw new System.NotImplementedException();
+            OPEN, CLOSE
         }
+        
+        // Controller interface
+        public override GameObject Robot => _robot;
+        public IGripperTool Gripper => _gripper;
 
-        public override bool Interrupt()
+        public override bool Plan()
         {
-            throw new System.NotImplementedException();
+            return _gripper != null;
         }
-
-        public override void Plan()
+        public override Task<bool> PlanAsync()
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(Plan());
         }
-
-        public override void RunPlan()
-        {
-            throw new System.NotImplementedException();
-        }
-
         public override bool ValidatePlan()
         {
-            throw new System.NotImplementedException();
+            return _gripper != null;
         }
+        public override void RunPlan()
+        {
+            if (_mode == EMode.OPEN) OpenGripper();
+            else CloseGripper();
+        }
+        public override async Task RunPlanAsync()
+        {
+            if (_mode == EMode.OPEN) await OpenGripperAsync();
+            else await CloseGripperAsync();
+        }
+        public override bool Interrupt() => true;
+        public override void ForceInterrupt() { Interrupt(); }
+        public void OpenGripper()
+        {
+            _gripper.OpenGripper();
+            Task.Delay(TimeSpan.FromSeconds(_gripperDelaySec)).RunSynchronously();
+        }
+        public async Task OpenGripperAsync()
+        {
+            _gripper.OpenGripper();
+            await Task.Delay(TimeSpan.FromSeconds(_gripperDelaySec));
+        }
+        public void CloseGripper()
+        {
+            _gripper.CloseGripper();
+            Task.Delay(TimeSpan.FromSeconds(_gripperDelaySec)).RunSynchronously();
+        }
+        public async Task CloseGripperAsync()
+        {
+            _gripper.CloseGripper();
+            await Task.Delay(TimeSpan.FromSeconds(_gripperDelaySec));
+        }
+        public void SetMode(EMode mode) => _mode = mode;
     }
 }
