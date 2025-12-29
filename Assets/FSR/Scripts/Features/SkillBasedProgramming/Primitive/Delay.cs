@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using FSR.DigitalTwin.Client.Common.Utils.Semantic;
+using FSR.DigitalTwin.Client.Common.Utils;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
 
 namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive
@@ -14,12 +14,12 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive
         {
             _delay = delay;
         }
-        public PrimitiveResult Execute(object[] inputs)
+        public PrimitiveResult Execute(string task, object[] inputs)
         {
             Task.Delay(_delay).RunSynchronously();
             return new PrimitiveResult { Succeeded = true, Outputs = new object[0]};
         }
-        public async Task<PrimitiveResult> ExecuteAsync(object[] inputs)
+        public async Task<PrimitiveResult> ExecuteAsync(string task, object[] inputs)
         {
             await Task.Delay(_delay);
             return new PrimitiveResult { Succeeded = true, Outputs = new object[0]};

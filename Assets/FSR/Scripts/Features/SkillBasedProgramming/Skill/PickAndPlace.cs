@@ -23,27 +23,27 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill
             placeOrientation = (Vector3) input[3];
             return true;
         }
-        public override SkillResult Run(object[] inputs, object[] inOuts)
+        public override SkillResult Run(string task, object[] inputs, object[] inOuts)
         {
             if (!GetMappedInput(inputs, out Vector3 pickPosition, out Vector3 pickOrientation, 
                 out Vector3 placePosition, out Vector3 placeOrientation))
             {
                 return SkillResult.Failure(TimeSpan.Zero, "Bad input");
             }
-            return Run(pickPosition, pickOrientation, placePosition, placeOrientation);
+            return Run(task, pickPosition, pickOrientation, placePosition, placeOrientation);
         }
-        public override async Task<SkillResult> RunAsync(object[] inputs, object[] inOuts)
+        public override async Task<SkillResult> RunAsync(string task, object[] inputs, object[] inOuts)
         {
             if (!GetMappedInput(inputs, out Vector3 pickPosition, out Vector3 pickOrientation, 
                 out Vector3 placePosition, out Vector3 placeOrientation))
             {
                 return SkillResult.Failure(TimeSpan.Zero, "Bad input");
             }
-            return await RunAsync(pickPosition, pickOrientation, placePosition, placeOrientation);
+            return await RunAsync(task, pickPosition, pickOrientation, placePosition, placeOrientation);
         }
-        public abstract SkillResult Run(Vector3 pickPosition, Vector3 pickOrientation, 
+        public abstract SkillResult Run(string task, Vector3 pickPosition, Vector3 pickOrientation, 
             Vector3 placePosition, Vector3 placeOrientation);
-        public abstract Task<SkillResult> RunAsync(Vector3 pickPosition, Vector3 pickOrientation, 
+        public abstract Task<SkillResult> RunAsync(string task, Vector3 pickPosition, Vector3 pickOrientation, 
             Vector3 placePosition, Vector3 placeOrientation);
     }
 }

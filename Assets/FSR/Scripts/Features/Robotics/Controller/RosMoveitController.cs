@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils;
+using FSR.DigitalTwin.Client.Features.UnityClient.GRPC.AAS.Utils;
 using RosMessageTypes.FsrMoveit;
 using RosMessageTypes.Geometry;
 using UniRx;
@@ -73,7 +74,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 group = GetMoveitGroupConfig(),
                 pars = GetMoveParameters()
             };
-            string filename = GetTrajectoryFilePath(trajectoryName, robot);
+            string filename = GetTrajectoryFilePath(robot, trajectoryName);
             if (!forceMoveItRequest && TrajectoryHelper.IsAvaliable(filename, out MoveToServiceResponse response))
             {
                 Debug.Log("response successfully loaded");
@@ -145,8 +146,8 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             }
         }
 
-        private string GetTrajectoryFilePath(string trajectoryName, GameObject robot)
-            => $"ros.traj.{robot.name}${trajectoryName}.moveit";
+        private static string GetTrajectoryFilePath(GameObject robot, string trajectoryName)
+            => $"ros2.{robot.name}.{trajectoryName}.moveit";
 
         // ROS Messages
 

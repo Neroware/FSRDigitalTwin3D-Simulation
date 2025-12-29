@@ -14,12 +14,12 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill
         public Uri Id => new(_id);
 
         public abstract List<IDevicePrimitive> Primitives { get; }
-        public virtual SkillResult Run(object[] inputs, object[] inOuts)
+        public virtual SkillResult Run(string task, object[] inputs, object[] inOuts)
         {
             SkillResult result = new();
             for (int i = 0; i < Primitives.Count; i++)
             {
-                var res = Primitives[i].Execute(inputs);
+                var res = Primitives[i].Execute(task, inputs);
                 if (res.Failed)
                 {
                     // TODO Use clock to determine time delta
@@ -30,12 +30,12 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill
             // TODO Use clock to determine time delta
             return result with { Succeeded = true, TimeExpired = TimeSpan.Zero };
         }
-        public virtual async Task<SkillResult> RunAsync(object[] inputs, object[] inOuts)
+        public virtual async Task<SkillResult> RunAsync(string task, object[] inputs, object[] inOuts)
         {
             SkillResult result = new();
             for (int i = 0; i < Primitives.Count; i++)
             {
-                var res = await Primitives[i].ExecuteAsync(inputs);
+                var res = await Primitives[i].ExecuteAsync(task, inputs);
                 if (res.Failed)
                 {
                     // TODO Use clock to determine time delta

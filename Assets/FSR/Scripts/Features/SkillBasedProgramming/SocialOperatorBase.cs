@@ -19,7 +19,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
         public abstract string RunningOperation { get; }
         public EHRCAgentType AgentType => agentType;
 
-        protected abstract Task<SkillResult> OnRun(string operation, object[] inputs, object[] inOuts);
+        protected abstract Task<SkillResult> OnRun(string operation, string task, object[] inputs, object[] inOuts);
 
         public Uri OperatorId => operatorId.Length == 0 ? Id : new(operatorId);
 
@@ -54,7 +54,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
                 ProcessName = invocation.ProcessName,
                 State = ProcessExecutionState.EState.INITIATED
             };
-            var res = await OnRun(invocation.ProcessName, invocation.Inputs, invocation.InOuts);
+            var res = await OnRun(invocation.ProcessName, invocation.Id, invocation.Inputs, invocation.InOuts);
             if (res.Failed)
             {
                 await DigitalWorkspace.Instance.Operational
@@ -76,25 +76,25 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
         {
             await RunOperationAsync(invocation);
         }
-        public SkillResult RunOperation(string operation, object[] inputs, object[] inOuts)
+        public SkillResult RunOperation(string operation, string task, object[] inputs, object[] inOuts)
         {
             if (IsBusy)
             {
                 throw new InvalidOperationException("Cannot run operation because operator is busy!");
             }
-            return OnRun(operation, inputs, inOuts).Result;
+            return OnRun(operation, task, inputs, inOuts).Result;
         }
-        public async Task<SkillResult> RunOperationAsync(string operation, object[] inputs, object[] inOuts)
+        public async Task<SkillResult> RunOperationAsync(string operation, string task, object[] inputs, object[] inOuts)
         {
             if (IsBusy)
             {
                 throw new InvalidOperationException("Cannot run operation because operator is busy!");
             }
-            return await OnRun(operation, inputs, inOuts);
+            return await OnRun(operation, task, inputs, inOuts);
         }
         public HRCProcessResult<HRCFunction> RunOperation(string operation, HRCFunction function)
         {
-            var res = RunOperation(operation, function.Inputs, function.InOuts);
+            var res = RunOperation(operation, function.TaskId, function.Inputs, function.InOuts);
             return new HRCProcessResult<HRCFunction>()
             {
                 Process = function,
@@ -105,7 +105,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
         }
         public async Task<HRCProcessResult<HRCFunction>> RunOperationAsync(string operation, HRCFunction function)
         {
-            var res = await RunOperationAsync(operation, function.Inputs, function.InOuts);
+            var res = await RunOperationAsync(operation, function.TaskId, function.Inputs, function.InOuts);
             return new HRCProcessResult<HRCFunction>()
             {
                 Process = function,

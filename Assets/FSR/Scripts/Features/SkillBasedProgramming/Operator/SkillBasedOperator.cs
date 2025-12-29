@@ -41,14 +41,14 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Operator
             }
         }
 
-        protected override async Task<SkillResult> OnRun(string operation, object[] inputs, object[] inOuts)
+        protected override async Task<SkillResult> OnRun(string operation, string task, object[] inputs, object[] inOuts)
         {
             if (_isBusy) throw new InvalidOperationException("Cannot launch operation on a busy operator");
             if (_shortIds.TryGetValue(operation, out OperatorSkillBase skill))
             {
                 _isBusy = true;
                 _runningOperation = operation;
-                var res = await skill.RunAsync(inputs, inOuts);
+                var res = await skill.RunAsync(task, inputs, inOuts);
                 _isBusy = false;
                 _runningOperation = "";
                 return res;
@@ -57,7 +57,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Operator
             {
                 _isBusy = true;
                 _runningOperation = operation;
-                var res = await skill0.RunAsync(inputs, inOuts);
+                var res = await skill0.RunAsync(task, inputs, inOuts);
                 _isBusy = false;
                 _runningOperation = "";
                 return res;

@@ -16,7 +16,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Native
             _controller = controller;
             _mode = mode;
         }
-        public override PrimitiveResult Execute()
+        public override PrimitiveResult Execute(string task)
         {
             if (_mode == EMode.OPEN)
             {
@@ -28,7 +28,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Native
             }
             return PrimitiveResult.Success(new object[0]);
         }
-        public override async Task<PrimitiveResult> ExecuteAsync()
+        public override async Task<PrimitiveResult> ExecuteAsync(string task)
         {
             if (_mode == EMode.OPEN)
             {
