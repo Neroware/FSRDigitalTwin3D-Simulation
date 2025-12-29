@@ -89,21 +89,6 @@ namespace FSR.DigitalTwin.Client.Features.Player
             verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
             cameraTransform.localEulerAngles = Vector3.right * verticalLookRotation;
         }
-
-        // void OnGUI()
-        // {
-        //     //Press this button to lock the Cursor
-        //     if (GUI.Button(new Rect(0, 0, 100, 50), "Lock Cursor"))
-        //     {
-        //         Cursor.lockState = CursorLockMode.Locked;
-        //     }
-
-        //     //Press this button to confine the Cursor within the screen
-        //     if (GUI.Button(new Rect(125, 0, 100, 50), "Confine Cursor"))
-        //     {
-        //         Cursor.lockState = CursorLockMode.Confined;
-        //     }
-        // }
     }
 
 }
