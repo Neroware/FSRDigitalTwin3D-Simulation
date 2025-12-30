@@ -77,7 +77,7 @@ MonoBehaviour:
   inputActions: {fileID: 2828587764599098497}
   moveSpeed: 5
   lookSpeed: 1
-  jumpHeight: 0.75
+  jumpHeight: 0.5
   gravity: -9.81
 --- !u!114 &2828587764599098497
 MonoBehaviour:

@@ -29,6 +29,7 @@ namespace FSR.DigitalTwin.Client.Features.Player
             Cursor.lockState = CursorLockMode.Locked;
 
             inputActions.Camera
+                .Where(_ => gameObject.activeSelf)
                 .Where(_ => Cursor.lockState == CursorLockMode.Locked)
                 .Subscribe(OnCameraMove)
                 .AddTo(this);
