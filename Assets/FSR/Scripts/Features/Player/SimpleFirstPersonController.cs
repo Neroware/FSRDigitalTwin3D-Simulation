@@ -1,7 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
+using FSR.DigitalTwin.Client.Features.Player.Controls;
+using UniRx;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace FSR.DigitalTwin.Client.Features.Player
 {
@@ -9,85 +8,74 @@ namespace FSR.DigitalTwin.Client.Features.Player
     [RequireComponent(typeof(CharacterController))]
     public class SimpleFirstPersonController : MonoBehaviour
     {
+        [SerializeField] private PlayerControlsInputActions inputActions;
+
         [Header("Movement Settings")]
-        public float moveSpeed = 5f;
-        public float lookSpeed = 2f;
-        public float jumpHeight = 1.5f;
-        public float gravity = -9.81f;
+        [SerializeField] private float moveSpeed = 5f;
+        [SerializeField] private float lookSpeed = 2f;
+        [SerializeField] private float jumpHeight = 1.5f;
+        [SerializeField] private float gravity = -9.81f;
 
         private CharacterController controller;
-        private Vector2 moveInput;
-        private Vector2 lookInput;
         private float verticalLookRotation = 0f;
         private Transform cameraTransform;
 
-        private float verticalVelocity = 0f;
-        private bool jumpPressed = false;
+        private Vector3 linearVelocity = Vector3.zero;
 
-        void Awake()
+        private void Start()
         {
             controller = GetComponent<CharacterController>();
             cameraTransform = GetComponentInChildren<Camera>().transform;
             Cursor.lockState = CursorLockMode.Locked;
+
+            inputActions.Camera
+                .Where(_ => Cursor.lockState == CursorLockMode.Locked)
+                .Subscribe(OnCameraMove)
+                .AddTo(this);
+            inputActions.Move
+                .Subscribe(OnMove)
+                .AddTo(this);
+            inputActions.Jump
+                .Where(x => controller.isGrounded)
+                .Subscribe(_ => OnJump())
+                .AddTo(this);
+            inputActions.ControlSelect
+                .Subscribe(_ => {
+                    Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? 
+                        CursorLockMode.None : CursorLockMode.Locked;
+                })
+                .AddTo(this);
         }
 
-        public void OnMove(InputAction.CallbackContext context)
+        private void OnJump()
         {
-            moveInput = context.ReadValue<Vector2>();
+            linearVelocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
-        public void OnLook(InputAction.CallbackContext context)
+        private void OnCameraMove(Vector2 movement)
         {
-            lookInput = context.ReadValue<Vector2>();
+            transform.Rotate(Vector3.up * movement.x * lookSpeed);
+            verticalLookRotation -= movement.y * lookSpeed;
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
+            cameraTransform.localEulerAngles = Vector3.right * verticalLookRotation;
         }
 
-        public void OnJump(InputAction.CallbackContext context)
+        private void OnMove(Vector2 movement)
         {
-            if (context.performed)
-            {
-                jumpPressed = true;
-            }
+            Vector3 v = transform.forward * movement.y + transform.right * movement.x;
+            linearVelocity.x = moveSpeed * v.x;
+            linearVelocity.z = moveSpeed * v.z;
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.V))
-                Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? 
-                    CursorLockMode.None : CursorLockMode.Locked;
-            if (Cursor.lockState == CursorLockMode.Locked) { 
-                MoveCharacter();
-                return;
-            }
-        }
+            controller.Move(Time.deltaTime * linearVelocity);
 
-        private void MoveCharacter()
-        {
+            linearVelocity.y = controller.isGrounded ? 
+                -0.1f : linearVelocity.y + gravity * Time.deltaTime;
 
-            // Bewegung
-            Vector3 move = transform.forward * moveInput.y + transform.right * moveInput.x;
-            if (controller.isGrounded)
-            {
-                verticalVelocity = -2f;
-                if (jumpPressed)
-                {
-                    verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
-                    jumpPressed = false;
-                }
-            }
-            else
-            {
-                verticalVelocity += gravity * Time.deltaTime;
-            }
-
-            move.y = verticalVelocity;
-            controller.Move(move * moveSpeed * Time.deltaTime);
-
-            // Mausbewegung
-            transform.Rotate(Vector3.up * lookInput.x * lookSpeed);
-
-            verticalLookRotation -= lookInput.y * lookSpeed;
-            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -90f, 90f);
-            cameraTransform.localEulerAngles = Vector3.right * verticalLookRotation;
+            // Decelerate immediately
+            linearVelocity.x = linearVelocity.z = 0.0f;
         }
     }
 
