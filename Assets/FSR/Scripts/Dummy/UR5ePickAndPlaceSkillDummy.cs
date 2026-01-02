@@ -16,7 +16,8 @@ namespace FSR.DigitalTwin.Client.Dummy {
         [SerializeField] private RosMoveitController _controller;
         public async void RunPickAndPlaceSkillTest()
         {
-            pnp.SetOffsets(pickOffset, placeOffset);
+            pnp.PickOffset = pickOffset;
+            pnp.PlaceOffset = placeOffset;
             await pnp.RunAsync("pi:pnp-test", pickTarget.transform, new Vector3(-180, 0, 0), 
                 placeLocation.transform, new Vector3(-180, 0, 0));
         }

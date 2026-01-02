@@ -12,31 +12,31 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Moveit
         {
             _controller = controller;
         }
-        public override async Task<MotionResult> ExecuteAsync(string task, Vector3 target, Vector3 orientation)
+        public override async Task<PrimitiveResult> ExecuteAsync(string task)
         {
-            _controller.Target = target;
-            _controller.TargetOrientation = orientation;
+            _controller.Target = Target;
+            _controller.TargetOrientation = Orientation;
             _controller.TrajectoryName = $"{Name}.{Base64Converter.EncodeString(task)}";
             await _controller.PlanAsync();
             if (!_controller.ValidatePlan())
             {
-                return MotionResult.Failure();
+                return PrimitiveResult.Failure();
             }
             await _controller.RunPlanAsync();
-            return MotionResult.Success(new double[0]); // TODO Return joint orientation as output
+            return PrimitiveResult.Success(new object[0]); // TODO Return joint orientation as output
         }
-        public override MotionResult Execute(string task, Vector3 target, Vector3 orientation)
+        public override PrimitiveResult Execute(string task)
         {
-            _controller.Target = target;
-            _controller.TargetOrientation = orientation;
+            _controller.Target = Target;
+            _controller.TargetOrientation = Orientation;
             _controller.TrajectoryName = task;
             _controller.Plan();
             if (!_controller.ValidatePlan())
             {
-                return MotionResult.Failure();
+                return PrimitiveResult.Failure();
             }
             _controller.RunPlan();
-            return MotionResult.Success(new double[0]); // TODO Return joint orientation as output
+            return PrimitiveResult.Success(new object[0]); // TODO Return joint orientation as output
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils;
-using FSR.DigitalTwin.Client.Features.UnityClient.GRPC.AAS.Utils;
 using RosMessageTypes.FsrMoveit;
 using RosMessageTypes.Geometry;
 using UniRx;
@@ -46,6 +45,8 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         public string TrajectoryName { set => trajectoryName = value; }
         public Vector3 Target { get => target; set => target = value; }
         public Vector3 TargetOrientation { get => targetOrientation; set => targetOrientation = value; }
+        public float MaxVelocity { get => maxVelocity; set => maxVelocity = value; }
+        public float MaxAcceleration { get => maxAcceleration; set => maxAcceleration = value; }
 
         // Controller interface
         public override GameObject Robot => robot;

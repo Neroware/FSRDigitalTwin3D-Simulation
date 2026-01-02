@@ -1,5 +1,7 @@
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
 using UnityEngine;
 
 namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill
@@ -8,14 +10,12 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill
     {
         [SerializeField] protected Vector3 pickOffset = Vector3.zero;
         [SerializeField] protected Vector3 placeOffset = Vector3.zero;
+        // Parameters
+        public Vector3 PickOffset { set => pickOffset = value; get => pickOffset; }
+        public Vector3 PlaceOffset { set => placeOffset = value; get => placeOffset; }
         protected enum EPrimitives
         {
             OPEN_GRIPPER, PRE_GRASP, GRASP, CLOSE_GRIPPER, PICKUP, PRE_PLACE, PLACE, RELEASE
-        }
-        public void SetOffsets(Vector3 pickOffset, Vector3 placeOffset)
-        {
-            this.pickOffset = pickOffset;
-            this.placeOffset = placeOffset;
         }
         private bool GetMappedInput(in object[] input, out Transform pickTarget, out Vector3 pickOrientation,
             out Transform placeTarget, out Vector3 placeOrientation)
@@ -31,27 +31,28 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill
             placeOrientation = (Vector3) input[3];
             return true;
         }
-        public override SkillResult Run(string task, object[] inputs, object[] inOuts)
+        protected override IEnumerable<IDevicePrimitive> GetPrimitivePlan(object[] inputs, object[] inOuts)
         {
             if (!GetMappedInput(inputs, out Transform pickPosition, out Vector3 pickOrientation, 
                 out Transform placePosition, out Vector3 placeOrientation))
             {
-                return SkillResult.Failure(TimeSpan.Zero, "Bad input");
+                Debug.LogError("Bad input! Failed to construct skill primitive plan!");
+                return new IDevicePrimitive[0];
             }
-            return Run(task, pickPosition, pickOrientation, placePosition, placeOrientation);
+            return GetPrimitivePlan(pickPosition, pickOrientation, placePosition, placeOrientation);
         }
-        public override async Task<SkillResult> RunAsync(string task, object[] inputs, object[] inOuts)
+        protected abstract IEnumerable<IDevicePrimitive> GetPrimitivePlan(Transform pickTarget, Vector3 pickOrientation, Transform placeTarget, Vector3 placeOrientation);
+        public SkillResult Run(string task, Transform pickTarget, Vector3 pickOrientation, Transform placeTarget, Vector3 placeOrientation)
         {
-            if (!GetMappedInput(inputs, out Transform pickPosition, out Vector3 pickOrientation, 
-                out Transform placePosition, out Vector3 placeOrientation))
-            {
-                return SkillResult.Failure(TimeSpan.Zero, "Bad input");
-            }
-            return await RunAsync(task, pickPosition, pickOrientation, placePosition, placeOrientation);
+            List<IDevicePrimitive> primitives = GetPrimitivePlan(
+                pickTarget, pickOrientation, placeTarget, placeOrientation).ToList();
+            return OnRun(task, primitives);
         }
-        public abstract SkillResult Run(string task, Transform pickTarget, Vector3 pickOrientation, 
-            Transform placeTarget, Vector3 placeOrientation);
-        public abstract Task<SkillResult> RunAsync(string task, Transform pickTarget, Vector3 pickOrientation, 
-            Transform placeTarget, Vector3 placeOrientation);
+        public Task<SkillResult> RunAsync(string task, Transform pickTarget, Vector3 pickOrientation, Transform placeTarget, Vector3 placeOrientation)
+        {
+            List<IDevicePrimitive> primitives = GetPrimitivePlan(
+                pickTarget, pickOrientation, placeTarget, placeOrientation).ToList();
+            return OnRunAsync(task, primitives);
+        }
     }
 }
