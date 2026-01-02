@@ -10808,7 +10808,6 @@ GameObject:
   m_Component:
   - component: {fileID: 761682137}
   - component: {fileID: 761682138}
-  - component: {fileID: 761682140}
   m_Layer: 0
   m_Name: Skills
   m_TagString: Untagged
@@ -10852,28 +10851,6 @@ MonoBehaviour:
   _gripperController: {fileID: 5955250382980222846}
   prePickOffset: {x: 0, y: 0.2, z: 0}
   prePlaceOffset: {x: 0, y: 0.2, z: 0}
---- !u!114 &761682140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 761682136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7632049bc48d7344cb905c224c7c8761, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#robot-screw-skill
-  _shortIds:
-  - screw
-  - join
-  eeOffset: {x: 0, y: 0, z: 0}
-  eeOrientation: {x: 0, y: 0, z: 0}
-  startPositionEnabled: 0
-  startPosition: {x: 0, y: 0, z: 0}
-  _controller: {fileID: 0}
-  screwOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &764170675
 GameObject:
   m_ObjectHideFlags: 0
@@ -24992,7 +24969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1965828236
 Transform:
   m_ObjectHideFlags: 0

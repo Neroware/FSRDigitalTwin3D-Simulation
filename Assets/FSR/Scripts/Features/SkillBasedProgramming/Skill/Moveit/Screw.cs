@@ -5,7 +5,7 @@ using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive;
 using UnityEngine;
 
-namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.UR5e
+namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.Moveit
 {
     public class Screw : ScrewBase
     {
