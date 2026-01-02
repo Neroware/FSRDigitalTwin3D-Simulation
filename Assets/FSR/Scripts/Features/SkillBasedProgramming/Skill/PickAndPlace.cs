@@ -8,12 +8,12 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill
 {
     public abstract class PickAndPlaceBase : OperatorSkillBase
     {
-        [SerializeField] protected Vector3 pickOffset = Vector3.zero;
-        [SerializeField] protected Vector3 placeOffset = Vector3.zero;
+        [SerializeField] private Vector3 pickOffset = Vector3.zero;
+        [SerializeField] private Vector3 placeOffset = Vector3.zero;
         // Parameters
         public Vector3 PickOffset { set => pickOffset = value; get => pickOffset; }
         public Vector3 PlaceOffset { set => placeOffset = value; get => placeOffset; }
-        protected enum EPrimitives
+        public enum EPrimitives
         {
             OPEN_GRIPPER, PRE_GRASP, GRASP, CLOSE_GRIPPER, PICKUP, PRE_PLACE, PLACE, RELEASE
         }

@@ -6253,6 +6253,7 @@ Transform:
   m_Children:
   - {fileID: 399024707}
   - {fileID: 235922134}
+  - {fileID: 1945700403}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &365743259
@@ -6543,10 +6544,8 @@ GameObject:
   m_Component:
   - component: {fileID: 399024707}
   - component: {fileID: 399024708}
-  - component: {fileID: 399024709}
-  - component: {fileID: 399024710}
   m_Layer: 0
-  m_Name: Testing
+  m_Name: App
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6574,33 +6573,9 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 399024706}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1aafaa369e5d33142941fbda48777b70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &399024709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 399024706}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1b8edb501d6ef1469748a5effbbdc51, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &399024710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 399024706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a9076c35492d044eb27b97c8c66d4da, type: 3}
+  m_Script: {fileID: 11500000, guid: 337c2765f20046c44849b7581620b398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &399213439
@@ -12696,6 +12671,8 @@ MonoBehaviour:
   _id: http://pst.istc.cnr.it/ontologies/2019/01/soho#PickPlace
   _shortIds:
   - pick_and_place
+  pickOffset: {x: 0, y: 0, z: 0}
+  placeOffset: {x: 0, y: 0, z: 0}
   _controller: {fileID: 0}
   _gripperController: {fileID: 0}
   prePickOffset: {x: -0, y: -0.2, z: -0}
@@ -12715,6 +12692,12 @@ MonoBehaviour:
   _id: http://pst.istc.cnr.it/ontologies/2019/01/soho#Join
   _shortIds:
   - join
+  eeOffset: {x: 0, y: 0, z: 0}
+  eeOrientation: {x: 0, y: 0, z: 0}
+  startPositionEnabled: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  _controller: {fileID: 0}
+  screwOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &761682140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12730,6 +12713,12 @@ MonoBehaviour:
   _id: http://pst.istc.cnr.it/ontologies/2019/01/soho#Screw
   _shortIds:
   - screw
+  eeOffset: {x: 0, y: 0, z: 0}
+  eeOrientation: {x: 0, y: 0, z: 0}
+  startPositionEnabled: 0
+  startPosition: {x: 0, y: 0, z: 0}
+  _controller: {fileID: 0}
+  screwOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &764170675
 GameObject:
   m_ObjectHideFlags: 0
@@ -28388,6 +28377,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942443906}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1945700402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1945700403}
+  m_Layer: 0
+  m_Name: Testing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1945700403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945700402}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 365743258}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1947558050
 GameObject:
   m_ObjectHideFlags: 0
@@ -31633,32 +31653,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1741056423}
+      objectReference: {fileID: 399024708}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PickAndPlace
+      value: RunPickAndPlaceSkill
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FSR.DigitalTwin.Client.Features.Robotics.Controller.RosMoveitPickAndPlaceController,
-        Assembly-CSharp
+      value: FSR.DigitalTwin.Client.App.AppCallbacks, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: UnityEngine.GameObject, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3370610138642567117, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_Name
-      value: DebugTerminal
+      value: SimulationTerminal
       objectReference: {fileID: 0}
     - target: {fileID: 7453539377829711679, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_Pivot.x
@@ -31749,16 +31768,24 @@ PrefabInstance:
       value: 119.42478
       objectReference: {fileID: 0}
     - target: {fileID: 7529551079614223320, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7529551079614223320, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 399024710}
+      objectReference: {fileID: 399024708}
     - target: {fileID: 7529551079614223320, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: RunDESSimulation
       objectReference: {fileID: 0}
     - target: {fileID: 7529551079614223320, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FSR.DigitalTwin.Client.Dummy.DESDummy, Assembly-CSharp
+      value: FSR.DigitalTwin.Client.App.AppCallbacks, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7529551079614223320, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: capital-goods
       objectReference: {fileID: 0}
     - target: {fileID: 7966997562750277670, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

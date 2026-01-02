@@ -19,8 +19,8 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.Moveit
 
         protected override IEnumerable<IDevicePrimitive> GetPrimitivePlan(Transform pickTarget, Vector3 pickOrientation, Transform placeTarget, Vector3 placeOrientation)
         {
-            Vector3 pickPosition = pickTarget.position + pickOffset;
-            Vector3 placePosition = placeTarget.position + placeOffset;
+            Vector3 pickPosition = pickTarget.position + PickOffset;
+            Vector3 placePosition = placeTarget.position + PlaceOffset;
             yield return new Primitive.Moveit.Motion(_controller) 
             { 
                 Name = "pnp-pre-grasp",

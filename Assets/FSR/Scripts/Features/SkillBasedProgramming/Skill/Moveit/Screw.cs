@@ -1,39 +1,57 @@
-// using System;
-// using System.Collections.Generic;
-// using System.Threading.Tasks;
-// using FSR.DigitalTwin.Client.Features.Robotics.Controller;
-// using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
-// using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive;
-// using UnityEngine;
+using System;
+using System.Collections.Generic;
+using FSR.DigitalTwin.Client.Features.Robotics.Controller;
+using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
+using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive;
+using UnityEngine;
 
-// namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.UR5e
-// {
-//     public class Screw : ScrewBase
-//     {
-//         [SerializeField] private RosMoveitController _controller;
-//         private Primitive.Moveit.Motion _start, _preScrew, _screw, _postScrew, _end;
+namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.UR5e
+{
+    public class Screw : ScrewBase
+    {
+        [SerializeField] private RosMoveitController _controller;
+        [SerializeField] private Vector3 screwOffset = Vector3.zero;
+        // Parameters
+        public Vector3 ScrewOffset { set => screwOffset = value; get => screwOffset; }
 
-//         public override List<IDevicePrimitive> Primitives => new() {
-//             new IfThen(_ => startPositionEnabled, _start),
-//             _preScrew,
-//             _screw,
-//             _postScrew,
-//             new IfThen(_ => startPositionEnabled, _end),
-//         };
-
-//         private void Start()
-//         {
-            
-//         }
-
-//         public override SkillResult Run(string task, Transform target, Vector3 orientation)
-//         {
-            
-//         }
-
-//         public override Task<SkillResult> RunAsync(string task, Transform target, Vector3 orientation)
-//         {
-//             throw new NotImplementedException();
-//         }
-//     }
-// }
+        protected override IEnumerable<IDevicePrimitive> GetPrimitivePlan(Transform target, Vector3 orientation)
+        {
+            yield return new IfThen(_ => startPositionEnabled)
+            {
+                Then = new Primitive.Moveit.Motion(_controller)
+                {
+                    Name = "screw-start",
+                    Target = StartPosition + EEOffset,
+                    Orientation = orientation + EEOrientation
+                }
+            };
+            yield return new Primitive.Moveit.Motion(_controller)
+            {
+                Name = "screw-pre-screw",
+                Target = target.position + EEOffset,
+                Orientation = orientation + EEOrientation
+            };
+            yield return new Primitive.Moveit.Motion(_controller)
+            {
+                Name = "screw-screw",
+                Target = target.position + EEOffset + ScrewOffset,
+                Orientation = orientation + EEOrientation
+            };
+            yield return new Primitive.Moveit.Motion(_controller)
+            {
+                Name = "screw-post-screw",
+                Target = target.position + EEOffset,
+                Orientation = orientation + EEOrientation
+            };
+            yield return new IfThen(_ => startPositionEnabled)
+            {
+                Then = new Primitive.Moveit.Motion(_controller)
+                {
+                    Name = "screw-end",
+                    Target = StartPosition + EEOffset,
+                    Orientation = orientation + EEOrientation
+                }
+            };
+        }
+    }
+}
