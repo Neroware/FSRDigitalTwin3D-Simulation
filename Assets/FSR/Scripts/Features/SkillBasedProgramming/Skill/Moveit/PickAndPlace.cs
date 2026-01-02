@@ -31,8 +31,10 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.Moveit
             _place = new Primitive.Moveit.Motion(_controller) { Name = $"pnp-place" };
             _release = new Gripper(_gripperController, Gripper.EMode.OPEN) { Name = "pnp-release" };
         }
-        public override SkillResult Run(string task, Vector3 pickPosition, Vector3 pickOrientation, Vector3 placePosition, Vector3 placeOrientation)
+        public override SkillResult Run(string task, Transform pickTarget, Vector3 pickOrientation, Transform placeTarget, Vector3 placeOrientation)
         {
+            Vector3 pickPosition = pickTarget.position + pickOffset;
+            Vector3 placePosition = placeTarget.position + placeOffset;
             _preGrasp.Execute(task, pickPosition + prePickOffset, pickOrientation);
             _openGripper.Execute(task);
             _grasp.Execute(task, pickPosition, pickOrientation);
@@ -43,8 +45,10 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.Moveit
             _release.Execute(task);
             return SkillResult.Success(new object[0], System.TimeSpan.Zero);
         }
-        public override async Task<SkillResult> RunAsync(string task, Vector3 pickPosition, Vector3 pickOrientation, Vector3 placePosition, Vector3 placeOrientation)
+        public override async Task<SkillResult> RunAsync(string task, Transform pickTarget, Vector3 pickOrientation, Transform placeTarget, Vector3 placeOrientation)
         {
+            Vector3 pickPosition = pickTarget.position + pickOffset;
+            Vector3 placePosition = placeTarget.position + placeOffset;
             await _preGrasp.ExecuteAsync(task, pickPosition + prePickOffset, pickOrientation);
             await _openGripper.ExecuteAsync(task);
             await _grasp.ExecuteAsync(task, pickPosition, pickOrientation);

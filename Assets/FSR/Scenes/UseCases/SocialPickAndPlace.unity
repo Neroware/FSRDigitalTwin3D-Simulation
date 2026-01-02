@@ -7849,12 +7849,13 @@ MonoBehaviour:
   - {fileID: 1464140682}
   - {fileID: 284822241}
   _defaultPoseConfiguration:
-  - 180
-  - -45
-  - 0
-  - -45
-  - -90
-  - 0
+  - 10
+  - -47
+  - 35
+  - -85
+  - -75
+  - 5
+  _moveToDefaultPose: 1
 --- !u!1 &580368523
 GameObject:
   m_ObjectHideFlags: 0
@@ -10839,6 +10840,8 @@ MonoBehaviour:
   _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#robot-pickplace-skill
   _shortIds:
   - pick_and_place
+  pickOffset: {x: 0, y: 0, z: 0}
+  placeOffset: {x: 0, y: 0, z: 0}
   _controller: {fileID: 5955250382980222843}
   _gripperController: {fileID: 5955250382980222846}
   prePickOffset: {x: 0, y: 0.2, z: 0}
