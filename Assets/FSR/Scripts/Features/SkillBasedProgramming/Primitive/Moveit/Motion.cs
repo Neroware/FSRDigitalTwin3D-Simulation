@@ -1,12 +1,14 @@
 using System.Threading.Tasks;
 using FSR.DigitalTwin.Client.Common.Utils;
 using FSR.DigitalTwin.Client.Features.Robotics.Controller;
-using UnityEngine;
 
 namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Moveit
 {
     public class Motion : MotionBase
     {
+        // public float JointAssignmentWait { set; get; } = 0.1f;
+        // public float MaxAcceleration { set; get; } = 0.5f;
+        // public float MaxVelocity { set; get; } = 0.5f;
         private readonly RosMoveitController _controller;
         public Motion(RosMoveitController controller)
         {
@@ -17,6 +19,9 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Moveit
             _controller.Target = Target;
             _controller.TargetOrientation = Orientation;
             _controller.TrajectoryName = $"{Name}.{Base64Converter.EncodeString(task)}";
+            // _controller.JointAssignmentWait = JointAssignmentWait;
+            // _controller.MaxVelocity = MaxVelocity;
+            // _controller.MaxAcceleration = MaxAcceleration;
             await _controller.PlanAsync();
             if (!_controller.ValidatePlan())
             {
@@ -30,6 +35,9 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Moveit
             _controller.Target = Target;
             _controller.TargetOrientation = Orientation;
             _controller.TrajectoryName = task;
+            // _controller.JointAssignmentWait = JointAssignmentWait;
+            // _controller.MaxVelocity = MaxVelocity;
+            // _controller.MaxAcceleration = MaxAcceleration;
             _controller.Plan();
             if (!_controller.ValidatePlan())
             {

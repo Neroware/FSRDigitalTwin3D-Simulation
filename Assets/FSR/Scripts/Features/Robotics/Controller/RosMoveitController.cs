@@ -47,6 +47,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         public Vector3 TargetOrientation { get => targetOrientation; set => targetOrientation = value; }
         public float MaxVelocity { get => maxVelocity; set => maxVelocity = value; }
         public float MaxAcceleration { get => maxAcceleration; set => maxAcceleration = value; }
+        public float JointAssignmentWait { get => jointAssignmentWait; set => jointAssignmentWait = value; }
 
         // Controller interface
         public override GameObject Robot => robot;

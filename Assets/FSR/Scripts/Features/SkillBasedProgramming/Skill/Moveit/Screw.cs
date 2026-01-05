@@ -25,33 +25,33 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.Moveit
                     Orientation = orientation - EEOrientation
                 }
             };
-            // yield return new Primitive.Moveit.Motion(_controller)
-            // {
-            //     Name = "screw-pre-screw",
-            //     Target = target.position + EEOffset,
-            //     Orientation = orientation + EEOrientation
-            // };
-            // yield return new Primitive.Moveit.Motion(_controller)
-            // {
-            //     Name = "screw-screw",
-            //     Target = target.position + EEOffset + ScrewOffset,
-            //     Orientation = orientation + EEOrientation
-            // };
-            // yield return new Primitive.Moveit.Motion(_controller)
-            // {
-            //     Name = "screw-post-screw",
-            //     Target = target.position + EEOffset,
-            //     Orientation = orientation + EEOrientation
-            // };
-            // yield return new IfThen(_ => startPositionEnabled)
-            // {
-            //     Then = new Primitive.Moveit.Motion(_controller)
-            //     {
-            //         Name = "screw-end",
-            //         Target = StartPosition + EEOffset,
-            //         Orientation = orientation + EEOrientation
-            //     }
-            // };
+            yield return new Primitive.Moveit.Motion(_controller)
+            {
+                Name = "screw-pre-screw",
+                Target = target.position - EEOffset + ScrewOffset,
+                Orientation = orientation - EEOrientation
+            };
+            yield return new Primitive.Moveit.Motion(_controller)
+            {
+                Name = "screw-screw",
+                Target = target.position - EEOffset,
+                Orientation = orientation - EEOrientation,
+            };
+            yield return new Primitive.Moveit.Motion(_controller)
+            {
+                Name = "screw-post-screw",
+                Target = target.position - EEOffset + ScrewOffset,
+                Orientation = orientation - EEOrientation
+            };
+            yield return new IfThen(_ => startPositionEnabled)
+            {
+                Then = new Primitive.Moveit.Motion(_controller)
+                {
+                    Name = "screw-end",
+                    Target = StartPosition - EEOffset,
+                    Orientation = orientation - EEOrientation
+                }
+            };
         }
     }
 }
