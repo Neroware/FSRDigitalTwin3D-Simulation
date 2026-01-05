@@ -45,6 +45,7 @@ namespace FSR.DigitalTwin.Client.App
         {
             config.skill.EEOffset = config.eeOffset;
             config.skill.EEOrientation = config.eeOrientation;
+            config.skill.StartPosition = config.startPosition;
             config.skill.ScrewOffset = config.screwOffset;
             await config.skill.RunAsync("pi:screw-test", config.target.transform, config.orientation);
         }

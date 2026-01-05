@@ -7,6 +7,7 @@ namespace FSR.DigitalTwin.Client.App.Config
     {
         public Screw skill; 
         public GameObject target;
+        public Vector3 startPosition;
         public Vector3 orientation;
         public Vector3 screwOffset;
         public Vector3 eeOrientation;

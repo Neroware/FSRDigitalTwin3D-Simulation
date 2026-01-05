@@ -22376,7 +22376,7 @@ MonoBehaviour:
   groupName: ur_manipulator
   eeName: tool0
   baseLinkName: base
-  forceMoveItRequest: 0
+  forceMoveItRequest: 1
   rosServiceName: fsr_moveit_pick_and_place_srv
   linkNames:
   - world/base_link/shoulder_link
@@ -27992,7 +27992,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: RunPickAndPlaceSkill
+      value: PickAndPlace
       objectReference: {fileID: 0}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -28001,10 +28001,11 @@ PrefabInstance:
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 189680799}
+      objectReference: {fileID: 1741056423}
     - target: {fileID: 1494301493237945089, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: FSR.DigitalTwin.Client.App.Config.PickAndPlaceConfig, Assembly-CSharp
+      value: FSR.DigitalTwin.Client.Features.Robotics.Controller.RosMoveitPickAndPlaceController,
+        Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3370610138642567117, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}
       propertyPath: m_Name
@@ -28634,7 +28635,7 @@ MonoBehaviour:
   maxAcceleration: 0.5
   groupName: ur_manipulator
   baseLinkName: base
-  forceMoveItRequest: 0
+  forceMoveItRequest: 1
   rosServiceName: fsr_moveit_move_to_srv
   linkNames:
   - world/base_link/shoulder_link
