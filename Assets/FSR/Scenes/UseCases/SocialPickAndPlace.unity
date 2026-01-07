@@ -2088,7 +2088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d9e3829a96060a3a450784bf9208c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: fsr:aab_actor
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#aab-gripper
   _components: []
   sMax: 0.025
   sMin: 0.01
@@ -28629,6 +28629,7 @@ MonoBehaviour:
   _enableOperationModeOverride: 0
   _operationModeOverride: 0
   numRobotJoints: 6
+  jointAssignmentLerpScale: 1
   jointAssignmentWait: 0.1
   poseAssignmentWait: 0.5
   maxVelocity: 0.5

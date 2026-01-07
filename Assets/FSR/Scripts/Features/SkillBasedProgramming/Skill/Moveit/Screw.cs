@@ -36,6 +36,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.Moveit
                 Name = "screw-screw",
                 Target = target.position - EEOffset,
                 Orientation = orientation - EEOrientation,
+                SpeedScale = 0.05f
             };
             yield return new Primitive.Moveit.Motion(_controller)
             {

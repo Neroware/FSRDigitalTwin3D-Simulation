@@ -14007,6 +14007,28 @@ Transform:
   - {fileID: 1822020057}
   m_Father: {fileID: 1376471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &870306193 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4393872975410862336, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
+  m_PrefabInstance: {fileID: 899131355}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &870306196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870306193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a0b8fc5f3280cd498de40ea577baf8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#sd35-screwer-ee
+  _components: []
+  sMax: 0.025
+  sMin: 0
+  expansion: {fileID: 1046775914}
 --- !u!1 &872992862
 GameObject:
   m_ObjectHideFlags: 0
@@ -14322,11 +14344,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6785832504252158273, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorPosition.x
-      value: -0.0000006957066
+      value: -0.0000007152558
       objectReference: {fileID: 0}
     - target: {fileID: 6785832504252158273, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorPosition.y
-      value: -0.10439998
+      value: -0.10439974
       objectReference: {fileID: 0}
     - target: {fileID: 6785832504252158273, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorPosition.z
@@ -14334,15 +14356,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6785832504252158273, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorRotation.w
-      value: 0.70710737
+      value: 0.7071073
       objectReference: {fileID: 0}
     - target: {fileID: 6785832504252158273, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorRotation.x
-      value: -0.000000029802322
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6785832504252158273, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorRotation.y
-      value: -0.70710737
+      value: -0.7071073
       objectReference: {fileID: 0}
     - target: {fileID: 6785832504252158273, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorRotation.z
@@ -14354,7 +14376,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7838829480469338325, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorPosition.x
-      value: -0.00000077579176
+      value: -0.0000007748603
       objectReference: {fileID: 0}
     - target: {fileID: 7838829480469338325, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorPosition.y
@@ -14362,15 +14384,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7838829480469338325, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorPosition.z
-      value: -0.0075006494
+      value: 0.0000009536745
       objectReference: {fileID: 0}
     - target: {fileID: 7838829480469338325, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorRotation.w
-      value: 0.5000005
+      value: 0.50000036
       objectReference: {fileID: 0}
     - target: {fileID: 7838829480469338325, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorRotation.x
-      value: -0.5000005
+      value: -0.50000036
       objectReference: {fileID: 0}
     - target: {fileID: 7838829480469338325, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
       propertyPath: m_ParentAnchorRotation.y
@@ -14383,7 +14405,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4393872975410862336, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 870306196}
   m_SourcePrefab: {fileID: 100100000, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
 --- !u!1 &901702649
 GameObject:
@@ -16190,6 +16215,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1036380732}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!171741748 &1046775914 stripped
+ArticulationBody:
+  m_CorrespondingSourceObject: {fileID: 6785832504252158273, guid: e1bd0a50120edf744b2f3721b05d8f21, type: 3}
+  m_PrefabInstance: {fileID: 899131355}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1046939740
 GameObject:
   m_ObjectHideFlags: 0
@@ -32463,6 +32493,7 @@ MonoBehaviour:
   _enableOperationModeOverride: 0
   _operationModeOverride: 0
   numRobotJoints: 6
+  jointAssignmentLerpScale: 1
   jointAssignmentWait: 0.1
   poseAssignmentWait: 0.5
   maxVelocity: 0.5
