@@ -9,8 +9,10 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Interfaces
         Task PrepareScrewAsync();
         void ReleaseScrew();
         Task ReleaseScrewAsync();
-        void StartScrewer();
-        Task StartScrewerAsync();
+        void ScrewIn();
+        Task ScrewInAsync();
+        void ScrewOut();
+        Task ScrewOutAsync();
         void StopScrewer();
     }
 }
