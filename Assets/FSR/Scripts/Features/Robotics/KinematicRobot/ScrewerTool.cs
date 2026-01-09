@@ -16,16 +16,19 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot {
         {
             var xDrive = expansion.xDrive;
             xDrive.target = sMax;
+            expansion.xDrive = xDrive;
         }
         public void ReleaseScrew()
         {
             var xDrive = expansion.xDrive;
             xDrive.target = sMin;
+            expansion.xDrive = xDrive;
         }
         public void SetScrewPercentComplete(float percent)
         {
             var xDrive = expansion.xDrive;
-            xDrive.target = Mathf.Lerp(sMin, sMax, Mathf.Clamp(percent, 0.0f, 1.0f));
+            xDrive.target = Mathf.Lerp(sMin, sMax, Mathf.Clamp(1.0f - percent, 0.0f, 1.0f));
+            expansion.xDrive = xDrive;
         }
     }
 

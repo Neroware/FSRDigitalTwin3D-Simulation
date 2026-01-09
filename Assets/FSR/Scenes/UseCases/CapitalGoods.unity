@@ -2344,7 +2344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d9e3829a96060a3a450784bf9208c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: fsr:aab_actor
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#aab-gripper
   _components: []
   sMax: 0.025
   sMin: 0.01
@@ -12714,6 +12714,7 @@ MonoBehaviour:
   startPositionEnabled: 1
   startPosition: {x: 0, y: 0, z: 0}
   _controller: {fileID: 5955250382980222845}
+  _eeController: {fileID: 5955250382980222846}
   screwOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &764170675
 GameObject:
@@ -32386,6 +32387,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 472273861288168908, guid: b990ce72bcda62d4b871c5e92369120f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5955250382980222845}
+    - targetCorrespondingSourceObject: {fileID: 472273861288168908, guid: b990ce72bcda62d4b871c5e92369120f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5955250382980222846}
     - targetCorrespondingSourceObject: {fileID: 8272980315594807359, guid: b990ce72bcda62d4b871c5e92369120f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5955250382980222834}
@@ -32500,7 +32504,7 @@ MonoBehaviour:
   maxAcceleration: 0.5
   groupName: ur_manipulator
   baseLinkName: base
-  forceMoveItRequest: 1
+  forceMoveItRequest: 0
   rosServiceName: fsr_moveit_move_to_srv
   linkNames:
   - world/base_link/shoulder_link
@@ -32520,6 +32524,28 @@ MonoBehaviour:
   target: {x: 0, y: 0, z: 0}
   targetOffset: {x: 0, y: 0, z: 0}
   targetOrientation: {x: -180, y: 0, z: 0}
+--- !u!114 &5955250382980222846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603320903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 000796ee8ca71ee4cbe2f578b606beba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#sd-35-controller
+  _actor: {fileID: 870306196}
+  _enableOperationModeOverride: 0
+  _operationModeOverride: 0
+  _robot: {fileID: 1603320903}
+  _screwerTool: {fileID: 870306196}
+  _screwerSpeed: 1
+  _screwerPathLength: 1
+  _screwerPrepareMilliseconds: 500
+  _mode: 0
 --- !u!224 &6740993857694528104 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7453539377829711679, guid: 378324f8659ffcece8daaedffe42d27e, type: 3}

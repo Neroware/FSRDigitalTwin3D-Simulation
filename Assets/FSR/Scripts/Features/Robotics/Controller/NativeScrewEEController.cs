@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 using FSR.DigitalTwin.Client.Features.Robotics.Interfaces;
 using FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot;
@@ -16,7 +17,10 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         [SerializeField] private ScrewerBase _screwerTool;
         [SerializeField] private double _screwerSpeed = 1.0;
         [SerializeField] private double _screwerPathLength = 1.0;
+        [SerializeField] private int _screwerPrepareMilliseconds = 500;
         [SerializeField] private EMode _mode;
+
+        private bool isRunning = false;
 
         public enum EMode
         {
@@ -26,6 +30,11 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         // Controller interface
         public override GameObject Robot => _robot;
         public IScrewerTool ScrewerTool => _screwerTool;
+        
+        // Parameters
+        public double ScrewerSpeed { get => _screwerSpeed; set => _screwerSpeed = value; }
+        public double ScrewerPathLength { get => _screwerPathLength; set => _screwerPathLength = value; }
+        public int ScrewerPrepareMilliseconds { get => _screwerPrepareMilliseconds; set => _screwerPrepareMilliseconds = value; }
 
         public override bool Plan()
         {
@@ -47,45 +56,89 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             if (_mode == EMode.OUT) await ScrewOutAsync();
             else await ScrewInAsync();
         }
-        public override bool Interrupt() => true;
-        public override void ForceInterrupt() { Interrupt(); }
+        public override bool Interrupt() 
+        { 
+            StopScrewer(); 
+            return true;
+        } 
+        public override void ForceInterrupt() => Interrupt();
         public void SetMode(EMode mode) => _mode = mode;
 
-        public void PrepareScrew()
+        public void PrepareScrew() => _screwerTool.PrepareScrew();
+        public async Task PrepareScrewAsync()
         {
-            throw new NotImplementedException();
+            _screwerTool.PrepareScrew();
+            await Task.Delay(_screwerPrepareMilliseconds);
         }
-        public Task PrepareScrewAsync()
+        public void ReleaseScrew() => _screwerTool.ReleaseScrew();
+        public async Task ReleaseScrewAsync()
         {
-            throw new NotImplementedException();
-        }
-        public void ReleaseScrew()
-        {
-            throw new NotImplementedException();
-        }
-        public Task ReleaseScrewAsync()
-        {
-            throw new NotImplementedException();
+            _screwerTool.ReleaseScrew();
+            await Task.Delay(_screwerPrepareMilliseconds);
         }
         public void ScrewIn()
         {
-            throw new NotImplementedException();
+            if (isRunning)
+                throw new OperationCanceledException("Action already performed by controller.");
+            isRunning = true;
+            float[] percentComplete = new float[] { 0.0f };
+            Observable.EveryUpdate()
+                .TakeWhile(_ => isRunning)
+                .Subscribe(_ => {
+                    _screwerTool.SetScrewPercentComplete(percentComplete[0]);
+                    percentComplete[0] += (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
+                    isRunning = percentComplete[0] < 1.0f;
+                })
+                .AddTo(this);
         }
-        public Task ScrewInAsync()
+        public async Task ScrewInAsync()
         {
-            throw new NotImplementedException();
+            if (isRunning)
+                throw new OperationCanceledException("Action already performed by controller.");
+            isRunning = true;
+            float[] percentComplete = new float[] { 0.0f };
+            var obs = Observable.EveryUpdate().TakeWhile(_ => isRunning);
+            obs.Subscribe(_ => {
+                    _screwerTool.SetScrewPercentComplete(percentComplete[0]);
+                    percentComplete[0] += (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
+                    isRunning = percentComplete[0] < 1.0f;
+                })
+                .AddTo(this);
+            await obs.ToTask();
         }
         public void ScrewOut()
         {
-            throw new NotImplementedException();
+            if (isRunning)
+                throw new OperationCanceledException("Action already performed by controller.");
+            isRunning = true;
+            float[] percentComplete = new float[] { 1.0f };
+            Observable.EveryUpdate()
+                .TakeWhile(_ => isRunning)
+                .Subscribe(_ => {
+                    _screwerTool.SetScrewPercentComplete(percentComplete[0]);
+                    percentComplete[0] -= (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
+                    isRunning = percentComplete[0] > 0.0f;
+                })
+                .AddTo(this);
         }
-        public Task ScrewOutAsync()
+        public async Task ScrewOutAsync()
         {
-            throw new NotImplementedException();
+            if (isRunning)
+                throw new OperationCanceledException("Action already performed by controller.");
+            isRunning = true;
+            float[] percentComplete = new float[] { 1.0f };
+            var obs = Observable.EveryUpdate().TakeWhile(_ => isRunning);
+            obs.Subscribe(_ => {
+                    _screwerTool.SetScrewPercentComplete(percentComplete[0]);
+                    percentComplete[0] -= (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
+                    isRunning = percentComplete[0] > 0.0f;
+                })
+                .AddTo(this);
+            await obs.ToTask();
         }
         public void StopScrewer()
         {
-            throw new NotImplementedException();
+            isRunning = false;
         }
     }
 }
