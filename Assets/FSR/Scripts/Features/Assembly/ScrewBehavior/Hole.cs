@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FSR.DigitalTwin.Client.Features.Environment.Interfaces;
 using FSR.DigitalTwin.Client.Features.Robotics.Controller;
-using FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot;
-using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.Moveit;
+using FSR.DigitalTwin.Client.Features.Robotics.Sensor;
 using FSR.DigitalTwin.Client.Features.UnityClient;
 using FSR.DigitalTwin.Client.Features.UnityClient.Interfaces;
 using UniRx;
@@ -19,8 +18,12 @@ namespace FSR.DigitalTwin.Client.Features.Assembly.ScrewBehavior
         [SerializeField] private string _shortId;
         [SerializeField] private List<DigitalTwinComponentBase> _components;
         [Header("Screw Behavior")]
-        [SerializeField] private ScrewerBase _screwerEE;
         [SerializeField] private NativeScrewEEController _screwerController;
+        [SerializeField] private ColliderSensor _colliderSensor;
+        [SerializeField] private Rigidbody _screwPart;
+
+        const string LOCATION_LAYER_NAME = "Location";
+        const string DEFAULT_LAYER_NAME = "Default";
 
         public Uri Id { get => new(_id); init => _id = value.ToString(); }
         public bool HasConnection => false;
@@ -28,29 +31,45 @@ namespace FSR.DigitalTwin.Client.Features.Assembly.ScrewBehavior
         public Uri LocationId => Id;
         public string LocationName => _shortId;
 
-        public Screw ScrewPart { set; get; }
+        public Rigidbody ScrewPart 
+        { 
+            set 
+            {
+                if (_screwPart != null) OnScrewPartPick();
+                OnScrewPartPlace(value);
+            }
+            get => _screwPart; 
+        }
         public float ScrewPathPercent { set => UpdateScrewPathPercent(value); }
 
         private void Start()
         {
-            
+            if (_screwPart != null) OnScrewPartPlace(_screwPart);
+            _screwerController.PercentComplete
+                .Where(_ => _screwPart != null && _colliderSensor.SensorData.Value.Colliders.Length > 0)
+                .Subscribe(UpdateScrewPathPercent)
+                .AddTo(this);
         }
-        private void OnTriggerEnter(Collider other)
-        {
-            
-        }
-
-        // private void OnCollisionEnter(Collision collision)
-        // {
-        //     Debug.Log($"> {collision.gameObject.name}");
-        // }
-        // private void OnCollisionExit(Collision collision)
-        // {
-
-        // }
         private void UpdateScrewPathPercent(float value)
         {
-            throw new NotImplementedException();
+            _screwPart.transform.position = transform.position + transform.parent.TransformDirection(
+                new Vector3(0.0f, (float)((1.0f - value) * _screwerController.ScrewerPathLength), 0.0f));
+        }
+        private void OnScrewPartPlace(Rigidbody part)
+        {
+            _screwPart = part;
+            _screwPart.constraints = RigidbodyConstraints.FreezePositionX 
+                | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+            _screwPart.gameObject.layer = LayerMask.NameToLayer(LOCATION_LAYER_NAME);
+            _screwPart.transform.position = transform.position + transform.parent.TransformDirection(
+                new Vector3(0.0f, (float)_screwerController.ScrewerPathLength, 0.0f));
+            _screwPart.transform.rotation = transform.rotation;
+        }
+        private void OnScrewPartPick()
+        {
+            _screwPart.constraints = RigidbodyConstraints.None;
+            _screwPart.gameObject.layer = LayerMask.NameToLayer(DEFAULT_LAYER_NAME);
+            _screwPart = null;
         }
     }
 }

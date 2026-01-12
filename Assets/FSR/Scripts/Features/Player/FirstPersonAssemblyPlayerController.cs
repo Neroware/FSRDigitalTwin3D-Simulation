@@ -11,7 +11,7 @@ namespace FSR.DigitalTwin.Client.Features.Player
     {
         [SerializeField] private Camera workerCamera;
         [SerializeField] private CharacterController player;
-        [SerializeField] private PlayerControlsInputActions inputActions;
+        [SerializeField] private FirstPersonHumanRobotInteractionInputActions inputActions;
         
         public Camera MainCamera { set; get; }
         public bool IsActive => workerCamera.enabled && workerCamera.gameObject.activeSelf;
@@ -19,7 +19,7 @@ namespace FSR.DigitalTwin.Client.Features.Player
         public void Start()
         {
             MainCamera = Camera.main;
-            inputActions.Interact
+            inputActions.Toggle
                 .Subscribe(_ => { 
                     if (!IsActive) EnterFirstPersonAssemblyMode(); 
                     else LeaveFirstPersonAssemblyMode(); 

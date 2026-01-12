@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 namespace FSR.DigitalTwin.Client.Features.Player.Controls
 {
-    public class PlayerControlsInputActions : MonoBehaviour
+    public class FirstPersonPlayerInputActions : MonoBehaviour
     {
         private PlayerControls _playerControls;
 
@@ -24,7 +24,7 @@ namespace FSR.DigitalTwin.Client.Features.Player.Controls
         private void Awake()
         {
             _playerControls = new PlayerControls();
-            _playerControls.Enable();
+            _playerControls.asset.FindActionMap("FirstPersonPlayer").Enable();
             var moveAction = _playerControls.FindAction("Move");
             var lookAction = _playerControls.FindAction("Look");
             var jumpAction = _playerControls.FindAction("Jump");

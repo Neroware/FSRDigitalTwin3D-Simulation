@@ -93,7 +93,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 })
                 .AddTo(this);
         }
-        public async Task ScrewInAsync()
+        public Task ScrewInAsync()
         {
             if (isRunning)
                 throw new OperationCanceledException("Action already performed by controller.");
@@ -106,7 +106,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                     isRunning = _percentComplete.Value < 1.0f;
                 })
                 .AddTo(this);
-            await obs.ToTask();
+            return obs.ToTask();
         }
         public void ScrewOut()
         {
@@ -123,7 +123,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                 })
                 .AddTo(this);
         }
-        public async Task ScrewOutAsync()
+        public Task ScrewOutAsync()
         {
             if (isRunning)
                 throw new OperationCanceledException("Action already performed by controller.");
@@ -136,7 +136,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
                     isRunning = _percentComplete.Value > 0.0f;
                 })
                 .AddTo(this);
-            await obs.ToTask();
+            return obs.ToTask();
         }
         public void StopScrewer()
         {

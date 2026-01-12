@@ -2,7 +2,7 @@
     "name": "PlayerControls",
     "maps": [
         {
-            "name": "Player",
+            "name": "FirstPersonPlayer",
             "id": "5fc40a86-de9c-4c8a-963d-247e22422a34",
             "actions": [
                 {
@@ -51,18 +51,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Control1",
+                    "name": "Control0",
                     "type": "Button",
-                    "id": "10f0f825-cd9e-40cc-a176-9fc71b71839e",
+                    "id": "58d46d0d-e083-46f2-b73e-745a38b87263",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Control0",
+                    "name": "Control1",
                     "type": "Button",
-                    "id": "58d46d0d-e083-46f2-b73e-745a38b87263",
+                    "id": "10f0f825-cd9e-40cc-a176-9fc71b71839e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -171,6 +171,17 @@
                 },
                 {
                     "name": "",
+                    "id": "b8603264-7efe-4d8a-9f21-7e87bb2fa34b",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Control1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "970e9cbf-decb-4de4-b663-ae6fef3409aa",
                     "path": "<Keyboard>/u",
                     "interactions": "",
@@ -190,15 +201,72 @@
                     "action": "Control0",
                     "isComposite": false,
                     "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "FirstPersonHRI",
+            "id": "5ca2fd65-c293-40e1-a551-4bf05c6d7f2b",
+            "actions": [
+                {
+                    "name": "Toggle",
+                    "type": "Button",
+                    "id": "ce45ea1e-76f6-43c5-9522-50d1857897a6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
+                    "name": "Grab",
+                    "type": "Value",
+                    "id": "5bdfcb0c-56ae-4c1b-9987-03b9138c4461",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Drag",
+                    "type": "Value",
+                    "id": "81dc7c9e-9236-455a-b923-a8e3aa836c46",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
                     "name": "",
-                    "id": "b8603264-7efe-4d8a-9f21-7e87bb2fa34b",
-                    "path": "<Keyboard>/i",
+                    "id": "34a51ed7-eaa6-497d-9adc-2a897ae21b15",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Control1",
+                    "action": "Toggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "80a3e7f5-53cf-4875-90a6-846258b5c4ba",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "69026ff9-b25b-4f60-aa8e-3020280e3fdd",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drag",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

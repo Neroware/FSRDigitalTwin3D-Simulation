@@ -8,7 +8,7 @@ namespace FSR.DigitalTwin.Client.Features.Player
     [RequireComponent(typeof(CharacterController))]
     public class SimpleFirstPersonController : MonoBehaviour
     {
-        [SerializeField] private PlayerControlsInputActions inputActions;
+        [SerializeField] private FirstPersonPlayerInputActions inputActions;
 
         [Header("Movement Settings")]
         [SerializeField] private float moveSpeed = 5f;

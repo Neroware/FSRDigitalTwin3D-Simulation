@@ -26,7 +26,7 @@ namespace FSR.DigitalTwin.Client.Features.Player.Controls
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""Player"",
+            ""name"": ""FirstPersonPlayer"",
             ""id"": ""5fc40a86-de9c-4c8a-963d-247e22422a34"",
             ""actions"": [
                 {
@@ -75,18 +75,18 @@ namespace FSR.DigitalTwin.Client.Features.Player.Controls
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Control1"",
+                    ""name"": ""Control0"",
                     ""type"": ""Button"",
-                    ""id"": ""10f0f825-cd9e-40cc-a176-9fc71b71839e"",
+                    ""id"": ""58d46d0d-e083-46f2-b73e-745a38b87263"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Control0"",
+                    ""name"": ""Control1"",
                     ""type"": ""Button"",
-                    ""id"": ""58d46d0d-e083-46f2-b73e-745a38b87263"",
+                    ""id"": ""10f0f825-cd9e-40cc-a176-9fc71b71839e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -195,6 +195,17 @@ namespace FSR.DigitalTwin.Client.Features.Player.Controls
                 },
                 {
                     ""name"": """",
+                    ""id"": ""b8603264-7efe-4d8a-9f21-7e87bb2fa34b"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Control1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""970e9cbf-decb-4de4-b663-ae6fef3409aa"",
                     ""path"": ""<Keyboard>/u"",
                     ""interactions"": """",
@@ -214,15 +225,72 @@ namespace FSR.DigitalTwin.Client.Features.Player.Controls
                     ""action"": ""Control0"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""FirstPersonHRI"",
+            ""id"": ""5ca2fd65-c293-40e1-a551-4bf05c6d7f2b"",
+            ""actions"": [
+                {
+                    ""name"": ""Toggle"",
+                    ""type"": ""Button"",
+                    ""id"": ""ce45ea1e-76f6-43c5-9522-50d1857897a6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Grab"",
+                    ""type"": ""Value"",
+                    ""id"": ""5bdfcb0c-56ae-4c1b-9987-03b9138c4461"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Drag"",
+                    ""type"": ""Value"",
+                    ""id"": ""81dc7c9e-9236-455a-b923-a8e3aa836c46"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
                     ""name"": """",
-                    ""id"": ""b8603264-7efe-4d8a-9f21-7e87bb2fa34b"",
-                    ""path"": ""<Keyboard>/i"",
+                    ""id"": ""34a51ed7-eaa6-497d-9adc-2a897ae21b15"",
+                    ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Control1"",
+                    ""action"": ""Toggle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""80a3e7f5-53cf-4875-90a6-846258b5c4ba"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""69026ff9-b25b-4f60-aa8e-3020280e3fdd"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Drag"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -231,15 +299,20 @@ namespace FSR.DigitalTwin.Client.Features.Player.Controls
     ],
     ""controlSchemes"": []
 }");
-            // Player
-            m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-            m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-            m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-            m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-            m_Player_Action0 = m_Player.FindAction("Action0", throwIfNotFound: true);
-            m_Player_Action1 = m_Player.FindAction("Action1", throwIfNotFound: true);
-            m_Player_Control1 = m_Player.FindAction("Control1", throwIfNotFound: true);
-            m_Player_Control0 = m_Player.FindAction("Control0", throwIfNotFound: true);
+            // FirstPersonPlayer
+            m_FirstPersonPlayer = asset.FindActionMap("FirstPersonPlayer", throwIfNotFound: true);
+            m_FirstPersonPlayer_Move = m_FirstPersonPlayer.FindAction("Move", throwIfNotFound: true);
+            m_FirstPersonPlayer_Look = m_FirstPersonPlayer.FindAction("Look", throwIfNotFound: true);
+            m_FirstPersonPlayer_Jump = m_FirstPersonPlayer.FindAction("Jump", throwIfNotFound: true);
+            m_FirstPersonPlayer_Action0 = m_FirstPersonPlayer.FindAction("Action0", throwIfNotFound: true);
+            m_FirstPersonPlayer_Action1 = m_FirstPersonPlayer.FindAction("Action1", throwIfNotFound: true);
+            m_FirstPersonPlayer_Control0 = m_FirstPersonPlayer.FindAction("Control0", throwIfNotFound: true);
+            m_FirstPersonPlayer_Control1 = m_FirstPersonPlayer.FindAction("Control1", throwIfNotFound: true);
+            // FirstPersonHRI
+            m_FirstPersonHRI = asset.FindActionMap("FirstPersonHRI", throwIfNotFound: true);
+            m_FirstPersonHRI_Toggle = m_FirstPersonHRI.FindAction("Toggle", throwIfNotFound: true);
+            m_FirstPersonHRI_Grab = m_FirstPersonHRI.FindAction("Grab", throwIfNotFound: true);
+            m_FirstPersonHRI_Drag = m_FirstPersonHRI.FindAction("Drag", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -298,36 +371,36 @@ namespace FSR.DigitalTwin.Client.Features.Player.Controls
             return asset.FindBinding(bindingMask, out action);
         }
 
-        // Player
-        private readonly InputActionMap m_Player;
-        private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
-        private readonly InputAction m_Player_Move;
-        private readonly InputAction m_Player_Look;
-        private readonly InputAction m_Player_Jump;
-        private readonly InputAction m_Player_Action0;
-        private readonly InputAction m_Player_Action1;
-        private readonly InputAction m_Player_Control1;
-        private readonly InputAction m_Player_Control0;
-        public struct PlayerActions
+        // FirstPersonPlayer
+        private readonly InputActionMap m_FirstPersonPlayer;
+        private List<IFirstPersonPlayerActions> m_FirstPersonPlayerActionsCallbackInterfaces = new List<IFirstPersonPlayerActions>();
+        private readonly InputAction m_FirstPersonPlayer_Move;
+        private readonly InputAction m_FirstPersonPlayer_Look;
+        private readonly InputAction m_FirstPersonPlayer_Jump;
+        private readonly InputAction m_FirstPersonPlayer_Action0;
+        private readonly InputAction m_FirstPersonPlayer_Action1;
+        private readonly InputAction m_FirstPersonPlayer_Control0;
+        private readonly InputAction m_FirstPersonPlayer_Control1;
+        public struct FirstPersonPlayerActions
         {
             private @PlayerControls m_Wrapper;
-            public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-            public InputAction @Move => m_Wrapper.m_Player_Move;
-            public InputAction @Look => m_Wrapper.m_Player_Look;
-            public InputAction @Jump => m_Wrapper.m_Player_Jump;
-            public InputAction @Action0 => m_Wrapper.m_Player_Action0;
-            public InputAction @Action1 => m_Wrapper.m_Player_Action1;
-            public InputAction @Control1 => m_Wrapper.m_Player_Control1;
-            public InputAction @Control0 => m_Wrapper.m_Player_Control0;
-            public InputActionMap Get() { return m_Wrapper.m_Player; }
+            public FirstPersonPlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Move => m_Wrapper.m_FirstPersonPlayer_Move;
+            public InputAction @Look => m_Wrapper.m_FirstPersonPlayer_Look;
+            public InputAction @Jump => m_Wrapper.m_FirstPersonPlayer_Jump;
+            public InputAction @Action0 => m_Wrapper.m_FirstPersonPlayer_Action0;
+            public InputAction @Action1 => m_Wrapper.m_FirstPersonPlayer_Action1;
+            public InputAction @Control0 => m_Wrapper.m_FirstPersonPlayer_Control0;
+            public InputAction @Control1 => m_Wrapper.m_FirstPersonPlayer_Control1;
+            public InputActionMap Get() { return m_Wrapper.m_FirstPersonPlayer; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
             public bool enabled => Get().enabled;
-            public static implicit operator InputActionMap(PlayerActions set) { return set.Get(); }
-            public void AddCallbacks(IPlayerActions instance)
+            public static implicit operator InputActionMap(FirstPersonPlayerActions set) { return set.Get(); }
+            public void AddCallbacks(IFirstPersonPlayerActions instance)
             {
-                if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
-                m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+                if (instance == null || m_Wrapper.m_FirstPersonPlayerActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_FirstPersonPlayerActionsCallbackInterfaces.Add(instance);
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
@@ -343,15 +416,15 @@ namespace FSR.DigitalTwin.Client.Features.Player.Controls
                 @Action1.started += instance.OnAction1;
                 @Action1.performed += instance.OnAction1;
                 @Action1.canceled += instance.OnAction1;
-                @Control1.started += instance.OnControl1;
-                @Control1.performed += instance.OnControl1;
-                @Control1.canceled += instance.OnControl1;
                 @Control0.started += instance.OnControl0;
                 @Control0.performed += instance.OnControl0;
                 @Control0.canceled += instance.OnControl0;
+                @Control1.started += instance.OnControl1;
+                @Control1.performed += instance.OnControl1;
+                @Control1.canceled += instance.OnControl1;
             }
 
-            private void UnregisterCallbacks(IPlayerActions instance)
+            private void UnregisterCallbacks(IFirstPersonPlayerActions instance)
             {
                 @Move.started -= instance.OnMove;
                 @Move.performed -= instance.OnMove;
@@ -368,38 +441,106 @@ namespace FSR.DigitalTwin.Client.Features.Player.Controls
                 @Action1.started -= instance.OnAction1;
                 @Action1.performed -= instance.OnAction1;
                 @Action1.canceled -= instance.OnAction1;
-                @Control1.started -= instance.OnControl1;
-                @Control1.performed -= instance.OnControl1;
-                @Control1.canceled -= instance.OnControl1;
                 @Control0.started -= instance.OnControl0;
                 @Control0.performed -= instance.OnControl0;
                 @Control0.canceled -= instance.OnControl0;
+                @Control1.started -= instance.OnControl1;
+                @Control1.performed -= instance.OnControl1;
+                @Control1.canceled -= instance.OnControl1;
             }
 
-            public void RemoveCallbacks(IPlayerActions instance)
+            public void RemoveCallbacks(IFirstPersonPlayerActions instance)
             {
-                if (m_Wrapper.m_PlayerActionsCallbackInterfaces.Remove(instance))
+                if (m_Wrapper.m_FirstPersonPlayerActionsCallbackInterfaces.Remove(instance))
                     UnregisterCallbacks(instance);
             }
 
-            public void SetCallbacks(IPlayerActions instance)
+            public void SetCallbacks(IFirstPersonPlayerActions instance)
             {
-                foreach (var item in m_Wrapper.m_PlayerActionsCallbackInterfaces)
+                foreach (var item in m_Wrapper.m_FirstPersonPlayerActionsCallbackInterfaces)
                     UnregisterCallbacks(item);
-                m_Wrapper.m_PlayerActionsCallbackInterfaces.Clear();
+                m_Wrapper.m_FirstPersonPlayerActionsCallbackInterfaces.Clear();
                 AddCallbacks(instance);
             }
         }
-        public PlayerActions @Player => new PlayerActions(this);
-        public interface IPlayerActions
+        public FirstPersonPlayerActions @FirstPersonPlayer => new FirstPersonPlayerActions(this);
+
+        // FirstPersonHRI
+        private readonly InputActionMap m_FirstPersonHRI;
+        private List<IFirstPersonHRIActions> m_FirstPersonHRIActionsCallbackInterfaces = new List<IFirstPersonHRIActions>();
+        private readonly InputAction m_FirstPersonHRI_Toggle;
+        private readonly InputAction m_FirstPersonHRI_Grab;
+        private readonly InputAction m_FirstPersonHRI_Drag;
+        public struct FirstPersonHRIActions
+        {
+            private @PlayerControls m_Wrapper;
+            public FirstPersonHRIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Toggle => m_Wrapper.m_FirstPersonHRI_Toggle;
+            public InputAction @Grab => m_Wrapper.m_FirstPersonHRI_Grab;
+            public InputAction @Drag => m_Wrapper.m_FirstPersonHRI_Drag;
+            public InputActionMap Get() { return m_Wrapper.m_FirstPersonHRI; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(FirstPersonHRIActions set) { return set.Get(); }
+            public void AddCallbacks(IFirstPersonHRIActions instance)
+            {
+                if (instance == null || m_Wrapper.m_FirstPersonHRIActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_FirstPersonHRIActionsCallbackInterfaces.Add(instance);
+                @Toggle.started += instance.OnToggle;
+                @Toggle.performed += instance.OnToggle;
+                @Toggle.canceled += instance.OnToggle;
+                @Grab.started += instance.OnGrab;
+                @Grab.performed += instance.OnGrab;
+                @Grab.canceled += instance.OnGrab;
+                @Drag.started += instance.OnDrag;
+                @Drag.performed += instance.OnDrag;
+                @Drag.canceled += instance.OnDrag;
+            }
+
+            private void UnregisterCallbacks(IFirstPersonHRIActions instance)
+            {
+                @Toggle.started -= instance.OnToggle;
+                @Toggle.performed -= instance.OnToggle;
+                @Toggle.canceled -= instance.OnToggle;
+                @Grab.started -= instance.OnGrab;
+                @Grab.performed -= instance.OnGrab;
+                @Grab.canceled -= instance.OnGrab;
+                @Drag.started -= instance.OnDrag;
+                @Drag.performed -= instance.OnDrag;
+                @Drag.canceled -= instance.OnDrag;
+            }
+
+            public void RemoveCallbacks(IFirstPersonHRIActions instance)
+            {
+                if (m_Wrapper.m_FirstPersonHRIActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(IFirstPersonHRIActions instance)
+            {
+                foreach (var item in m_Wrapper.m_FirstPersonHRIActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_FirstPersonHRIActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public FirstPersonHRIActions @FirstPersonHRI => new FirstPersonHRIActions(this);
+        public interface IFirstPersonPlayerActions
         {
             void OnMove(InputAction.CallbackContext context);
             void OnLook(InputAction.CallbackContext context);
             void OnJump(InputAction.CallbackContext context);
             void OnAction0(InputAction.CallbackContext context);
             void OnAction1(InputAction.CallbackContext context);
-            void OnControl1(InputAction.CallbackContext context);
             void OnControl0(InputAction.CallbackContext context);
+            void OnControl1(InputAction.CallbackContext context);
+        }
+        public interface IFirstPersonHRIActions
+        {
+            void OnToggle(InputAction.CallbackContext context);
+            void OnGrab(InputAction.CallbackContext context);
+            void OnDrag(InputAction.CallbackContext context);
         }
     }
 }
