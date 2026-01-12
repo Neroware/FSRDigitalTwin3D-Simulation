@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Threading.Tasks;
 using FSR.DigitalTwin.Client.Features.Robotics.Interfaces;
 using FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot;
@@ -19,6 +18,9 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         [SerializeField] private double _screwerPathLength = 1.0;
         [SerializeField] private int _screwerPrepareMilliseconds = 500;
         [SerializeField] private EMode _mode;
+
+        private ReactiveProperty<float> _percentComplete = new(0.0f);
+        public ReadOnlyReactiveProperty<float> PercentComplete => _percentComplete.ToReadOnlyReactiveProperty();
 
         private bool isRunning = false;
 
@@ -81,13 +83,13 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             if (isRunning)
                 throw new OperationCanceledException("Action already performed by controller.");
             isRunning = true;
-            float[] percentComplete = new float[] { 0.0f };
+            _percentComplete.Value = 0.0f;
             Observable.EveryUpdate()
                 .TakeWhile(_ => isRunning)
                 .Subscribe(_ => {
-                    _screwerTool.SetScrewPercentComplete(percentComplete[0]);
-                    percentComplete[0] += (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
-                    isRunning = percentComplete[0] < 1.0f;
+                    _screwerTool.SetScrewPercentComplete(_percentComplete.Value);
+                    _percentComplete.Value += (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
+                    isRunning = _percentComplete.Value < 1.0f;
                 })
                 .AddTo(this);
         }
@@ -96,12 +98,12 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             if (isRunning)
                 throw new OperationCanceledException("Action already performed by controller.");
             isRunning = true;
-            float[] percentComplete = new float[] { 0.0f };
+            _percentComplete.Value = 0.0f;
             var obs = Observable.EveryUpdate().TakeWhile(_ => isRunning);
             obs.Subscribe(_ => {
-                    _screwerTool.SetScrewPercentComplete(percentComplete[0]);
-                    percentComplete[0] += (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
-                    isRunning = percentComplete[0] < 1.0f;
+                    _screwerTool.SetScrewPercentComplete(_percentComplete.Value);
+                    _percentComplete.Value += (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
+                    isRunning = _percentComplete.Value < 1.0f;
                 })
                 .AddTo(this);
             await obs.ToTask();
@@ -111,13 +113,13 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             if (isRunning)
                 throw new OperationCanceledException("Action already performed by controller.");
             isRunning = true;
-            float[] percentComplete = new float[] { 1.0f };
+            _percentComplete.Value = 1.0f;
             Observable.EveryUpdate()
                 .TakeWhile(_ => isRunning)
                 .Subscribe(_ => {
-                    _screwerTool.SetScrewPercentComplete(percentComplete[0]);
-                    percentComplete[0] -= (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
-                    isRunning = percentComplete[0] > 0.0f;
+                    _screwerTool.SetScrewPercentComplete(_percentComplete.Value);
+                    _percentComplete.Value -= (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
+                    isRunning = _percentComplete.Value > 0.0f;
                 })
                 .AddTo(this);
         }
@@ -126,12 +128,12 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             if (isRunning)
                 throw new OperationCanceledException("Action already performed by controller.");
             isRunning = true;
-            float[] percentComplete = new float[] { 1.0f };
+            _percentComplete.Value = 1.0f;
             var obs = Observable.EveryUpdate().TakeWhile(_ => isRunning);
             obs.Subscribe(_ => {
-                    _screwerTool.SetScrewPercentComplete(percentComplete[0]);
-                    percentComplete[0] -= (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
-                    isRunning = percentComplete[0] > 0.0f;
+                    _screwerTool.SetScrewPercentComplete(_percentComplete.Value);
+                    _percentComplete.Value -= (float)(_screwerSpeed * Time.deltaTime / _screwerPathLength);
+                    isRunning = _percentComplete.Value > 0.0f;
                 })
                 .AddTo(this);
             await obs.ToTask();
