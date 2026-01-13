@@ -38,7 +38,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.Moveit
                 new ScrewerTool(_eeController)
                 {
                     ScrewPathLength = 0.025f,
-                    ScrewSpeed = 0.01f
+                    ScrewSpeed = 0.0058f
                 },
                 new Primitive.Moveit.Motion(_controller)
                 {

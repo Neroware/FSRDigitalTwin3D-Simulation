@@ -59,8 +59,7 @@ namespace FSR.DigitalTwin.Client.Features.Assembly.ScrewBehavior
         private void OnScrewPartPlace(Rigidbody part)
         {
             _screwPart = part;
-            _screwPart.constraints = RigidbodyConstraints.FreezePositionX 
-                | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+            _screwPart.constraints = RigidbodyConstraints.FreezeAll;
             _screwPart.gameObject.layer = LayerMask.NameToLayer(TagNames.LOCATION_LAYER_NAME);
             _screwPart.transform.position = transform.position + transform.parent.TransformDirection(
                 new Vector3(0.0f, (float)_screwerController.ScrewerPathLength, 0.0f));
