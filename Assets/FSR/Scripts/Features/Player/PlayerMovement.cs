@@ -6,7 +6,7 @@ namespace FSR.DigitalTwin.Client.Features.Player
 {
 
     [RequireComponent(typeof(CharacterController))]
-    public class SimpleFirstPersonController : MonoBehaviour
+    public class PlayerMovement : MonoBehaviour
     {
         [SerializeField] private FirstPersonPlayerInputActions inputActions;
 

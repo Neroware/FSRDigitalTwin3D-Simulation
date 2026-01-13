@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FSR.DigitalTwin.Client.Common.Utils;
 using FSR.DigitalTwin.Client.Features.Environment.Interfaces;
 using FSR.DigitalTwin.Client.Features.Robotics.Controller;
 using FSR.DigitalTwin.Client.Features.Robotics.Sensor;
@@ -60,7 +61,7 @@ namespace FSR.DigitalTwin.Client.Features.Assembly.ScrewBehavior
             _screwPart = part;
             _screwPart.constraints = RigidbodyConstraints.FreezePositionX 
                 | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
-            _screwPart.gameObject.layer = LayerMask.NameToLayer(LOCATION_LAYER_NAME);
+            _screwPart.gameObject.layer = LayerMask.NameToLayer(TagNames.LOCATION_LAYER_NAME);
             _screwPart.transform.position = transform.position + transform.parent.TransformDirection(
                 new Vector3(0.0f, (float)_screwerController.ScrewerPathLength, 0.0f));
             _screwPart.transform.rotation = transform.rotation;
@@ -68,7 +69,7 @@ namespace FSR.DigitalTwin.Client.Features.Assembly.ScrewBehavior
         private void OnScrewPartPick()
         {
             _screwPart.constraints = RigidbodyConstraints.None;
-            _screwPart.gameObject.layer = LayerMask.NameToLayer(DEFAULT_LAYER_NAME);
+            _screwPart.gameObject.layer = LayerMask.NameToLayer(TagNames.DEFAULT_LAYER_NAME);
             _screwPart = null;
         }
     }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace FSR.DigitalTwin.Client.Features.Player
 {
-    public class FirstPersonAssemblyPlayerController : MonoBehaviour
+    public class FirstPersonHRIBehaviour : MonoBehaviour
     {
         [SerializeField] private Camera workerCamera;
         [SerializeField] private CharacterController player;

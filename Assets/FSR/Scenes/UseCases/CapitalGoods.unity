@@ -1754,7 +1754,7 @@ GameObject:
   - component: {fileID: 92042996}
   m_Layer: 0
   m_Name: Screw3
-  m_TagString: Untagged
+  m_TagString: workpiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3425,7 +3425,7 @@ GameObject:
   - component: {fileID: 206487961}
   m_Layer: 0
   m_Name: Screw7
-  m_TagString: Untagged
+  m_TagString: workpiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14078,6 +14078,93 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &837051206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 837051207}
+  - component: {fileID: 837051210}
+  - component: {fileID: 837051209}
+  - component: {fileID: 837051208}
+  m_Layer: 6
+  m_Name: Hole2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &837051207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837051206}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15.703309, y: 0.83134997, z: -14.71099}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 936057800}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &837051208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837051206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1577250e4596094dacf7f72980bcc42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tags:
+  - end_effector
+--- !u!65 &837051209
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837051206}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.01, y: 0.05, z: 0.01}
+  m_Center: {x: 0, y: 0.025, z: 0}
+--- !u!114 &837051210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837051206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06f135e51e78ef444b615b98c0db64eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-2
+  _shortId: hole-2
+  _components: []
+  _screwerController: {fileID: 5955250382980222846}
+  _colliderSensor: {fileID: 837051208}
+  _screwPart: {fileID: 0}
 --- !u!1 &847131731
 GameObject:
   m_ObjectHideFlags: 0
@@ -15468,7 +15555,7 @@ Transform:
   - {fileID: 206487960}
   - {fileID: 1947394999}
   - {fileID: 1997798096}
-  - {fileID: 2086137348}
+  - {fileID: 837051207}
   - {fileID: 1524157904}
   - {fileID: 583812513}
   - {fileID: 1911510019}
@@ -16764,7 +16851,7 @@ GameObject:
   - component: {fileID: 1055226177}
   m_Layer: 0
   m_Name: Screw4
-  m_TagString: Untagged
+  m_TagString: workpiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16931,7 +17018,7 @@ GameObject:
   - component: {fileID: 1061596664}
   m_Layer: 0
   m_Name: Screw5
-  m_TagString: Untagged
+  m_TagString: workpiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -19482,7 +19569,7 @@ GameObject:
   - component: {fileID: 1248723889}
   m_Layer: 0
   m_Name: Screw6
-  m_TagString: Untagged
+  m_TagString: workpiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25122,9 +25209,11 @@ GameObject:
   - component: {fileID: 1616196646}
   - component: {fileID: 1616196647}
   - component: {fileID: 1616196650}
+  - component: {fileID: 1616196651}
+  - component: {fileID: 1616196652}
   m_Layer: 0
   m_Name: Screw1
-  m_TagString: Untagged
+  m_TagString: workpiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25138,7 +25227,7 @@ Transform:
   m_GameObject: {fileID: 1616196645}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.70331, y: 0.8697, z: -14.61717}
+  m_LocalPosition: {x: 15.422, y: 0.8697, z: -14.915}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -25195,6 +25284,35 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1616196651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616196645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1577250e4596094dacf7f72980bcc42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tags:
+  - Untagged
+--- !u!114 &1616196652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616196645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07399d91f0a2d624abb659b85f86d437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _uri: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#screw-1
+  _colliderSensor: {fileID: 1616196651}
+  _rigidbody: {fileID: 1616196650}
 --- !u!1 &1616958153
 GameObject:
   m_ObjectHideFlags: 0
@@ -29070,7 +29188,7 @@ GameObject:
   - component: {fileID: 1947395000}
   m_Layer: 0
   m_Name: Screw8
-  m_TagString: Untagged
+  m_TagString: workpiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29657,7 +29775,7 @@ GameObject:
   - component: {fileID: 1996845405}
   m_Layer: 0
   m_Name: Screw2
-  m_TagString: Untagged
+  m_TagString: workpiece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29779,7 +29897,7 @@ MonoBehaviour:
   _components: []
   _screwerController: {fileID: 5955250382980222846}
   _colliderSensor: {fileID: 1997798099}
-  _screwPart: {fileID: 1616196650}
+  _screwPart: {fileID: 0}
 --- !u!65 &1997798098
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31231,37 +31349,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2077503296}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &2086137347
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2086137348}
-  m_Layer: 6
-  m_Name: Hole2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2086137348
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2086137347}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 15.703309, y: 0.83134997, z: -14.710986}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 936057800}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2090151979
 GameObject:
   m_ObjectHideFlags: 0
@@ -34473,6 +34560,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8961118275956959300, guid: 62d7810deb4b3ff449991a848fce1f9e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7710529860720700286}
+    - targetCorrespondingSourceObject: {fileID: 8961118275956959300, guid: 62d7810deb4b3ff449991a848fce1f9e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7710529860720700287}
   m_SourcePrefab: {fileID: 100100000, guid: 62d7810deb4b3ff449991a848fce1f9e, type: 3}
 --- !u!4 &7710529860720700282 stripped
 Transform:
@@ -34511,6 +34601,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a42354dc3b1da834f937ad58569d4cd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7710529860720700287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7710529860720700283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bdf58f2dfc21be4f81cb2befba28025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputActions: {fileID: 7710529860720700286}
 --- !u!23 &9091309708127414340
 MeshRenderer:
   m_ObjectHideFlags: 0
