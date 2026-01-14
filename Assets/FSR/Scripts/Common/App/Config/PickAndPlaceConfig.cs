@@ -1,3 +1,4 @@
+using FSR.DigitalTwin.Client.Common.Utils;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.Moveit;
 using UnityEngine;
 
@@ -12,5 +13,6 @@ namespace FSR.DigitalTwin.Client.App.Config
         public Vector3 pickOrientation;
         public Vector3 placeOffset;
         public Vector3 placeOrientation;
+        public string taskId = "PnPTest";
     }
 }

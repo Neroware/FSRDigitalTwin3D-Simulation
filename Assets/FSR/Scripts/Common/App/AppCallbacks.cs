@@ -38,7 +38,7 @@ namespace FSR.DigitalTwin.Client.App
         {
             config.pnp.PickOffset = config.pickOffset;
             config.pnp.PlaceOffset = config.placeOffset;
-            await config.pnp.RunAsync("pi:pnp-test", config.pickTarget.transform,
+            await config.pnp.RunAsync(config.taskId, config.pickTarget.transform,
                 config.pickOrientation, config.placeLocation.transform, config.placeOrientation);
         }
         public static async void RunScrewSkill(ScrewConfig config)
@@ -47,7 +47,7 @@ namespace FSR.DigitalTwin.Client.App
             config.skill.EEOrientation = config.eeOrientation;
             config.skill.StartPosition = config.startPosition;
             config.skill.ScrewOffset = config.screwOffset;
-            await config.skill.RunAsync("pi:screw-test", config.target.transform, config.orientation);
+            await config.skill.RunAsync(config.taskId, config.target.transform, config.orientation);
         }
         public static async void RunTrajectory(RosMoveitController controller)
         {

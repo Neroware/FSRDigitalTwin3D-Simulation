@@ -16,7 +16,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Moveit
         {
             _controller.Target = Target;
             _controller.TargetOrientation = Orientation;
-            _controller.TrajectoryName = $"{Name}.{Base64Converter.EncodeString(task)}";
+            _controller.TrajectoryName = $"{Base64Converter.EncodeString(Name)}.{Base64Converter.EncodeString(task)}";
             _controller.JointAssignmentLerpScale = (int)(1.0f / SpeedScale);
             await _controller.PlanAsync();
             if (!_controller.ValidatePlan())

@@ -1,3 +1,4 @@
+using FSR.DigitalTwin.Client.Common.Utils;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill.Moveit;
 using UnityEngine;
 
@@ -12,5 +13,6 @@ namespace FSR.DigitalTwin.Client.App.Config
         public Vector3 screwOffset;
         public Vector3 eeOrientation;
         public Vector3 eeOffset;
+        public string taskId = "ScrewTest";
     }
 }
