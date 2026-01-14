@@ -59,7 +59,7 @@ namespace FSR.DigitalTwin.Client.Features.Player
                     _rigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY 
                         | RigidbodyConstraints.FreezePositionZ;
                     _rigidbody.gameObject.layer = LayerMask.NameToLayer(TagNames.LOCATION_LAYER_NAME);
-                    Debug.Log($"Grabbed {rigidbody.name}");
+                    // Debug.Log($"Grabbed {rigidbody.name}");
                 }
             }
         }

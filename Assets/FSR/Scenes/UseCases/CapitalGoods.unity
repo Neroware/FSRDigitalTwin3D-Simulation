@@ -1717,9 +1717,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f135e51e78ef444b615b98c0db64eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-3
-  _shortId: hole-3
-  _components: []
+  _uri: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-3
+  _locationName: hole3
   _screwerController: {fileID: 5955250382980222846}
   _colliderSensor: {fileID: 95842926}
   _screwPart: {fileID: 0}
@@ -2053,9 +2052,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f135e51e78ef444b615b98c0db64eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-7
-  _shortId: hole-7
-  _components: []
+  _uri: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-7
+  _locationName: hole7
   _screwerController: {fileID: 5955250382980222846}
   _colliderSensor: {fileID: 115210918}
   _screwPart: {fileID: 0}
@@ -12686,9 +12684,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f135e51e78ef444b615b98c0db64eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-5
-  _shortId: hole-5
-  _components: []
+  _uri: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-5
+  _locationName: hole5
   _screwerController: {fileID: 5955250382980222846}
   _colliderSensor: {fileID: 767321565}
   _screwPart: {fileID: 0}
@@ -13649,9 +13646,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f135e51e78ef444b615b98c0db64eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-2
-  _shortId: hole-2
-  _components: []
+  _uri: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-2
+  _locationName: hole2
   _screwerController: {fileID: 5955250382980222846}
   _colliderSensor: {fileID: 837051208}
   _screwPart: {fileID: 0}
@@ -13934,9 +13930,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f135e51e78ef444b615b98c0db64eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-6
-  _shortId: hole-6
-  _components: []
+  _uri: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-6
+  _locationName: hole6
   _screwerController: {fileID: 5955250382980222846}
   _colliderSensor: {fileID: 867093070}
   _screwPart: {fileID: 0}
@@ -15640,9 +15635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f135e51e78ef444b615b98c0db64eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-4
-  _shortId: hole-4
-  _components: []
+  _uri: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-4
+  _locationName: hole4
   _screwerController: {fileID: 5955250382980222846}
   _colliderSensor: {fileID: 985443759}
   _screwPart: {fileID: 0}
@@ -18742,6 +18736,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227677063}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1230871482
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1230871483}
+  m_Layer: 0
+  m_Name: DefaultLocation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1230871483
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230871482}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1586025233}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1232551904
 GameObject:
   m_ObjectHideFlags: 0
@@ -18862,9 +18887,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f135e51e78ef444b615b98c0db64eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-7
-  _shortId: hole-7
-  _components: []
+  _uri: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-8
+  _locationName: hole8
   _screwerController: {fileID: 5955250382980222846}
   _colliderSensor: {fileID: 1246275741}
   _screwPart: {fileID: 0}
@@ -23838,6 +23862,7 @@ Transform:
   - {fileID: 776743998357582260}
   - {fileID: 936057800}
   - {fileID: 313991151}
+  - {fileID: 1230871483}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1591905837
@@ -28267,9 +28292,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f135e51e78ef444b615b98c0db64eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-1
-  _shortId: hole-1
-  _components: []
+  _uri: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#hole-1
+  _locationName: hole1
   _screwerController: {fileID: 5955250382980222846}
   _colliderSensor: {fileID: 1997798099}
   _screwPart: {fileID: 0}
@@ -30283,6 +30307,54 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114825575}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2115495167
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2115495168}
+  - component: {fileID: 2115495169}
+  m_Layer: 6
+  m_Name: Skills
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2115495168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115495167}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7710529860720700282}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2115495169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115495167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8123c1d6968a2643b24f190027ef7fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#worker-pickplace-skill
+  _shortIds: []
+  pickOffset: {x: 0, y: 0, z: 0}
+  placeOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &2118640646
 GameObject:
   m_ObjectHideFlags: 0
@@ -32947,6 +33019,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7907378532843315020, guid: 62d7810deb4b3ff449991a848fce1f9e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1385246193}
+    - targetCorrespondingSourceObject: {fileID: 7907378532843315020, guid: 62d7810deb4b3ff449991a848fce1f9e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2115495168}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8961118275956959300, guid: 62d7810deb4b3ff449991a848fce1f9e, type: 3}
       insertIndex: -1
@@ -32957,6 +33032,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8961118275956959300, guid: 62d7810deb4b3ff449991a848fce1f9e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7710529860720700287}
+    - targetCorrespondingSourceObject: {fileID: 8961118275956959300, guid: 62d7810deb4b3ff449991a848fce1f9e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7710529860720700289}
+    - targetCorrespondingSourceObject: {fileID: 8961118275956959300, guid: 62d7810deb4b3ff449991a848fce1f9e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7710529860720700288}
   m_SourcePrefab: {fileID: 100100000, guid: 62d7810deb4b3ff449991a848fce1f9e, type: 3}
 --- !u!4 &7710529860720700282 stripped
 Transform:
@@ -33008,6 +33089,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputActions: {fileID: 7710529860720700286}
+--- !u!114 &7710529860720700288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7710529860720700283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 670c85e869f93904188be7e78212b681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#worker
+  _components: []
+--- !u!114 &7710529860720700289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7710529860720700283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55d8ecc23b5bbc41bd78c6b7c8ba7d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _id: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#worker
+  _actor: {fileID: 7710529860720700288}
+  _enableOperationModeOverride: 0
+  _operationModeOverride: 0
+  operatorId: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#worker
+  agentType: 1
+  _skillList: {fileID: 2115495167}
 --- !u!1001 &9126705944297071244
 PrefabInstance:
   m_ObjectHideFlags: 0

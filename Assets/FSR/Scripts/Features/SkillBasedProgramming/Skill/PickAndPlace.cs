@@ -23,7 +23,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Skill
             pickTarget = placeTarget = null;
             pickOrientation = placeOrientation = Vector3.zero;
             if (input.Length < 4 || input[0] is not Transform || input[1] is not Vector3
-                || input[2] is not Transform || input[4] is not Vector3)
+                || input[2] is not Transform || input[3] is not Vector3)
                     return false;
             pickTarget = (Transform) input[0];
             pickOrientation = (Vector3) input[1];
