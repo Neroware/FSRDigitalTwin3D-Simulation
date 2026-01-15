@@ -34,7 +34,7 @@ namespace FSR.DigitalTwin.Client.Features.UnityClient.GRPC
         {
             var actors = _client.GetAllAgents(Empty).ResponseStream.ToListAsync().Result
                 .Select(actor => UnityEngine.Object.FindObjectsOfType<DigitalTwinActorBase>()
-                    .FirstOrDefault(sceneActor => sceneActor.TryGetComponent(out SocialOperatorBase op) && op.OperatorId == new System.Uri(actor.Id)))
+                    .FirstOrDefault(sceneActor => sceneActor.TryGetComponent(out SocialOperatorBase op) && op.OperatorId.ToString() == actor.Id.ToString()))
                 .Where(x => x != null)
                 .Distinct();
             var operators = actors.Select(actor => actor.GetComponent<SocialOperatorBase>());

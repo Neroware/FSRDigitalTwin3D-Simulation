@@ -7,7 +7,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces
     {
         string Name { get; }
         Uri Id { get; }
-        PrimitiveResult Execute(string task, object[] inputs);
-        Task<PrimitiveResult> ExecuteAsync(string task, object[] inputs);
+        PrimitiveResult Execute(string task);
+        Task<PrimitiveResult> ExecuteAsync(string task);
     }
 }

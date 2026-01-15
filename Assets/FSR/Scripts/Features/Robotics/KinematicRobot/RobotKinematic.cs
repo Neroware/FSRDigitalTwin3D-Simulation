@@ -12,6 +12,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot {
     {
         [SerializeField] private List<UrdfJointSensor> _joints;
         [SerializeField] private float[] _defaultPoseConfiguration = new float[] { -90.0f, -45.0f, 0.0f, -45.0f, -90.0f, 0.0f };
+        [SerializeField] private bool _moveToDefaultPose = true;
 
         private async Task UpdateJointPropertiesAsync() {
             string path = "Segments.";
@@ -79,6 +80,11 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.KinematicRobot {
         {
             await UpdateJointPropertiesAsync();
             return DigitalWorkspace.Instance.Connection.IsConnected.Value;
+        }
+
+        protected override void OnInitComponent()
+        {
+            if (_moveToDefaultPose) MoveToDefaultPoseConfiguration();
         }
     }
 

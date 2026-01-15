@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 using FSR.DigitalTwin.Client.Features.Robotics.ROS.Utils;
-using FSR.DigitalTwin.Client.Features.UnityClient.GRPC.AAS.Utils;
 using RosMessageTypes.FsrMoveit;
 using RosMessageTypes.Geometry;
 using UniRx;
@@ -16,6 +15,7 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
     public class RosMoveitController : RobotControllerComponent
     {
         [SerializeField] private int numRobotJoints = 6;
+        [SerializeField] private int jointAssignmentLerpScale = 1;
         [SerializeField] private float jointAssignmentWait = 0.1f;
         [SerializeField] private float poseAssignmentWait = 0.5f;
         [SerializeField] private float maxVelocity = 0.5f;
@@ -46,6 +46,11 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
         public string TrajectoryName { set => trajectoryName = value; }
         public Vector3 Target { get => target; set => target = value; }
         public Vector3 TargetOrientation { get => targetOrientation; set => targetOrientation = value; }
+        public float MaxVelocity { get => maxVelocity; set => maxVelocity = value; }
+        public float MaxAcceleration { get => maxAcceleration; set => maxAcceleration = value; }
+        public float JointAssignmentWait { get => jointAssignmentWait; set => jointAssignmentWait = value; }
+        public float PoseAssignmentWait { get => poseAssignmentWait; set => poseAssignmentWait = value; }
+        public int JointAssignmentLerpScale { get => jointAssignmentLerpScale; set => jointAssignmentLerpScale = value; }
 
         // Controller interface
         public override GameObject Robot => robot;
@@ -130,19 +135,34 @@ namespace FSR.DigitalTwin.Client.Features.Robotics.Controller
             MoveToServiceResponse response = _plannedTrajectory;
             if (response.trajectory != null)
             {
-                foreach (var t in response.trajectory.joint_trajectory.points)
+                for (int i = 0; i < response.trajectory.joint_trajectory.points.Length - 1; i++)
                 {
-                    var jointPositions = t.positions;
-                    var result = jointPositions.Select(r => (float)r * Mathf.Rad2Deg).ToArray();
-                    for (var joint = 0; joint < _jointArticulationBodies.Length; joint++)
+                    var px0 = response.trajectory.joint_trajectory.points[i].positions;
+                    var px1 = response.trajectory.joint_trajectory.points[i + 1].positions;
+                    for (int lerpFact = 0; lerpFact < jointAssignmentLerpScale; lerpFact++)
                     {
-                        var joint1XDrive = _jointArticulationBodies[joint].xDrive;
-                        joint1XDrive.target = result[joint];
-                        _jointArticulationBodies[joint].xDrive = joint1XDrive;
+                        var px = px0
+                            .Zip(px1, (x, y) => new Tuple<double, double>(x, y))
+                            .Select(p => p.Item1 + ((double) lerpFact / jointAssignmentLerpScale * (p.Item2 - p.Item1)))
+                            .ToArray();
+                        UpdateJoints(px);
+                        yield return new WaitForSeconds(jointAssignmentWait);
                     }
-                    yield return new WaitForSeconds(jointAssignmentWait);
                 }
+                var end = response.trajectory.joint_trajectory.points.Last().positions;
+                UpdateJoints(end);
                 yield return new WaitForSeconds(poseAssignmentWait);
+            }
+        }
+
+        private void UpdateJoints(double[] jointPositions)
+        {
+            var result = jointPositions.Select(r => (float)r * Mathf.Rad2Deg).ToArray();
+            for (var joint = 0; joint < _jointArticulationBodies.Length; joint++)
+            {
+                var joint1XDrive = _jointArticulationBodies[joint].xDrive;
+                joint1XDrive.target = result[joint];
+                _jointArticulationBodies[joint].xDrive = joint1XDrive;
             }
         }
 

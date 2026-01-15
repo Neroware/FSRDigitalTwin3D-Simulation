@@ -94,7 +94,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
         }
         public HRCProcessResult<HRCFunction> RunOperation(string operation, HRCFunction function)
         {
-            var res = RunOperation(operation, function.TaskId, function.Inputs, function.InOuts);
+            var res = RunOperation(operation, function.FunctionDescription.Name, function.Inputs, function.InOuts);
             return new HRCProcessResult<HRCFunction>()
             {
                 Process = function,
@@ -105,7 +105,7 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming
         }
         public async Task<HRCProcessResult<HRCFunction>> RunOperationAsync(string operation, HRCFunction function)
         {
-            var res = await RunOperationAsync(operation, function.TaskId, function.Inputs, function.InOuts);
+            var res = await RunOperationAsync(operation, function.FunctionDescription.Name, function.Inputs, function.InOuts);
             return new HRCProcessResult<HRCFunction>()
             {
                 Process = function,

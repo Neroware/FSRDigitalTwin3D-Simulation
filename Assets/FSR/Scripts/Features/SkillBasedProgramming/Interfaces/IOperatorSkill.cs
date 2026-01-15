@@ -10,7 +10,6 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces
         Uri Id { get; }
         SkillResult Run(string task, object[] inputs, object[] inOuts);
         Task<SkillResult> RunAsync(string task, object[] inputs, object[] inOuts);
-        List<IDevicePrimitive> Primitives { get; }
     }
 }
 

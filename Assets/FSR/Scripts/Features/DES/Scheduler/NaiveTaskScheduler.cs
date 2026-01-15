@@ -70,7 +70,7 @@ namespace FSR.DigitalTwin.Client.Features.DES.Scheduler
                 return Schedule(task as HRCFunction, sim, ctxt, prev);
             }
             // The naive scheduler just selects the first alternative of a process disjunction
-            var subTasks = ctxt.Methods[method][task].First();
+            var subTasks = ctxt.Methods[method][task].First().OrderBy(task => task.TaskId, StringComparer.OrdinalIgnoreCase);
             var subTasksObs = subTasks.Select(subTask => sim.ObserveOnTaskFinished<HRCTask>(subTask.TaskId));
             var taskSuccess = Observable.Zip(subTasksObs).First().Select(xs => new HRCProcessResult()
             {

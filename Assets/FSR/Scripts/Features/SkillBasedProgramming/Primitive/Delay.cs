@@ -9,29 +9,18 @@ namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive
     {
         public string Name { init; get; }
         public Uri Id => UriPrefix.PI + Name;
-        private readonly TimeSpan _delay;
-        public Delay(TimeSpan delay)
+
+        // Parameters
+        public TimeSpan Time { init; get; } = TimeSpan.Zero;
+
+        public PrimitiveResult Execute(string _task)
         {
-            _delay = delay;
-        }
-        public PrimitiveResult Execute(string task, object[] inputs)
-        {
-            Task.Delay(_delay).RunSynchronously();
+            Task.Delay(Time).RunSynchronously();
             return new PrimitiveResult { Succeeded = true, Outputs = new object[0]};
         }
-        public async Task<PrimitiveResult> ExecuteAsync(string task, object[] inputs)
+        public async Task<PrimitiveResult> ExecuteAsync(string _task)
         {
-            await Task.Delay(_delay);
-            return new PrimitiveResult { Succeeded = true, Outputs = new object[0]};
-        }
-        public PrimitiveResult Execute()
-        {
-            Task.Delay(_delay).RunSynchronously();
-            return new PrimitiveResult { Succeeded = true, Outputs = new object[0]};
-        }
-        public async Task<PrimitiveResult> ExecuteAsync()
-        {
-            await Task.Delay(_delay);
+            await Task.Delay(Time);
             return new PrimitiveResult { Succeeded = true, Outputs = new object[0]};
         }
     }

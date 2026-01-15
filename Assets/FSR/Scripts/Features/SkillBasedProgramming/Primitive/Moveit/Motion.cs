@@ -1,42 +1,44 @@
 using System.Threading.Tasks;
 using FSR.DigitalTwin.Client.Common.Utils;
 using FSR.DigitalTwin.Client.Features.Robotics.Controller;
-using UnityEngine;
 
 namespace FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Primitive.Moveit
 {
     public class Motion : MotionBase
     {
+        public float SpeedScale { set; get; } = 1.0f;
         private readonly RosMoveitController _controller;
         public Motion(RosMoveitController controller)
         {
             _controller = controller;
         }
-        public override async Task<MotionResult> ExecuteAsync(string task, Vector3 target, Vector3 orientation)
+        public override async Task<PrimitiveResult> ExecuteAsync(string task)
         {
-            _controller.Target = target;
-            _controller.TargetOrientation = orientation;
-            _controller.TrajectoryName = $"{Name}.{Base64Converter.EncodeString(task)}";
+            _controller.Target = Target;
+            _controller.TargetOrientation = Orientation;
+            _controller.TrajectoryName = $"{Base64Converter.EncodeString(Name)}.{Base64Converter.EncodeString(task)}";
+            _controller.JointAssignmentLerpScale = (int)(1.0f / SpeedScale);
             await _controller.PlanAsync();
             if (!_controller.ValidatePlan())
             {
-                return MotionResult.Failure();
+                return PrimitiveResult.Failure();
             }
             await _controller.RunPlanAsync();
-            return MotionResult.Success(new double[0]); // TODO Return joint orientation as output
+            return PrimitiveResult.Success(new object[0]); // TODO Return joint orientation as output
         }
-        public override MotionResult Execute(string task, Vector3 target, Vector3 orientation)
+        public override PrimitiveResult Execute(string task)
         {
-            _controller.Target = target;
-            _controller.TargetOrientation = orientation;
+            _controller.Target = Target;
+            _controller.TargetOrientation = Orientation;
             _controller.TrajectoryName = task;
+            _controller.JointAssignmentLerpScale = (int)(1.0f / SpeedScale);
             _controller.Plan();
             if (!_controller.ValidatePlan())
             {
-                return MotionResult.Failure();
+                return PrimitiveResult.Failure();
             }
             _controller.RunPlan();
-            return MotionResult.Success(new double[0]); // TODO Return joint orientation as output
+            return PrimitiveResult.Success(new object[0]); // TODO Return joint orientation as output
         }
     }
 }
