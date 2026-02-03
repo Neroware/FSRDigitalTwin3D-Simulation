@@ -74,7 +74,7 @@ namespace FSR.DigitalTwin.Client.Features.UnityClient.GRPC
                         if (!task.SubTasks.Any())
                         {
                             HRCTask t;
-                            HRCTaskDTO taskDTO = model.Tasks.Where(hrcTask => hrcTask.TaskId == taskId).FirstOrDefault();
+                            HRCTaskDTO taskDTO = model.Tasks.FirstOrDefault(hrcTask => hrcTask.TaskId == taskId);
                             if (taskDTO != null)
                             {
                                 HRCFunctionDescription description = new()
