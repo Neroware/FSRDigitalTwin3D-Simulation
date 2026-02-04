@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FSR.DigitalTwin.Client.Common.Utils;
 using FSR.DigitalTwin.Client.Features.DES.Interfaces;
 using FSR.DigitalTwin.Client.Features.DES.Scheduler;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming;
 using FSR.DigitalTwin.Client.Features.SkillBasedProgramming.Interfaces;
+using FSR.DigitalTwin.Client.Features.UnityClient;
 using SimSharp;
 using UniRx;
 using UnityEngine;
@@ -68,20 +70,39 @@ namespace FSR.DigitalTwin.Client.Features.DES.SimSharpBridge
             OnInitialize(_context);
         }
 
+        // protected override async void OnRun()
+        // {
+        //     if (_state == EState.AWAIT_INIT) throw new InvalidOperationException("Simulation not initialized.");
+        //     if (_state == EState.RUNNING) throw new InvalidOperationException("Simulation already running.");
+        //     if (_state == EState.TERMINATED) throw new InvalidOperationException("Simulation already terminated. Use reset command first.");
+        //     _state = EState.RUNNING;
+        //     _disposable.Add(new NaiveTaskScheduler().Schedule(this, _context));
+        //     _disposable.Add(
+        //         Observable.Zip(_context.Goals.Keys
+        //             .Select(goal => _context.Simulation.ProcessFinished
+        //                 .Where(p => (p.Process as HRCGoal)?.GoalId == goal.GoalId))
+        //             )
+        //         .Subscribe(_ => _stopEvent.Trigger(_stopEvent))
+        //     );
+        //     _disposable.Add(_context.Simulation.ProcessFinished.Subscribe(p =>
+        //     {
+        //         Debug.Log($"Finished process: {p}");
+        //     }));
+        //     await _environment.RunAsync(_stopEvent);
+        //     _state = EState.TERMINATED;
+        //     Debug.Log("Finished process simulation run...");
+        // }
         protected override async void OnRun()
         {
             if (_state == EState.AWAIT_INIT) throw new InvalidOperationException("Simulation not initialized.");
             if (_state == EState.RUNNING) throw new InvalidOperationException("Simulation already running.");
             if (_state == EState.TERMINATED) throw new InvalidOperationException("Simulation already terminated. Use reset command first.");
+            HRCTask hrcTask = DigitalWorkspace.Instance.Knowledge.RunDecisionProcess(UriPrefix.PI + "decision-process", _context);
+            HRCMethod method = _context.Methods.FirstOrDefault(m => m.Value.ContainsKey(hrcTask)).Key;
             _state = EState.RUNNING;
-            _disposable.Add(new NaiveTaskScheduler().Schedule(this, _context));
-            _disposable.Add(
-                Observable.Zip(_context.Goals.Keys
-                    .Select(goal => _context.Simulation.ProcessFinished
-                        .Where(p => (p.Process as HRCGoal)?.GoalId == goal.GoalId))
-                    )
-                .Subscribe(_ => _stopEvent.Trigger(_stopEvent))
-            );
+            _disposable.Add(new NaiveTaskScheduler().Schedule(hrcTask, method, this, _context));
+            _disposable.Add(ObserveOnTaskFinished<HRCTask>(hrcTask.TaskId)
+                .Subscribe(_ => _stopEvent.Trigger(_stopEvent)));
             _disposable.Add(_context.Simulation.ProcessFinished.Subscribe(p =>
             {
                 Debug.Log($"Finished process: {p}");

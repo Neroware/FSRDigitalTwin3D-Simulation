@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using FSR.DigitalTwin.App.GRPC;
+using FSR.DigitalTwin.App.GRPC.Process.BDI.Services.BDIDecisionProcessService;
 using FSR.DigitalTwin.App.GRPC.Process.HRC;
 using FSR.DigitalTwin.App.GRPC.Process.HRC.Services.HRCProcessSimulationService;
 using FSR.DigitalTwin.Client.Common;
@@ -23,11 +24,13 @@ namespace FSR.DigitalTwin.Client.Features.UnityClient.GRPC
         public Channel RpcChannel => _rpcChannel ?? throw new RpcException(Status.DefaultCancelled, "No connection established!");
         private Channel _rpcChannel = null;
         private HRCProcessSimulationService.HRCProcessSimulationServiceClient _client;
+        private BDIDecisionProcessService.BDIDecisionProcessServiceClient _bdiAgent;
 
         public GrpcDigitalWorkspaceKnowledge(Channel rpcChannel)
         {
             _rpcChannel = rpcChannel;
             _client = new(rpcChannel);
+            _bdiAgent = new(rpcChannel);
         }
 
         public IProcessSimulationContext GetContext(float horizon = 86400.0f)
@@ -189,11 +192,18 @@ namespace FSR.DigitalTwin.Client.Features.UnityClient.GRPC
                 Actors = actors.ToList(),
                 Operators = operators.ToList(),
                 Goals = goals,
+                Tasks = tasks.Values.ToList(),
                 Functions = tasks.Values.Where(t => t.ProcessType == EHRCProcessType.Function).Cast<HRCFunction>().ToList(),
                 Methods = methods,
                 Skills = skills,
                 Simulation = null
             };
+        }
+
+        public HRCTask RunDecisionProcess(System.Uri decisionProcess, IProcessSimulationContext context)
+        {
+            var action = _bdiAgent.RunDecisionProcess(new RunDecisionProcessRequest() { Id = decisionProcess.ToString() });
+            return context.Tasks.FirstOrDefault(t => t.TaskId == action.Tasks.First());
         }
     }
 }

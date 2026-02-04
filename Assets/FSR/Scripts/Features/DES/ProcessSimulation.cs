@@ -16,6 +16,7 @@ namespace FSR.DigitalTwin.Client.Features.DES
         public IList<SocialOperatorBase> Operators { get; init; } = new List<SocialOperatorBase>();
         public IDictionary<HRCGoal, IList<HRCMethod>> Goals { get; init; } = new Dictionary<HRCGoal, IList<HRCMethod>>();
         public IDictionary<HRCMethod, IDictionary<HRCTask, IList<ISet<HRCTask>>>> Methods { get; init; } = new Dictionary<HRCMethod, IDictionary<HRCTask, IList<ISet<HRCTask>>>>();
+        public IList<HRCTask> Tasks { get; init; } = new List<HRCTask>();
         public IList<HRCFunction> Functions { get; init; } = new List<HRCFunction>();
         public IDictionary<HRCFunction, IList<IOperatorSkill>> Skills { get; init; }
         public IProcessSimulation Simulation { get; set; }
@@ -61,6 +62,19 @@ namespace FSR.DigitalTwin.Client.Features.DES
                 .Select(p => new HRCProcessResult<HRCGoal>()
                 {
                     Process = p.Process as HRCGoal,
+                    Succeeded = p.Succeeded,
+                    TimeStamp = p.TimeStamp,
+                    Outputs = p.Outputs
+                });
+        }
+        public IObservable<HRCProcessResult<HRCMethod>> ObserveOnMethodFinished(int methodId)
+        {
+            return ProcessFinished
+                .Where(p => (p.Process as HRCMethod)?.MethodId == methodId)
+                .First()
+                .Select(p => new HRCProcessResult<HRCMethod>()
+                {
+                    Process = p.Process as HRCMethod,
                     Succeeded = p.Succeeded,
                     TimeStamp = p.TimeStamp,
                     Outputs = p.Outputs

@@ -36,6 +36,7 @@ namespace FSR.DigitalTwin.Client.Features.DES.Interfaces
         IDictionary<HRCGoal, IList<HRCMethod>> Goals { init; get; }
         IDictionary<HRCMethod, IDictionary<HRCTask, IList<ISet<HRCTask>>>> Methods { init; get; }
         IDictionary<HRCFunction, IList<IOperatorSkill>> Skills { init; get; }
+        IList<HRCTask> Tasks { init; get; }
         IList<HRCFunction> Functions { init; get; }
         IProcessSimulation Simulation { set; get; }
 
