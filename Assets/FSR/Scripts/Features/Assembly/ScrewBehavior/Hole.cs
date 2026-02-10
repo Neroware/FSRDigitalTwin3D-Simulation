@@ -6,6 +6,7 @@ using FSR.DigitalTwin.Client.Features.Robotics.Controller;
 using FSR.DigitalTwin.Client.Features.Robotics.Sensor;
 using UniRx;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace FSR.DigitalTwin.Client.Features.Assembly.ScrewBehavior
 {

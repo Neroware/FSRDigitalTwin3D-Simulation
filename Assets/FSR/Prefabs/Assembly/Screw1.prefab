@@ -199,6 +199,8 @@ MonoBehaviour:
   _uri: https://www.uni-augsburg.de/de/fakultaet/fai/informatik/prof/pi#screw-1
   _colliderSensor: {fileID: 1175334241529769834}
   _rigidbody: {fileID: 6705482111205844206}
+  _collider: {fileID: 6797914200339662888}
+  _xrGrabInteractable: {fileID: 0}
 --- !u!1001 &9015924403298533920
 PrefabInstance:
   m_ObjectHideFlags: 0

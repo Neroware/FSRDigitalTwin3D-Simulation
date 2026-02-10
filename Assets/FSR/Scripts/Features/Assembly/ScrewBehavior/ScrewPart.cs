@@ -5,6 +5,7 @@ using FSR.DigitalTwin.Client.Features.Robotics.Sensor;
 using FSR.DigitalTwin.Client.Features.UnityClient.Interfaces;
 using UniRx;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace FSR.DigitalTwin.Client.Features.Assembly.ScrewBehavior
 {
@@ -12,7 +13,7 @@ namespace FSR.DigitalTwin.Client.Features.Assembly.ScrewBehavior
     {
         [SerializeField] private ColliderSensor _colliderSensor;
         [SerializeField] private Rigidbody _rigidbody;
-
+        
         private void Start()
         {
             _colliderSensor.TriggerEntered
